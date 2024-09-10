@@ -19,14 +19,6 @@ export default function Home() {
           <Link to="Listings"><button className="cta-button">Start Searching</button></Link>
         </div>
       </section>
-      {/* <section className="search-bar-section">
-        <input
-          type="text"
-          className="search-input"
-          placeholder="Search by neighborhood, school, or property type..."
-        />
-        <button className="search-button">Search</button>
-      </section> */}
       <section className="featured-listings">
         <h2 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-5xl">
           <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Featured Listings</span>

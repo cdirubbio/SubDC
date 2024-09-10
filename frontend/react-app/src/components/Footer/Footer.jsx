@@ -1,9 +1,13 @@
 import React from "react"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
+import { faFacebook, faTwitter, faInstagram, faLinkedin } from '@fortawesome/free-brands-svg-icons'; 
 import "./Footer.css"
 
 export default function Authentication() {
     return (
+      
         <footer className="footer">
+          <script src="https://kit.fontawesome.com/2c390d95a8.js" crossorigin="anonymous"></script>
       {/* Container for content in the footer */}
       <div className="footer-container">
         {/* Quick Links Section */}
@@ -20,24 +24,25 @@ export default function Authentication() {
         <div className="footer-section">
           <h4>Contact Us</h4>
           <p><a href="mailto:support@subdc.com">Email: support@subdc.com</a></p>
-          <p><a href="https://maps.google.com/?q=2201%20G%20St%20NW,%20Washington,%20DC%2020052" target="_blank">2201 G St NW, Washington, DC 20052</a></p>
+          <p><a href="https://maps.google.com/?q=2201%20G%20St%20NW,%20Washington,%20DC%2020052" target="_blank" rel="noreferrer">2201 G St NW, Washington, DC 20052</a></p>
         </div>
         <div className="footer-section">
           <h4>Follow Us</h4>
           <div className="social-icons">
-            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
-              <i className="fab fa-facebook-f"></i>
-            </a>
-            <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
-              <i className="fab fa-twitter"></i>
-            </a>
-            <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
-              <i className="fab fa-instagram"></i>
-            </a>
-            <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
-              <i className="fab fa-linkedin-in"></i>
-            </a>
-          </div>
+          {/* FontAwesome Icons for Social Media */}
+          <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+            <FontAwesomeIcon icon={faFacebook} size="2x" />
+          </a>
+          <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
+            <FontAwesomeIcon icon={faTwitter} size="2x" />
+          </a>
+          <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+            <FontAwesomeIcon icon={faInstagram} size="2x" />
+          </a>
+          <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
+            <FontAwesomeIcon icon={faLinkedin} size="2x" />
+          </a>
+        </div>
         </div>
       </div>
       <div className="footer-bottom">

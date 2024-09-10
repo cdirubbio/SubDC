@@ -37,28 +37,6 @@
     border-radius: 5px;
 }
 
-.search-bar-section {
-    text-align: center;
-    margin: 40px 0;
-}
-
-.search-input {
-    padding: 10px;
-    width: 300px;
-    font-size: 1em;
-    margin-right: 10px;
-}
-
-.search-button {
-    padding: 10px 20px;
-    font-size: 1em;
-    background-color: #2e3a46;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
 .featured-listings {
     padding: 20px 20px;
     background-color: #f9f9f9;
