@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* .header {
+    background-color: #15223b;
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+}
+#Company_Name {
+        margin: 0;
+        padding: 0;
+        text-align: left;
+        color:antiquewhite;
+}
+
+a.Header {
+    text-decoration: none;
+}
+
+.header_pages {
+    display: inline;
+} */
