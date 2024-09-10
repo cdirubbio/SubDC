@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.homepage {
+    font-family: Arial, sans-serif;
+}
+
+.hero-section {
+    background-image: url('./../../images/washingtonDC1.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 100px 20px;
+    text-align: center;
+    color: white;
+}
+
+.hero-content h1 {
+    font-size: 3em;
+    margin-bottom: 10px;
+}
+
+.hero-content p {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+.cta-button {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    background-color: #2e3a46;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.search-bar-section {
+    text-align: center;
+    margin: 40px 0;
+}
+
+.search-input {
+    padding: 10px;
+    width: 300px;
+    font-size: 1em;
+    margin-right: 10px;
+}
+
+.search-button {
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #2e3a46;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.featured-listings {
+    padding: 40px 20px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.listings-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.listing-card {
+    background-color: white;
+    padding: 20px;
+    width: 250px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.listing-card img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.view-details-button {
+    padding: 10px 15px;
+    margin-top: 10px;
+    background-color: #2e3a46;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.how-it-works {
+    padding: 40px 20px;
+    text-align: center;
+    background-color: #ffffff;
+}
+.text-on-image {
+
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); 
+  
+  }
