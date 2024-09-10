@@ -1,5 +1,5 @@
 import React from "react"
-import "./Authentication.js"
+import "./Authentication.css"
 
 export default function Authentication() {
     return (

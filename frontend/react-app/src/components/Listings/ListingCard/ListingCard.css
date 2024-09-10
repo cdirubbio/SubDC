@@ -10,9 +10,7 @@
     border-radius: 5px;
 }
 
-.ListingCard:hover {
- background-color: #D3D3D3;
-}
+
 
 
 .ListingCard img {
@@ -27,5 +25,10 @@
     color: white;
     border: none;
     cursor: pointer;
+   display: flex;
     border-radius: 5px;
+}
+
+.view-details-button:hover {
+    background-color: #29cce5;
 }
