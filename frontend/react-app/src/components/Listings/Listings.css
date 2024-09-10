@@ -16,6 +16,8 @@
     padding: 10px;
     width: 600px;
     font-size: 1em;
+    outline: 3px ridge #2e3a46 ;
+    border-radius: 1rem;
     margin-right: 10px;
 }
 

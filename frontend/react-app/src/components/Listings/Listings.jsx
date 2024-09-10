@@ -34,7 +34,7 @@ const responsive = {
 export default function Listings() {
     return (
         <div className="Listings">
-            <h2 className="search-heading mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-5xl">Search for a Listing Below</h2>
+            <h2 className="search-heading mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-5xl">Search for a Listing</h2>
             <section className="search-bar-section">
                 <input
                     type="text"
