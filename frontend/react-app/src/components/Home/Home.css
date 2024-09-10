@@ -6,7 +6,7 @@
     font-family: Arial, sans-serif;
 }
 .text-on-image {
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);
 }
 .hero-section {
     background-image: url('./../../images/washingtonDC3.avif');

@@ -2,6 +2,12 @@ import React from "react"
 import "./Home.css"
 import { Link } from "react-router-dom";
 import ListingCard from "../Listings/ListingCard/ListingCard";
+// Mocked Images for now
+import listingImage1 from '../../images/listing.jpg';
+import listingImage3 from '../../images/listing3.jpg';
+import listingImage2 from '../../images/listing2.jpg';
+import listingImage4 from '../../images/listing4.jpg';
+
 
 export default function Home() {
   return (
@@ -22,28 +28,29 @@ export default function Home() {
         <button className="search-button">Search</button>
       </section> */}
       <section className="featured-listings">
-        <h2 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-5xl">
-          <span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Featured Listings</span>
+        <h2 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-5xl">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Featured Listings</span>
         </h2>
         <div className="listings-container">
+          {/* MOCK LISTINGS FOR NOW */}
           <ListingCard
             listingPrice="2400"
-            listingImage="./../../images/listing.jpg"
+            listingImage={listingImage1}
             listingName="1 Bedroom Apartment in Foggy Bottom"
           />
           <ListingCard
             listingPrice="2000"
-            listingImage="./../../images/listing3.jpg"
+            listingImage={listingImage3}
             listingName="Studio Apartment in Foggy Bottom"
           />
           <ListingCard
             listingPrice="4000"
-            listingImage="./../../images/listing2.jpg"
+            listingImage={listingImage2}
             listingName="2 Bedroom Apartment in Foggy Bottom"
           />
           <ListingCard
             listingPrice="5500"
-            listingImage="./../../images/listing4.jpeg"
+            listingImage={listingImage4}
             listingName="2 Bedroom + Den Apartment near GWU"
           />
         </div>
