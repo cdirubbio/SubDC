@@ -1,16 +1,15 @@
 import React from "react"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
-import { faFacebook, faTwitter, faInstagram, faLinkedin } from '@fortawesome/free-brands-svg-icons'; 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebook, faTwitter, faInstagram, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import "./Footer.css"
 
-export default function Authentication() {
-    return (
-      
-        <footer className="footer">
-          <script src="https://kit.fontawesome.com/2c390d95a8.js" crossorigin="anonymous"></script>
-      {/* Container for content in the footer */}
+export default function Footer() {
+  return (
+
+    <footer className="footer">
+      <script src="https://kit.fontawesome.com/2c390d95a8.js" crossorigin="anonymous"></script>
+
       <div className="footer-container">
-        {/* Quick Links Section */}
         <div className="footer-section">
           <h4>Quick Links</h4>
           <ul>
@@ -29,25 +28,25 @@ export default function Authentication() {
         <div className="footer-section">
           <h4>Follow Us</h4>
           <div className="social-icons">
-          {/* FontAwesome Icons for Social Media */}
-          <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
-            <FontAwesomeIcon icon={faFacebook} size="2x" />
-          </a>
-          <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
-            <FontAwesomeIcon icon={faTwitter} size="2x" />
-          </a>
-          <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
-            <FontAwesomeIcon icon={faInstagram} size="2x" />
-          </a>
-          <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
-            <FontAwesomeIcon icon={faLinkedin} size="2x" />
-          </a>
-        </div>
+
+            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faFacebook} size="2x" />
+            </a>
+            <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faTwitter} size="2x" />
+            </a>
+            <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faInstagram} size="2x" />
+            </a>
+            <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faLinkedin} size="2x" />
+            </a>
+          </div>
         </div>
       </div>
       <div className="footer-bottom">
         <p>&copy; 2024 SubDC. All Rights Reserved.</p>
       </div>
     </footer>
-    );
+  );
 }

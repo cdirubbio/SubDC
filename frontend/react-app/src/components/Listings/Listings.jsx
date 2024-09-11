@@ -1,13 +1,8 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import "./Listings.css"
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import ListingCard from "./ListingCard/ListingCard";
-// Mocked Images for now
-import listingImage1 from '../../images/listing.jpg';
-import listingImage3 from '../../images/listing3.jpg';
-// import listingImage2 from '../../images/listing2.jpg';
-import listingImage4 from '../../images/listing4.jpg';
 
 const responsive = {
     superLargeDesktop: {
@@ -31,6 +26,37 @@ const responsive = {
 
 
 export default function Listings() {
+    const [listings, setListings] = useState({
+        studio: [],
+        '1br': [],
+        '2br': []
+    });
+
+    useEffect(() => {
+        const fetchListings = async () => {
+            try {
+                const response = await fetch('/api/listings'); // Adjust API endpoint if necessary
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                const categorizedListings = {
+                    studio: [],
+                    '1br': [],
+                    '2br': []
+                };
+                data.forEach(listing => {
+                    categorizedListings[listing.apt_type].push(listing);
+                });
+                setListings(categorizedListings);
+            } catch (error) {
+                console.error('Failed to fetch listings:', error);
+            }
+        };
+
+        fetchListings();
+    }, []);
+
     return (
         <div className="Listings">
             <h2 className="search-heading mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-5xl">Search for a Listing</h2>
@@ -46,42 +72,34 @@ export default function Listings() {
                 <h5 className="apartment-type mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-2xl">
                     Studio Apartments
                 </h5>
-                <Carousel responsive={responsive}>
-                    <div>
-                        <ListingCard
-                            listingPrice="2000"
-                            listingImage={listingImage3}
-                            listingName="Studio Apartment in Foggy Bottom"
-                        />
-                    </div>
+                <Carousel responsive={responsive} infinite={true}>
+                    {listings.studio.map(listing => (
+                        <div key={listing.listing_id}>
+                            <ListingCard
+                                listing_id={listing.listing_id}
+                                // listingImage={listing.image_url}
+                                listingName={listing.title}
+                                listingPrice={listing.price}
+                            />
+                        </div>
+                    ))}
                 </Carousel>
             </div>
             <div>
                 <h5 className="apartment-type mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-2xl">
                     1-Bedroom Apartments
                 </h5>
-                <Carousel responsive={responsive}>
-                    <div>
-                        <ListingCard
-                            listingPrice="2400"
-                            listingImage={listingImage1}
-                            listingName="1 Bedroom Apartment in Foggy Bottom"
-                        />
-                    </div>
-                    <div>
-                        <ListingCard
-                            listingPrice="2400"
-                            listingImage={listingImage1}
-                            listingName="1 Bedroom Apartment in Foggy Bottom"
-                        />
-                    </div>
-                    <div>
-                        <ListingCard
-                            listingPrice="2400"
-                            listingImage={listingImage1}
-                            listingName="1 Bedroom Apartment in Foggy Bottom"
-                        />
-                    </div>
+                <Carousel responsive={responsive} infinite={true}>
+                    {listings['1br'].map(listing => (
+                        <div key={listing.listing_id}>
+                            <ListingCard
+                                listing_id={listing.listing_id}
+                                // listingImage={listing.image_url} 
+                                listingName={listing.title}
+                                listingPrice={listing.price}
+                            />
+                        </div>
+                    ))}
                 </Carousel>
             </div>
             <div>
@@ -89,69 +107,20 @@ export default function Listings() {
                     2-Bedroom Apartments
                 </h5>
                 <Carousel responsive={responsive} infinite={true}>
-                    <div>
-                        <ListingCard
-                            listingPrice="5500"
-                            listingImage={listingImage4}
-                            listingName="2 Bedroom + Den Apartment near GWU"
-                        />
-                    </div>
-                    <div>
-                        <ListingCard
-                            listingPrice="5500"
-                            listingImage={listingImage4}
-                            listingName="2 Bedroom + Den Apartment near GWU"
-                        />
-                    </div>
-                    <div>
-                        <ListingCard
-                            listingPrice="5500"
-                            listingImage={listingImage4}
-                            listingName="2 Bedroom + Den Apartment near GWU"
-                        />
-                    </div>
-                    <div>
-                        <ListingCard
-                            listingPrice="5500"
-                            listingImage={listingImage4}
-                            listingName="2 Bedroom + Den Apartment near GWU"
-                        />
-                    </div>
-                    <div>
-                        <ListingCard
-                            listingPrice="5500"
-                            listingImage={listingImage4}
-                            listingName="2 Bedroom + Den Apartment near GWU"
-                        />
-                    </div>
-                    <div>
-                        <ListingCard
-                            listingPrice="5500"
-                            listingImage={listingImage4}
-                            listingName="2 Bedroom + Den Apartment near GWU"
-                        />
-                    </div>
-                    <div>
-                        <ListingCard
-                            listingPrice="5500"
-                            listingImage={listingImage4}
-                            listingName="2 Bedroom + Den Apartment near GWU"
-                        />
-                    </div>
-                    <div>
-                        <ListingCard
-                            listingPrice="5500"
-                            listingImage={listingImage4}
-                            listingName="2 Bedroom + Den Apartment near GWU"
-                        />
-                    </div>
-                </Carousel>;
+                    {listings['2br'].map(listing => (
+                        <div key={listing.listing_id}>
+                            <ListingCard
+                                // listingImage={listing.image_url} 
+                                listing_id={listing.listing_id}
+                                listingName={listing.title}
+                                listingPrice={listing.price}
+                            />
+                        </div>
+                    ))}
+                </Carousel>
             </div>
         </div>
     );
 }
-
-
-
 
 // https://www.npmjs.com/package/react-multi-carousel

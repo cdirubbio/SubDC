@@ -5,9 +5,10 @@ USE subdc;
 CREATE TABLE Users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(15) UNIQUE NOT NULL,
-    email VARCHAR(50) UNIQUE NOT NULL, -- Email checked by RegEx in FrontEnd and In Backend
+    email VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(25) NOT NULL,
-    full_name VARCHAR(50),
+    first_name VARCHAR(20),
+    last_name VARCHAR(20),
     phone_number VARCHAR(11),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -18,11 +19,10 @@ CREATE TABLE Listings (
     user_id INT NOT NULL,
     title VARCHAR(100) NOT NULL,
     description TEXT NOT NULL,
-    address VARCHAR(255) NOT NULL,
-    city VARCHAR(50) NOT NULL,
-    state VARCHAR(50) NOT NULL,
-    zip_code VARCHAR(10),
+    apt_type ENUM('studio', '1br', '2br') NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    zip_code VARCHAR(10),
     availability_start DATE NOT NULL,
     availability_end DATE NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
