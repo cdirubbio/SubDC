@@ -17,7 +17,8 @@ const db = mysql.createConnection({
 
 // GET all listings
 router.get('/listings', (req, res) => {
-  const sql = 'SELECT * FROM listings';
+  const sql = 'SELECT listing_id, title, apt_type, zip_code, price FROM Listings';
+  
   db.query(sql, (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });
@@ -30,7 +31,7 @@ router.get('/listings', (req, res) => {
 // GET a specific listing by ID
 router.get('/listing/:id', (req, res) => {
   const { id } = req.params;
-  const sql = 'SELECT listing_id, user_id, title, description, apt_type, zip_code, price, availability_start, availability_end FROM listings WHERE listing_id = ?';
+  const sql = 'SELECT listing_id, user_id, title, description, apt_type, zip_code, price, availability_start, availability_end FROM Listings WHERE listing_id = ?';
 
   db.query(sql, [id], (err, result) => {
     if (err) {
@@ -62,7 +63,7 @@ router.get('/listing/:id', (req, res) => {
 // POST a new listing
 router.post('/listings', (req, res) => {
   const { user_id, title, description, apt_type, price, address, zip_code, availability_start, availability_end } = req.body;
-  const sql = 'INSERT INTO listings (user_id, title, description, apt_type, price, address, zip_code, availability_start, availability_end) VALUES (?, ?, ?, ?, ?, ?, ?)';
+  const sql = 'INSERT INTO Listings (user_id, title, description, apt_type, price, address, zip_code, availability_start, availability_end) VALUES (?, ?, ?, ?, ?, ?, ?)';
   
   db.query(sql, [user_id, title, description, apt_type, price, address, zip_code, availability_start, availability_end], (err, result) => {
     if (err) {

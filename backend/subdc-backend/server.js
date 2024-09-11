@@ -32,6 +32,6 @@ db.connect((err) => {
 
 app.use('/api', listingsRoutes);
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Backend Server is running on http://localhost:${PORT}`);
 });
