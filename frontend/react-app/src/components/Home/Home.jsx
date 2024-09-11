@@ -52,10 +52,7 @@ export default function Home() {
       <p>
         SubDC is designed to simplify the subleasing process for students in Washington DC. Whether you're looking for a temporary place to stay or need someone to take over your lease, SubDC provides a straightforward and secure platform to connect with others. Here’s how it works:
       </p>
-
-      {/* Step-by-step breakdown */}
       <div className="steps-container">
-        {/* Step 1 */}
         <div className="step">
           <h3>Step 1: Create an Account</h3>
           <p>
@@ -63,8 +60,6 @@ export default function Home() {
           </p>
           <Link to="Authentication"><button className="register-button"><strong>Register Here</strong></button></Link>
         </div>
-
-        {/* Step 2 */}
         <div className="step">
           <h3>Step 2: Browse Listings or Post Your Own</h3>
           <p>
@@ -73,13 +68,13 @@ export default function Home() {
         </div>
 
         <div className="step">
-          <h3>Step 4: Finalize the Agreement</h3>
+          <h3>Step 3: Payment + Terms</h3>
           <p>
-            After you’ve found an appropriate place to sublet or a person to sublet through, payment is made simple with our Stripe Integration
+            After you’ve found an appropriate place to sublet or a person to sublet to, payment is made simple as our platform is integrated with Stripe. The Sublettor then agrees to the terms that the Sublessor has outlined for the period.
           </p>
         </div>
         <div className="step">
-          <h3>Step 5: Move In or Sublease Your Apartment</h3>
+          <h3>Step 4: Move In or Sublease Your Apartment</h3>
           <p>
             Once everything is set, all that’s left is to move in and enjoy your new place or hand over the keys to your subtenant. Whether you’re looking for a short-term rental during the summer or need to sublease while studying abroad, SubDC makes the process smooth and hassle-free.
           </p>

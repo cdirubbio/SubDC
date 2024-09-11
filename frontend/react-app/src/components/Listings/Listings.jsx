@@ -6,9 +6,8 @@ import ListingCard from "./ListingCard/ListingCard";
 // Mocked Images for now
 import listingImage1 from '../../images/listing.jpg';
 import listingImage3 from '../../images/listing3.jpg';
-import listingImage2 from '../../images/listing2.jpg';
+// import listingImage2 from '../../images/listing2.jpg';
 import listingImage4 from '../../images/listing4.jpg';
-
 
 const responsive = {
     superLargeDesktop: {
@@ -44,9 +43,9 @@ export default function Listings() {
                 <button className="search-button">Search</button>
             </section>
             <div>
-            <h5 className="apartment-type mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-2xl">
-                Studio Apartments
-            </h5>
+                <h5 className="apartment-type mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-2xl">
+                    Studio Apartments
+                </h5>
                 <Carousel responsive={responsive}>
                     <div>
                         <ListingCard
@@ -58,8 +57,8 @@ export default function Listings() {
                 </Carousel>
             </div>
             <div>
-            <h5 className="apartment-type mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-2xl">
-                1-Bedroom Apartments
+                <h5 className="apartment-type mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-2xl">
+                    1-Bedroom Apartments
                 </h5>
                 <Carousel responsive={responsive}>
                     <div>
@@ -86,65 +85,65 @@ export default function Listings() {
                 </Carousel>
             </div>
             <div>
-            <h5 className="apartment-type mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-2xl">
-                2-Bedroom Apartments
+                <h5 className="apartment-type mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-2xl">
+                    2-Bedroom Apartments
                 </h5>
                 <Carousel responsive={responsive} infinite={true}>
                     <div>
                         <ListingCard
-                            listingPrice="4000"
-                            listingImage={listingImage2}
-                            listingName="2 Bedroom Apartment in Foggy Bottom"
+                            listingPrice="5500"
+                            listingImage={listingImage4}
+                            listingName="2 Bedroom + Den Apartment near GWU"
                         />
                     </div>
                     <div>
                         <ListingCard
-                        listingPrice="5500"
-                        listingImage={listingImage4}
-                        listingName="2 Bedroom + Den Apartment near GWU"
-                    />
+                            listingPrice="5500"
+                            listingImage={listingImage4}
+                            listingName="2 Bedroom + Den Apartment near GWU"
+                        />
                     </div>
                     <div>
                         <ListingCard
-                        listingPrice="5500"
-                        listingImage={listingImage4}
-                        listingName="2 Bedroom + Den Apartment near GWU"
-                    />
+                            listingPrice="5500"
+                            listingImage={listingImage4}
+                            listingName="2 Bedroom + Den Apartment near GWU"
+                        />
                     </div>
                     <div>
                         <ListingCard
-                        listingPrice="5500"
-                        listingImage={listingImage4}
-                        listingName="2 Bedroom + Den Apartment near GWU"
-                    />
+                            listingPrice="5500"
+                            listingImage={listingImage4}
+                            listingName="2 Bedroom + Den Apartment near GWU"
+                        />
                     </div>
                     <div>
                         <ListingCard
-                        listingPrice="5500"
-                        listingImage={listingImage4}
-                        listingName="2 Bedroom + Den Apartment near GWU"
-                    />
+                            listingPrice="5500"
+                            listingImage={listingImage4}
+                            listingName="2 Bedroom + Den Apartment near GWU"
+                        />
                     </div>
                     <div>
                         <ListingCard
-                        listingPrice="5500"
-                        listingImage={listingImage4}
-                        listingName="2 Bedroom + Den Apartment near GWU"
-                    />
+                            listingPrice="5500"
+                            listingImage={listingImage4}
+                            listingName="2 Bedroom + Den Apartment near GWU"
+                        />
                     </div>
                     <div>
                         <ListingCard
-                        listingPrice="5500"
-                        listingImage={listingImage4}
-                        listingName="2 Bedroom + Den Apartment near GWU"
-                    />
+                            listingPrice="5500"
+                            listingImage={listingImage4}
+                            listingName="2 Bedroom + Den Apartment near GWU"
+                        />
                     </div>
                     <div>
                         <ListingCard
-                        listingPrice="5500"
-                        listingImage={listingImage4}
-                        listingName="2 Bedroom + Den Apartment near GWU"
-                    />
+                            listingPrice="5500"
+                            listingImage={listingImage4}
+                            listingName="2 Bedroom + Den Apartment near GWU"
+                        />
                     </div>
                 </Carousel>;
             </div>
