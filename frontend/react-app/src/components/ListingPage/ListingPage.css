@@ -1,0 +1,50 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Container Styles */
+.listing-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.listing-title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+
+.listing-details p {
+    font-size: 1em;
+    margin: 10px 0;
+}
+
+.listing-details strong {
+    color: #2c3e50;
+}
+
+
+@media (max-width: 768px) {
+    .listing-container {
+        padding: 15px;
+    }
+
+    .listing-title {
+        font-size: 1.5em;
+    }
+
+    .listing-details p {
+        font-size: 0.9em;
+    }
+}

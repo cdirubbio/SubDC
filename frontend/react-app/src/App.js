@@ -7,6 +7,7 @@ import Listings from './components/Listings/Listings';
 import CreateListing from './components/CreateListing/CreateListing';
 import Authentication from './components/Authentication/Authentication';
 import AboutUs from './components/AboutUs/AboutUs';
+import ListingPage from './components/ListingPage/ListingPage';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route index element={<Home />} />
         <Route path='Home' element={<Home />} />
         <Route path='Listings' element={<Listings />} />
+        <Route path="/Listing/:id" element={<ListingPage />} />
         <Route path='CreateListing' element={<CreateListing />} />
         <Route path='AboutUs' element={<AboutUs />} /> 
         <Route path='Authentication' element={<Authentication />} />

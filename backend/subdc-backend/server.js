@@ -3,23 +3,25 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 const dotenv = require('dotenv');
 const listingsRoutes = require('./routes/listings');
+const cors = require('cors')
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 
-// Middleware
+// Middleware thingy
 app.use(bodyParser.json());
+app.use(cors());
 
-// MySQL connection
+// DB connection Parameters
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME
 });
-
+// DB Connection
 db.connect((err) => {
   if (err) {
     console.error('Error connecting to MySQL:', err);
@@ -28,10 +30,8 @@ db.connect((err) => {
   console.log('Connected to MySQL database');
 });
 
-// Routes
 app.use('/api', listingsRoutes);
 
-// Start the server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Backend Server is running on http://localhost:${PORT}`);
 });
