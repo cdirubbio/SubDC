@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.ListingCard {
+    background-color: white;
+    padding: 20px;
+    width: 250px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+
+
+
+.ListingCard img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.view-details-button {
+    padding: 10px 15px;
+    margin-top: 10px;
+    background-color: #2e3a46;
+    color: white;
+    border: none;
+    cursor: pointer;
+   display: flex;
+    border-radius: 5px;
+}
+
+.view-details-button:hover {
+    background-color: #29cce5;
+}
