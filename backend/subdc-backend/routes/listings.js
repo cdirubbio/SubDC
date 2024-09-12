@@ -7,7 +7,7 @@ const router = express.Router();
 
 dotenv.config();
 
-// MySQL connection
+
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -15,7 +15,7 @@ const db = mysql.createConnection({
   database: process.env.DB_NAME
 });
 
-// GET all listings
+
 router.get('/listings', (req, res) => {
   const sql = 'SELECT listing_id, title, apt_type, zip_code, price FROM Listings';
   
@@ -28,7 +28,7 @@ router.get('/listings', (req, res) => {
 });
 
 
-// GET a specific listing by ID
+
 router.get('/listing/:id', (req, res) => {
   const { id } = req.params;
   const sql = 'SELECT listing_id, user_id, title, description, apt_type, zip_code, price, availability_start, availability_end FROM Listings WHERE listing_id = ?';
@@ -42,34 +42,32 @@ router.get('/listing/:id', (req, res) => {
       return res.status(404).json({ message: 'Listing not found' });
     }
 
-    // Transform the result to replace zip_code with location
     const listing = result[0];
     const location = dcZipCodes[listing.zip_code] || 'Unknown Location';
 
-    // Create a new object with the transformed data
+    
     const transformedListing = {
       ...listing,
-      location,  // Add location field
+      location,  
     };
 
     delete transformedListing.zip_code;
 
-    // Send the transformed listing as the response
     res.json(transformedListing);
   });
 });
 
 
-// POST a new listing
-router.post('/listings', (req, res) => {
+
+router.post('/createListing', (req, res) => {
   const { user_id, title, description, apt_type, price, address, zip_code, availability_start, availability_end } = req.body;
-  const sql = 'INSERT INTO Listings (user_id, title, description, apt_type, price, address, zip_code, availability_start, availability_end) VALUES (?, ?, ?, ?, ?, ?, ?)';
+  const sql = 'INSERT INTO Listings (user_id, title, description, apt_type, price, address, zip_code, availability_start, availability_end) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
   
   db.query(sql, [user_id, title, description, apt_type, price, address, zip_code, availability_start, availability_end], (err, result) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
-    
+
     res.status(201).json({ message: 'Listing created', listingId: result.insertId });
   });
 });

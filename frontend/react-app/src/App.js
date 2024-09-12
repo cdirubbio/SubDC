@@ -9,10 +9,11 @@ import Authentication from './components/Authentication/Authentication';
 import AboutUs from './components/AboutUs/AboutUs';
 import ListingPage from './components/ListingPage/ListingPage';
   
+
+
 window.BACKEND_URL = "http://ec2-98-80-175-250.compute-1.amazonaws.com:8080"
 
 function App() {
-
   return (
     <BrowserRouter>
     <Routes>
