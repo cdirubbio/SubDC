@@ -4,6 +4,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import ListingCard from "./ListingCard/ListingCard";
 
+
 const responsive = {
     superLargeDesktop: {
         // the naming can be any, depends on you.
@@ -26,6 +27,7 @@ const responsive = {
 
 
 export default function Listings() {
+
     const [listings, setListings] = useState({
         studio: [],
         '1br': [],
@@ -33,9 +35,10 @@ export default function Listings() {
     });
 
     useEffect(() => {
+        
         const fetchListings = async () => {
             try {
-                const response = await fetch('/api/listings'); // Adjust API endpoint if necessary
+                const response = await fetch(`${window.BACKEND_URL}/api/listings`); // Adjust API endpoint if necessary
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }

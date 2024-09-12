@@ -43,8 +43,8 @@ export default function CreateListing() {
     setPrice('');
     setAddress('');
     setZipCode('');
-    setImage1(null);
-    setImage2(null);
+    setImage1('');
+    setImage2('');
   };
 
   return (
