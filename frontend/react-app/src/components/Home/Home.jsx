@@ -3,14 +3,14 @@ import "./Home.css"
 import { Link } from "react-router-dom";
 import ListingCard from "../Listings/ListingCard/ListingCard";
 
-
 export default function Home() {
+
   const [listings, setListings] = useState([]);
 
   useEffect(() => {
     const fetchFeaturedListings = async () => {
       try {
-        const requests = [1, 2, 3, 4].map(id => fetch(`/api/listing/${id}`));
+        const requests = [1, 2, 3, 4].map(id => fetch(`${window.BACKEND_URL}/api/listing/${id}`));
         const responses = await Promise.all(requests);
         responses.forEach(response => {
           if (!response.ok) {

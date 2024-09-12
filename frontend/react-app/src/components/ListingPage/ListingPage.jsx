@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './ListingPage.css';
 
+
+
+
 export default function ListingPage() {
     const { id } = useParams(); // Get the listing ID from the URL
     const [listing, setListing] = useState(null);
@@ -10,7 +13,7 @@ export default function ListingPage() {
 
     useEffect(() => {
         // Fetch the listing data from the backend API
-        fetch(`/api/listing/${id}`)
+        fetch(`${window.BACKEND_URL}/api/listing/${id}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
