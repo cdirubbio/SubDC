@@ -4,47 +4,71 @@ import "./CreateListing.css"
 export default function CreateListing() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [listingType, setListingType] = useState(null);
+  const [apt_type, setApt_type] = useState('studio');
   const [price, setPrice] = useState('');
   const [address, setAddress] = useState('');
   const [zipCode, setZipCode] = useState('');
+  const [availability_start, setAvailability_start] = useState('');
+  const [availability_end, setAvailability_end] = useState('');
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
 
+  const user_id = 1;
   // Handler for form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+  
+    const listingData = {
+      user_id: user_id, 
+      title: title,
+      description: description,
+      apt_type: apt_type,
+      price: price,
+      address: address,
+      zip_code: toString(zipCode),
+      availability_start: availability_start,
+      availability_end: availability_end
+    };
 
-    // Create a form data object to handle images
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('description', description);
-    formData.append('listingType', listingType);
-    formData.append('price', price);
-    formData.append('address', address);
-    formData.append('zipCode', zipCode);
-    if (image1) formData.append('image1', image1);
-    if (image2) formData.append('image2', image2);
-
-    // TODO: Add your API call here to submit the form data
-    console.log('Form submitted:', {
+    try {
+      const response = await fetch(`${window.BACKEND_URL}/api/createListing`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(listingData),
+      });
+  
+      if (!response.ok) {
+        console.log("Response not OK plz fix:", response.status, response.statusText);
+      } else {
+        console.log('Form submitted successfully. Well done');
+        setTitle('');
+        setDescription('');
+        setApt_type('studio')
+        setPrice('');
+        setAddress('');
+        setZipCode('');
+        setAvailability_start('');
+        setAvailability_end('');
+      }
+    } catch (error) {
+      console.error("Error submitting form, u fuked up:", error);
+    }
+  
+    console.log('Form data:', {
+      user_id,
       title,
       description,
+      apt_type,
       price,
       address,
       zipCode,
+      availability_start,
+      availability_end,
       image1,
       image2,
     });
-
-    // Clear the form after submission
-    setTitle('');
-    setDescription('')
-    setPrice('');
-    setAddress('');
-    setZipCode('');
-    setImage1('');
-    setImage2('');
   };
 
   return (
@@ -72,12 +96,12 @@ export default function CreateListing() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="listingType">Apartment Type</label>
-          <select name="cars" id="cars" 
-          onChange={(e) => setListingType(e.target.value)} required>
-            <option value="studio">Studio Apartment</option>
-            <option value="1BR">1-Bedroom Apartment</option>
-            <option value="2BR">2-Bedroom Apartment</option>        
+          <label htmlFor="apt_type">Apartment Type</label>
+          <select defaultValue="studio" name="apt_type" id="apt_type"
+            onChange={(e) => setApt_type(e.target.value)} required>
+            <option value="studio">Studio Apartment</option>\
+            <option value="1br">1-Bedroom Apartment</option>
+            <option value="2br">2-Bedroom Apartment</option>
           </select>
         </div>
         <div className="form-group">
@@ -91,8 +115,9 @@ export default function CreateListing() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="address">Address of the Listing</label>
+          <label  htmlFor="address">Address of the Listing</label>
           <input
+            autoComplete="street-address"
             type="text"
             id="address"
             value={address}
@@ -111,13 +136,38 @@ export default function CreateListing() {
           />
         </div>
         <div className="form-group">
+          <div className="availabilities">
+            <label htmlFor="availability_start">Availability Start</label>
+            <input
+              type="date"
+              id="availability_start"
+              className="calendar"
+              value={availability_start}
+              onChange={(e) => setAvailability_start(e.target.value)}
+              min="2024-09-01"
+              max="2099-12-31"
+              required
+            />
+            <label htmlFor="availability_end">Availability End</label>
+            <input
+              type="date"
+              className="calendar"
+              id="availability_end"
+              value={availability_end}
+              onChange={(e) => setAvailability_end(e.target.value)}
+              min={availability_start}
+              max="2099-12-31"
+              required
+            />
+          </div>
+        </div>
+        {/* <div className="form-group">
           <label htmlFor="image1">Main Image of Listing</label>
           <input
             type="file"
             id="image1"
             accept="image/*"
             onChange={(e) => setImage1(e.target.files[0])}
-            required
           />
         </div>
         <div className="form-group">
@@ -128,7 +178,7 @@ export default function CreateListing() {
             accept="image/*"
             onChange={(e) => setImage2(e.target.files[0])}
           />
-        </div>
+        </div> */}
         <button type="submit" className="submit-button">Submit Listing</button>
       </form>
     </div>

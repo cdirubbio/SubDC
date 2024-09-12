@@ -7,7 +7,7 @@ export default function Footer() {
   return (
 
     <footer className="footer">
-      <script src="https://kit.fontawesome.com/2c390d95a8.js" crossorigin="anonymous"></script>
+      <script src="https://kit.fontawesome.com/2c390d95a8.js" crossOrigin="anonymous"></script>
 
       <div className="footer-container">
         <div className="footer-section">

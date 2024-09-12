@@ -3,10 +3,8 @@ import { useParams } from 'react-router-dom';
 import './ListingPage.css';
 
 
-
-
 export default function ListingPage() {
-    const { id } = useParams(); // Get the listing ID from the URL
+    const { id } = useParams();
     const [listing, setListing] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
