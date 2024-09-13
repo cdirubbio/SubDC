@@ -30,12 +30,11 @@ CREATE TABLE Listings (
     FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
 
-
 CREATE TABLE Favorites (
-    favorite_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     listing_id INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (user_id, listing_id),
     FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (listing_id) REFERENCES Listings(listing_id) ON DELETE CASCADE
 );

@@ -2,8 +2,16 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 const dotenv = require('dotenv');
+const cors = require('cors');
+
 const listingsRoutes = require('./routes/listings');
-const cors = require('cors')
+const authRoutes = require('./routes/auth');
+const test = require('./routes/test');
+const favorites = require('./routes/favorites');
+const userListings = require('./routes/userListings');
+
+const db = require('./db');
+
 
 dotenv.config();
 
@@ -14,13 +22,7 @@ const PORT = process.env.PORT || 8080;
 app.use(bodyParser.json());
 app.use(cors());
 
-// DB connection Parameters
-const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME
-});
+
 // DB Connection
 db.connect((err) => {
   if (err) {
@@ -31,6 +33,9 @@ db.connect((err) => {
 });
 
 app.use('/api', listingsRoutes);
+app.use('/api', authRoutes);
+app.use('/api', userListings);
+app.use('/api', favorites);
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Backend Server is running on http://localhost:${PORT}`);
