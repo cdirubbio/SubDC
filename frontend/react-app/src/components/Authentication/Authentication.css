@@ -8,6 +8,25 @@
     margin: 0 auto;
     text-align: center;
 }
+.authentication-container h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-align: center;
+  }
+.authentication-container h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 20px;
+    text-transform: capitalize;
+    text-align: center;
+    letter-spacing: 1.2px;
+  }
+    
 
 .auth-sections {
     display: flex;
@@ -24,9 +43,6 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.auth-section h2 {
-    margin-bottom: 20px;
-}
 
 .auth-section input {
     display: block;

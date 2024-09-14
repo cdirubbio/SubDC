@@ -25,6 +25,7 @@ const verifyJSONWebToken = async (token) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const username = decoded.username;
+    
     const exists = await checkUsernameExists(username);
     return exists;
   } catch (err) {

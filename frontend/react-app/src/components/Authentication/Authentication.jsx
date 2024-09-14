@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./Authentication.css";
+import { handleLogin, handleRegister, checkAuthentication } from "./Authentication";
 
 export default function Authentication() {
-  const navigate = useNavigate();  // For redirecting
+  const navigate = useNavigate();
   const [authenticated, setAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [userInfo, setUserInfo] = useState(null);
   const [credentials, setCredentials] = useState({
     username: '',
     password: ''
@@ -20,30 +20,6 @@ export default function Authentication() {
     password: ''
   });
 
-
-  const handleRegister = async () => {
-    try {
-      var response = await fetch(`${window.BACKEND_URL}/api/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(registerCredentials),
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        console.log(error.success, error.message, response.status, response.statusText);
-        return;
-      }
-      console.log(response.status);
-      response = await response.json();
-      console.log(response);
-      resetRegisterFields();
-    } catch (error) {
-      console.error("Error submitting registration, u fuked up:", error);
-    }
-  };
   const resetRegisterFields = () => {
     setRegisterCredentials({
       first_name: '',
@@ -57,78 +33,17 @@ export default function Authentication() {
 
   useEffect(() => {
     const token = localStorage.getItem('jsonwebtoken');
-    checkAuthentication(token);
+    checkAuthentication(token, setLoading, setAuthenticated);
   }, [authenticated]);
 
-
-  const checkAuthentication = async (token) => {
-    if (!token) {
-      setAuthenticated(false);
-      setLoading(false);
-      return;
+  useEffect(() => {
+    if (authenticated) {
+      navigate('/Account');
     }
+  }, [authenticated, navigate]);
 
-    try {
-      const response = await fetch(`${window.BACKEND_URL}/api/jwt/auth`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setAuthenticated(true);
-        setUserInfo(data.user);
-        navigate('/Account')
-      } else {
-        setAuthenticated(false);
-      }
-    } catch (error) {
-      console.error("Error during grab data:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-
-  const handleLogin = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(`${window.BACKEND_URL}/api/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(credentials),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-
-        if (data.success === 'true') {
-          const token = data.token;
-          localStorage.setItem('jsonwebtoken', token);
-          setAuthenticated(true);
-          setUserInfo(data.user);
-        }
-      } else {
-        console.error("Login failed");
-      }
-    } catch (error) {
-      console.error("Error submitting login:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
   if (loading) {
     return <div>Loading...</div>;
-  }
-
-  if (authenticated && userInfo) {
-    navigate('/Account');
-    return;
   }
 
   return (
@@ -151,7 +66,7 @@ export default function Authentication() {
             onChange={(e) => setCredentials({ ...credentials, [e.target.name]: e.target.value })}
             placeholder="Enter Password"
           />
-          <button onClick={handleLogin}>Login</button>
+          <button onClick={() => handleLogin(credentials, setLoading, setAuthenticated)}>Login</button>
         </div>
 
         <div className="auth-section register-section">
@@ -198,10 +113,9 @@ export default function Authentication() {
             onChange={(e) => setRegisterCredentials({ ...registerCredentials, [e.target.name]: e.target.value })}
             placeholder="Password"
           />
-          <button onClick={handleRegister}>Register</button>
+          <button onClick={() => handleRegister(registerCredentials, resetRegisterFields)}>Register</button>
         </div>
       </div>
     </div>
   );
 }
-

@@ -22,7 +22,7 @@ const PORT = process.env.PORT || 8080;
 app.use(bodyParser.json());
 
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://subdc.s3-website-us-east-1.amazonaws.com'],
+  origin: ['http://localhost:3000', 'http://subdc.s3-website-us-east-1.amazonaws.com'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 
   allowedHeaders: ['Content-Type', 'Authorization']
 }));

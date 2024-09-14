@@ -49,7 +49,7 @@ router.post("/login", async (req, res) => {
           if (password != user.password) {
             return res.status(401).json({ success: 'false', message: 'Not authenticated' });
           }
-          res.status(200).json({ success: 'true', token: generateJSONWebToken(user.username) });
+          res.status(200).json({ success: 'true', token: generateJSONWebToken(user.username)});
         }
       );
     } catch (error) {
@@ -67,7 +67,7 @@ router.post("/login", async (req, res) => {
   
     try {
       const userID = await getUserIDFromJSONWebToken(token);
-  
+
       if (userID) {
         res.status(200).json({ user_id: userID });
       } else {

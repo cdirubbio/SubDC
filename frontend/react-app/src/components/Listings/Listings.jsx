@@ -62,15 +62,15 @@ export default function Listings() {
 
     return (
         <div className="Listings">
-            <h2 className="search-heading mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-5xl">Search for a Listing</h2>
-            <section className="search-bar-section">
+            <h2 className="search-heading mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-5xl">Explore Listings</h2>
+            {/* <section className="search-bar-section">
                 <input
                     type="text"
                     className="search-input"
                     placeholder="Search by neighborhood, school, or property type..."
                 />
                 <button className="search-button">Search</button>
-            </section>
+            </section> */}
             <div>
                 <h5 className="apartment-type mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-2xl">
                     Studio Apartments
