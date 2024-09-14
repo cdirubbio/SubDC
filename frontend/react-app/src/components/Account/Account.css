@@ -30,12 +30,12 @@
 
 /* Listings Section */
 .user-listings-section,
-.favorite-listings-section {
+.user-favorites-section {
   margin-bottom: 40px;
 }
 
 .user-listings-section h2,
-.favorite-listings-section h2 {
+.user-favorites-section h2 {
   font-size: 1.8rem;
   margin-bottom: 20px;
 }

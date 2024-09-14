@@ -64,7 +64,7 @@ export default function CreateListing() {
       apt_type: apt_type,
       price: price,
       address: address,
-      zip_code: toString(zipCode),
+      zip_code: zipCode,
       availability_start: availability_start,
       availability_end: availability_end
     };
@@ -110,7 +110,7 @@ export default function CreateListing() {
 
   useEffect(() => {
     checkAuthentication(JSONWebToken);
-  }, []);
+  }, [JSONWebToken]);
 
   if (loading) {
     return <div>Loading...</div>;

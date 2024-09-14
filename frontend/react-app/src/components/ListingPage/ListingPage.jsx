@@ -1,32 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { toggleUserFavorite, fetchListingDetails, apartmentTypeConverter } from './ListingPage';
 import './ListingPage.css';
 
-
 export default function ListingPage() {
-    const { id } = useParams();
+
+    const location = useLocation(); 
+    const { listing_id } = location.state; 
+    const [isFavorite, setIsFavorite] = useState(false);
+    const [user_id, setUser_id] = useState(localStorage.getItem('user_id'));
     const [listing, setListing] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Fetch the listing data from the backend API
-        fetch(`${window.BACKEND_URL}/api/listing/${id}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                setListing(data);
-                setLoading(false);
-            })
-            .catch(error => {
-                setError(error.message);
-                setLoading(false);
-            });
-    }, [id]);
+        fetchListingDetails(user_id, listing_id, setListing, setIsFavorite, setLoading, setError);
+    }, [listing_id, user_id]);
 
     if (loading) {
         return <div>Loading...</div>;
@@ -35,23 +24,11 @@ export default function ListingPage() {
     if (error) {
         return <div>Error: {error}</div>;
     }
-    function apartmentTypeConverter(apt_type) {
-        if (apt_type == "studio") {
-            return "Studio";
-        }
-        else if (apt_type == "1br") {
-            return "1-Bedroom Apartment"
-        }
-        else if (apt_type == "2br") {
-            return "2-Bedroom Apartment"
-        }
-    }
-
 
     return (
         <div className="listing-container">
-             <h1 className="listing-title">{listing.title}</h1>
-             <h6 className="listing-id">#{listing.listing_id}</h6>
+            <h1 className="listing-title">{listing.title}</h1>
+            <h6 className="listing-id">#{listing_id}</h6>
             <div className="listing-details">
                 <p><strong>Description:</strong> {listing.description}</p>
                 <p><strong>Type:</strong> {apartmentTypeConverter(listing.apt_type)}</p>
@@ -60,6 +37,15 @@ export default function ListingPage() {
                 <p><strong>Available until:</strong> {listing.availability_end}</p>
                 <p><strong>Location:</strong> {listing.location}</p>
             </div>
+            {user_id && (
+                <div 
+                    className={`favorite-icon ${isFavorite ? 'favorited' : ''}`} 
+                    onClick={() => toggleUserFavorite(user_id, listing_id, setIsFavorite)}
+                >
+                    <i className={`fas fa-heart ${isFavorite ? 'favorited' : ''}`}></i>
+                </div>
+            )}
+
         </div>
     );
 }

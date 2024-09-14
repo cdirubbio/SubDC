@@ -41,5 +41,25 @@ export const getUserInfo = async (id, setUserInfo) => {
       console.error("Error fetching user listings:", error);
     }
   };
+
+  export const getUserFavorites = async (id, setUserFavorites) => {
+    try {
+        const response = await fetch(`${window.BACKEND_URL}/api/user/favorites`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ user_id: id }),
+        });
+    
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setUserFavorites(data);
+    } catch (error) {
+      console.error("Error fetching user listings:", error);
+    }
+  };
   
 export default Account;

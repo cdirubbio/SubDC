@@ -1,13 +1,5 @@
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 .listing-container {
+    position: relative;
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
@@ -16,13 +8,25 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.favorite-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    color: gray; /* Default color */
+    z-index: 10; /* Ensure it appears above other content */
+}
+
+.favorite-icon.favorited {
+    color: red; /* Color when favorited */
+}
 
 .listing-title {
     font-size: 2rem;
     margin-bottom: 10px;
     color: #2c3e50;
 }
-
 
 .listing-details p {
     font-size: 1em;
@@ -32,7 +36,6 @@ body {
 .listing-details strong {
     color: #2c3e50;
 }
-
 
 @media (max-width: 768px) {
     .listing-container {
