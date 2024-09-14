@@ -2,6 +2,8 @@ const express = require("express");
 const dotenv = require("dotenv");
 const db = require("../db");
 
+const {getUserIDFromJSONWebToken} = require('./../helpers/jwtHelper');
+
 const router = express.Router();
 dotenv.config();
 

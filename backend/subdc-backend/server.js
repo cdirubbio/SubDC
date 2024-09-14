@@ -8,7 +8,7 @@ const listingsRoutes = require('./routes/listings');
 const authRoutes = require('./routes/auth');
 const test = require('./routes/test');
 const favorites = require('./routes/favorites');
-const userListings = require('./routes/userListings');
+const userStuff = require('./routes/userStuff');
 
 const db = require('./db');
 
@@ -20,7 +20,12 @@ const PORT = process.env.PORT || 8080;
 
 // Middleware thingy
 app.use(bodyParser.json());
-app.use(cors());
+
+app.use(cors({
+  origin: ['http://localhost:3000', 'http://subdc.s3-website-us-east-1.amazonaws.com'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 
 // DB Connection
@@ -34,7 +39,7 @@ db.connect((err) => {
 
 app.use('/api', listingsRoutes);
 app.use('/api', authRoutes);
-app.use('/api', userListings);
+app.use('/api', userStuff);
 app.use('/api', favorites);
 
 app.listen(PORT, "0.0.0.0", () => {

@@ -12,7 +12,7 @@ const checkUsernameNotExist = (username) => {
         } else if (result.length !== 0) {
           reject({ status: 409, message: 'Username already exists' }); 
         } else {
-          resolve(); 
+          resolve(true); 
         }
       });
     });
@@ -28,7 +28,7 @@ const checkUsernameNotExist = (username) => {
         } else if (result.length !== 0) {
           reject({ status: 409, message: 'Email already exists' }); 
         } else {
-          resolve();
+          resolve(true);
         }
       });
     });
