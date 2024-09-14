@@ -1,0 +1,51 @@
+
+.account-page {
+    padding: 20px;
+    background-color: #f9f9f9;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .user-info-section {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .user-info-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+  
+  .user-info-section p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 10px;
+    color: #555;
+  }
+  
+  .user-info-section p strong {
+    color: #333;
+  }
+  
+  /* Listings Section */
+  .user-listings-section,
+  .favorite-listings-section {
+    margin-bottom: 40px;
+  }
+  
+  .user-listings-section h2,
+  .favorite-listings-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+  
+  .carousel-container {
+    margin: 0 auto;
+    max-width: 1200px;
+  }
+  
+  .carousel-container .react-multi-carousel-list {
+    padding: 10px 0;
+  }

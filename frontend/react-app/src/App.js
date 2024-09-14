@@ -8,6 +8,7 @@ import CreateListing from './components/CreateListing/CreateListing';
 import Authentication from './components/Authentication/Authentication';
 import AboutUs from './components/AboutUs/AboutUs';
 import ListingPage from './components/ListingPage/ListingPage';
+import Account from './components/Account/Account';
   
 
 
@@ -25,6 +26,7 @@ function App() {
         <Route path='CreateListing' element={<CreateListing />} />
         <Route path='AboutUs' element={<AboutUs />} /> 
         <Route path='Authentication' element={<Authentication />} />
+        <Route path='Account' element={<Account />} />
       </Route>
     </Routes>
     <Footer/>

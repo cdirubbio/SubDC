@@ -1,8 +1,12 @@
 const express = require("express");
+const jwt = require('jsonwebtoken');
 const dotenv = require("dotenv");
 const db = require("../db");
 const { checkUsernameNotExist, checkEmailNotExist } = require("../helpers/registerHelper");
-const { checkUsernameExists } = require("./../helpers/loginHelper")
+const { checkUsernameExists } = require("./../helpers/loginHelper");
+const{ generateJSONWebToken, getUserIDFromJSONWebToken } = require("./../helpers/jwtHelper");
+
+dotenv.config();
 
 const router = express.Router();
 
@@ -32,7 +36,7 @@ router.post("/login", async (req, res) => {
     try {    
       await checkUsernameExists(username);
   
-      const sql = "SELECT user_id, password FROM Users WHERE username = ?";
+      const sql = "SELECT user_id, username, password FROM Users WHERE username = ?";
 
       db.query(sql, [username], (err, result) => {
           if (err) {
@@ -43,14 +47,36 @@ router.post("/login", async (req, res) => {
           }
           const user = result[0];
           if (password != user.password) {
-            return res.status(401).json({ message: 'Invalid Username or Password' });
+            return res.status(401).json({ success: 'false', message: 'Not authenticated' });
           }
-          res.status(200).json({ message: 'Login successful', userId: user.user_id });
+          res.status(200).json({ success: 'true', token: generateJSONWebToken(user.username) });
         }
       );
     } catch (error) {
       res.status(error.status).json({ message: error.message });
     }
   });
+
+  router.post('/jwt/auth', async (req, res) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1]; 
+  
+    if (!token) {
+      return res.status(401).json({ message: 'No token provided' });
+    }
+  
+    try {
+      const userID = await getUserIDFromJSONWebToken(token);
+  
+      if (userID) {
+        res.status(200).json({ user_id: userID });
+      } else {
+        res.status(401).json({ message: 'Invalid token or user not found' });
+      }
+    } catch (error) {
+      res.status(500).json({ message: 'Server error', error: error.message });
+    }
+  });
+
 
 module.exports = router;

@@ -13,7 +13,7 @@ const checkUsernameExists = (username) => {
         } else if (result.length === 0) {
           reject({ status: 404, message: 'Username does not exist' }); 
         } else {
-          resolve(); 
+          resolve(true); 
         }
       });
     });

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "./CreateListing.css"
 
 export default function CreateListing() {
+  const [user_id, setUser_id] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [apt_type, setApt_type] = useState('studio');
@@ -10,16 +11,54 @@ export default function CreateListing() {
   const [zipCode, setZipCode] = useState('');
   const [availability_start, setAvailability_start] = useState('');
   const [availability_end, setAvailability_end] = useState('');
-  const [image1, setImage1] = useState(null);
-  const [image2, setImage2] = useState(null);
+  // const [image1, setImage1] = useState(null);
+  // const [image2, setImage2] = useState(null);
 
-  const user_id = 1;
+
+  const [loading, setLoading] = useState(true);
+  const JSONWebToken = localStorage.getItem('jsonwebtoken');
+
+   const checkAuthentication = async (token) => {
+    if (!token) {
+      console.warn('No JSONWebToken found in localStorage');
+      setLoading(false);
+      return;
+    }
+
+
+    try {
+      const response = await fetch(`${window.BACKEND_URL}/api/jwt/auth`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      });
+
+      if (!response.ok) {
+        console.error("checkAuth not OK:", response.status, response.statusText);
+        const errorText = await response.text();
+        console.error("Error response body:", errorText);
+        setLoading(false);
+        return;
+      }
+      const data = await response.json();
+      setUser_id(data.user_id);
+
+    } catch (error) {
+      console.error("Error during fetch:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
   // Handler for form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const listingData = {
-      user_id: user_id, 
+      user_id: user_id,
       title: title,
       description: description,
       apt_type: apt_type,
@@ -38,7 +77,7 @@ export default function CreateListing() {
         },
         body: JSON.stringify(listingData),
       });
-  
+
       if (!response.ok) {
         console.log("Response not OK plz fix:", response.status, response.statusText);
       } else {
@@ -55,7 +94,7 @@ export default function CreateListing() {
     } catch (error) {
       console.error("Error submitting form, u fuked up:", error);
     }
-  
+
     console.log('Form data:', {
       user_id,
       title,
@@ -65,11 +104,21 @@ export default function CreateListing() {
       address,
       zipCode,
       availability_start,
-      availability_end,
-      image1,
-      image2,
+      availability_end
     });
   };
+
+  useEffect(() => {
+    checkAuthentication(JSONWebToken);
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!user_id) {
+    return <div>Please log in</div>;
+  }
 
   return (
     <div className="create-listing">
@@ -115,7 +164,7 @@ export default function CreateListing() {
           />
         </div>
         <div className="form-group">
-          <label  htmlFor="address">Address of the Listing</label>
+          <label htmlFor="address">Address of the Listing</label>
           <input
             autoComplete="street-address"
             type="text"
