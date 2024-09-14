@@ -1,5 +1,6 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Home from './components/Home/Home';
@@ -22,7 +23,7 @@ function App() {
         <Route index element={<Home />} />
         <Route path='Home' element={<Home />} />
         <Route path='Listings' element={<Listings />} />
-        <Route path="/Listing/:id" element={<ListingPage />} />
+        <Route path="/Listing" element={<ListingPage />} />
         <Route path='CreateListing' element={<CreateListing />} />
         <Route path='AboutUs' element={<AboutUs />} /> 
         <Route path='Authentication' element={<Authentication />} />

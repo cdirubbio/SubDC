@@ -10,19 +10,32 @@ export default function Home() {
   useEffect(() => {
     const fetchFeaturedListings = async () => {
       try {
-        const requests = [1, 2, 3, 4].map(id => fetch(`${window.BACKEND_URL}/api/listing/${id}`));
+        const requests = [1, 2, 3, 4].map(id =>
+          fetch(`${window.BACKEND_URL}/api/listing`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ listing_id: id })
+          })
+        );
+  
         const responses = await Promise.all(requests);
-        responses.forEach(response => {
+  
+        for (const response of responses) {
           if (!response.ok) {
             throw new Error('Network response was not ok');
           }
-        });
+        }
+  
         const data = await Promise.all(responses.map(response => response.json()));
+  
         setListings(data);
       } catch (error) {
         console.error('Failed to fetch listings:', error);
       }
     };
+  
     fetchFeaturedListings();
   }, []);
     return (

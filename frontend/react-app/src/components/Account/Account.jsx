@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Carousel from 'react-multi-carousel';
 import { useNavigate } from "react-router-dom";
-import { getUserInfo, getUserListings } from './Account';
+import { getUserInfo, getUserListings, getUserFavorites } from './Account';
 import { checkAuthentication } from '../Authentication/Authentication';
 import ListingCard from './../Listings/ListingCard/ListingCard';
 import "./Account.css";
@@ -18,6 +18,7 @@ export default function Account() {
   const [authenticated, setAuthenticated] = useState(false);
   const [user_id, setUser_Id] = useState(localStorage.getItem('user_id'));
   const [userListings, setUserListings] = useState([]);
+  const [userFavorites, setUserFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
   const [userInfo, setUserInfo] = useState({
     first_name: '',
@@ -44,6 +45,7 @@ export default function Account() {
     resetUserInfo();
     setUser_Id('');
     setUserListings([]);
+    setUserFavorites([]);
     navigate('/Authentication');
   };
 
@@ -56,6 +58,7 @@ export default function Account() {
     if (authenticated && user_id) {
       getUserInfo(user_id, setUserInfo);
       getUserListings(user_id, setUserListings);
+      getUserFavorites(user_id, setUserFavorites)
     }
   }, [authenticated, user_id]);
 
@@ -90,6 +93,24 @@ export default function Account() {
           </Carousel>
         ) : (
           <p>You have no listings.</p>
+        )}
+      </div>
+      <div className="user-favorites-section">
+        <h2>Your Favorite Listings</h2>
+        {userFavorites.length > 0 ? (
+          <Carousel responsive={responsive} infinite={true}>
+            {userFavorites.map(favorite => (
+              <div key={favorite.listing_id}>
+                <ListingCard
+                  listing_id={favorite.listing_id}
+                  listingName={favorite.title}
+                  listingPrice={favorite.price}
+                />
+              </div>
+            ))}
+          </Carousel>
+        ) : (
+          <p>You have no favorite listings.</p>
         )}
       </div>
     </div>
