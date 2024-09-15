@@ -38,7 +38,7 @@ export default function Listings() {
         
         const fetchListings = async () => {
             try {
-                const response = await fetch(`${window.BACKEND_URL}/api/listings`); // Adjust API endpoint if necessary
+                const response = await fetch(`${window.BACKEND_URL}/api/listings`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -80,7 +80,7 @@ export default function Listings() {
                         <div key={listing.listing_id}>
                             <ListingCard
                                 listing_id={listing.listing_id}
-                                // listingImage={listing.image_url}
+                                listingImage={listing.image1}
                                 listingName={listing.title}
                                 listingPrice={listing.price}
                             />
@@ -97,7 +97,7 @@ export default function Listings() {
                         <div key={listing.listing_id}>
                             <ListingCard
                                 listing_id={listing.listing_id}
-                                // listingImage={listing.image_url} 
+                                listingImage={listing.image1} 
                                 listingName={listing.title}
                                 listingPrice={listing.price}
                             />
@@ -113,7 +113,7 @@ export default function Listings() {
                     {listings['2br'].map(listing => (
                         <div key={listing.listing_id}>
                             <ListingCard
-                                // listingImage={listing.image_url} 
+                                listingImage={listing.image1} 
                                 listing_id={listing.listing_id}
                                 listingName={listing.title}
                                 listingPrice={listing.price}
@@ -125,5 +125,3 @@ export default function Listings() {
         </div>
     );
 }
-
-// https://www.npmjs.com/package/react-multi-carousel

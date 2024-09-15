@@ -32,7 +32,7 @@ router.post('/user/toggleFavorite', (req, res) => {
 router.post("/user/favorites", (req, res) => {
   const { user_id } = req.body;
   const sql =
-    "SELECT l.listing_id, l.title, l.price, l.user_id FROM Listings l JOIN Favorites f ON l.listing_id = f.listing_id WHERE f.user_id = ?";
+    "SELECT l.listing_id, l.title, l.price, l.user_id, l.image1 FROM Listings l JOIN Favorites f ON l.listing_id = f.listing_id WHERE f.user_id = ?";
   db.query(sql, [user_id], (err, result) => {
     if (err) {
       return res.status(500).json({ error: err.message });

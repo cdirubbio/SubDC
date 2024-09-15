@@ -8,7 +8,7 @@ dotenv.config();
 
 router.get("/listings", (req, res) => {
   const sql =
-    "SELECT listing_id, title, apt_type, zip_code, price FROM Listings";
+    "SELECT listing_id, title, apt_type, zip_code, image1, price FROM Listings";
 
   db.query(sql, (err, results) => {
     if (err) {
@@ -18,12 +18,13 @@ router.get("/listings", (req, res) => {
   });
 });
 
+
 router.post("/listing", (req, res) => {
   const { user_id, listing_id } = req.body;
 
   const listingSql = `
-    SELECT l.listing_id, l.user_id, l.title, l.description, l.apt_type, l.zip_code, l.price, l.availability_start, l.availability_end,
-           IFNULL(f.is_favorite, 0) AS isFavorite
+    SELECT l.listing_id, l.user_id, l.title, l.description, l.apt_type, l.zip_code, l.price, l.availability_start, l.availability_end, l.image1, l.image2,
+           IFNULL(f.isFavorite, 0) AS isFavorite
     FROM Listings l
     LEFT JOIN (
       SELECT listing_id, 1 AS isFavorite
@@ -35,7 +36,8 @@ router.post("/listing", (req, res) => {
 
   db.query(listingSql, [user_id, listing_id], (err, result) => {
     if (err) {
-      return res.status(500).json({ error: err.message });
+      console.error("Database query error:", err.message);
+      return res.status(500).json({ error: "Internal server error" });
     }
 
     if (result.length === 0) {
@@ -52,50 +54,10 @@ router.post("/listing", (req, res) => {
     };
 
     delete transformedListing.zip_code;
-    delete transformedListing.is_favorite;
 
-    res.status(201).json(transformedListing);
+    res.status(200).json(transformedListing);
   });
 });
 
-router.post("/createListing", (req, res) => {
-  const {
-    user_id,
-    title,
-    description,
-    apt_type,
-    price,
-    address,
-    zip_code,
-    availability_start,
-    availability_end,
-  } = req.body;
-  const sql =
-    "INSERT INTO Listings (user_id, title, description, apt_type, price, address, zip_code, availability_start, availability_end) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-  db.query(
-    sql,
-    [
-      user_id,
-      title,
-      description,
-      apt_type,
-      price,
-      address,
-      zip_code,
-      availability_start,
-      availability_end,
-    ],
-    (err, result) => {
-      if (err) {
-        return res.status(500).json({ error: err.message });
-      }
-
-      res
-        .status(201)
-        .json({ message: "Listing created", listingId: result.insertId });
-    }
-  );
-});
 
 module.exports = router;

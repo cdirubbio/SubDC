@@ -11,8 +11,8 @@ export default function CreateListing() {
   const [zipCode, setZipCode] = useState('');
   const [availability_start, setAvailability_start] = useState('');
   const [availability_end, setAvailability_end] = useState('');
-  // const [image1, setImage1] = useState(null);
-  // const [image2, setImage2] = useState(null);
+  const [image1, setImage1] = useState(null);
+  const [image2, setImage2] = useState(null);
 
 
   const [loading, setLoading] = useState(true);
@@ -53,48 +53,49 @@ export default function CreateListing() {
   };
 
 
-  // Handler for form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const listingData = {
-      user_id: user_id,
-      title: title,
-      description: description,
-      apt_type: apt_type,
-      price: price,
-      address: address,
-      zip_code: zipCode,
-      availability_start: availability_start,
-      availability_end: availability_end
-    };
-
+    const formData = new FormData();
+  
+    formData.append('user_id', user_id);
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('apt_type', apt_type);
+    formData.append('price', price);
+    formData.append('address', address);
+    formData.append('zip_code', zipCode);
+    formData.append('availability_start', availability_start);
+    formData.append('availability_end', availability_end);
+    formData.append('image1', image1);
+    formData.append('image2', image2);
+  
     try {
       const response = await fetch(`${window.BACKEND_URL}/api/createListing`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(listingData),
+        body: formData,
       });
-
+  
       if (!response.ok) {
-        console.log("Response not OK plz fix:", response.status, response.statusText);
+        console.log("Response not OK, please fix:", response.status, response.statusText);
       } else {
-        console.log('Form submitted successfully. Well done');
+        console.log('Listing submitted successfully.');
+        
         setTitle('');
         setDescription('');
-        setApt_type('studio')
+        setApt_type('studio');
         setPrice('');
         setAddress('');
         setZipCode('');
         setAvailability_start('');
         setAvailability_end('');
+      
+        setImage1(null);
+        setImage2(null);
       }
     } catch (error) {
-      console.error("Error submitting form, u fuked up:", error);
+      console.error("Error submitting form, something went wrong:", error);
     }
-
+  
     console.log('Form data:', {
       user_id,
       title,
@@ -104,9 +105,10 @@ export default function CreateListing() {
       address,
       zipCode,
       availability_start,
-      availability_end
+      availability_end,
     });
   };
+  
 
   useEffect(() => {
     checkAuthentication(JSONWebToken);
@@ -210,7 +212,7 @@ export default function CreateListing() {
             />
           </div>
         </div>
-        {/* <div className="form-group">
+        <div className="form-group">
           <label htmlFor="image1">Main Image of Listing</label>
           <input
             type="file"
@@ -227,7 +229,7 @@ export default function CreateListing() {
             accept="image/*"
             onChange={(e) => setImage2(e.target.files[0])}
           />
-        </div> */}
+        </div>
         <button type="submit" className="submit-button">Submit Listing</button>
       </form>
     </div>
