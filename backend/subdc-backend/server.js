@@ -9,6 +9,7 @@ const authRoutes = require('./routes/auth');
 const test = require('./routes/test');
 const favorites = require('./routes/favorites');
 const userStuff = require('./routes/userStuff');
+const createListing = require('./routes/createListing');
 
 const db = require('./db');
 
@@ -38,6 +39,7 @@ db.connect((err) => {
 });
 
 app.use('/api', listingsRoutes);
+app.use('/api', createListing);
 app.use('/api', authRoutes);
 app.use('/api', userStuff);
 app.use('/api', favorites);

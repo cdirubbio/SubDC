@@ -1,52 +1,88 @@
-.listing-container {
-    position: relative;
-    max-width: 800px;
-    margin: 20px auto;
+.listingPage-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px;
+    gap: 20px; /* Add space between the listing and image container */
+  }
+  
+  .listing-container {
+    position: relative; /* Ensure positioning context for the favorite icon */
+    flex: 2; /* Take more space than the image container */
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.favorite-icon {
-    position: absolute;
-    top: 20px;
-    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Space between elements in the listing container */
+  }
+  
+  .favorite-icon {
+    position: absolute; /* Position the icon absolutely within the listing container */
+    top: 0;
+    right: 0;
+    margin: 20px; /* Margin from the top and right edges */
     font-size: 24px;
     cursor: pointer;
-    color: gray; /* Default color */
-    z-index: 10; /* Ensure it appears above other content */
-}
-
-.favorite-icon.favorited {
-    color: red; /* Color when favorited */
-}
-
-.listing-title {
-    font-size: 2rem;
-    margin-bottom: 10px;
-    color: #2c3e50;
+    color: gray; 
+    z-index: 10;
+  }
+  
+  .favorite-icon.favorited {
+    color: red; 
+  }
+  
+  .listing-title {
+    font-size: 2.5rem;
+    color: #2c3e50; 
+    font-weight: bold;
+    margin-bottom: 15px; 
 }
 
 .listing-details p {
-    font-size: 1em;
-    margin: 10px 0;
+    font-size: 1.2rem; 
+    margin: 12px 0;
+    line-height: 1.6; 
 }
 
 .listing-details strong {
-    color: #2c3e50;
+    color: #1a202c; 
+    font-size: 1.2rem; 
 }
-
-@media (max-width: 768px) {
+  
+  .listing-image-container {
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    gap: 10px; 
+    align-items: center;
+  }
+  
+  .listing-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  @media (max-width: 768px) {
+    .listingPage-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  
     .listing-container {
-        padding: 15px;
+      padding: 30;
+      max-width: 100%;
     }
-
+  
     .listing-title {
-        font-size: 1.5em;
+      font-size: 1.5em;
     }
-
+  
     .listing-details p {
-        font-size: 0.9em;
+      font-size: 0.9em;
     }
-}
+  }
+  

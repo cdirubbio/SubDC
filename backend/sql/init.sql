@@ -25,6 +25,8 @@ CREATE TABLE Listings (
     zip_code VARCHAR(10),
     availability_start DATE NOT NULL,
     availability_end DATE NOT NULL,
+    image1 VARCHAR(255) NOT NULL,
+    image2 VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE

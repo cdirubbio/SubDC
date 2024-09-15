@@ -11,8 +11,7 @@ export default function ListingCard(props) {
     };
     return (
         <div className="ListingCard ">
-            <img src="./../../images/listing.jpg" alt="Listing" className="listing-image" />
-            {/* <img src={props.listingImage} alt="Listing" className="listing-image" /> */}
+            <img src={props.listingImage} alt="Listing" className="listing-image" />
             <h3>{props.listingName}</h3>
             <p><strong>${props.listingPrice}</strong>/month</p>
             <button className="view-details-button" onClick={handleViewDetails}>

@@ -8,7 +8,7 @@ dotenv.config();
 router.get("/user/:id/listings", (req, res) => {
   const { id } = req.params;
   const sql =
-    "SELECT listing_id, title, price, zip_code FROM Listings WHERE user_id = ?  ";
+    "SELECT listing_id, title, price, image1 FROM Listings WHERE user_id = ?";
 
   db.query(sql, [id], (err, result) => {
     if (err) {

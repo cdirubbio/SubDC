@@ -87,6 +87,7 @@ export default function Account() {
                   listing_id={listing.listing_id}
                   listingName={listing.title}
                   listingPrice={listing.price}
+                  listingImage={listing.image1}
                 />
               </div>
             ))}
@@ -105,6 +106,7 @@ export default function Account() {
                   listing_id={favorite.listing_id}
                   listingName={favorite.title}
                   listingPrice={favorite.price}
+                  listingImage={favorite.image1}
                 />
               </div>
             ))}

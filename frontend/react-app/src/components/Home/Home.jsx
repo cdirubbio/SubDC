@@ -55,7 +55,7 @@ export default function Home() {
             {listings.map(listing => (
         <ListingCard
           key={listing.listing_id}
-          // listingImage={listing.image_url}
+          listingImage={listing.image1}
           listingName={listing.title}
           listingPrice={listing.price}
           listing_id={listing.listing_id}
