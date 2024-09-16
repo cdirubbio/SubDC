@@ -98,6 +98,7 @@ export default function Authentication() {
             name="email"
             onChange={(e) => setRegisterCredentials({ ...registerCredentials, [e.target.name]: e.target.value })}
             placeholder="Email"
+            required
           />
           <input
             type="text"
@@ -105,6 +106,7 @@ export default function Authentication() {
             name="username"
             onChange={(e) => setRegisterCredentials({ ...registerCredentials, [e.target.name]: e.target.value })}
             placeholder="Username"
+            required
           />
           <input
             type="password"
@@ -112,6 +114,7 @@ export default function Authentication() {
             name="password"
             onChange={(e) => setRegisterCredentials({ ...registerCredentials, [e.target.name]: e.target.value })}
             placeholder="Password"
+            required
           />
           <button onClick={() => handleRegister(registerCredentials, resetRegisterFields)}>Register</button>
         </div>

@@ -38,6 +38,7 @@ db.connect((err) => {
   console.log('Connected to MySQL database');
 });
 
+
 app.use('/api', listingsRoutes);
 app.use('/api', createListing);
 app.use('/api', authRoutes);

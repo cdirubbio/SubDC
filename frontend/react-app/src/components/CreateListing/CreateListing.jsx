@@ -77,9 +77,10 @@ export default function CreateListing() {
   
       if (!response.ok) {
         console.log("Response not OK, please fix:", response.status, response.statusText);
+        alert('Error submitting Listing. Please try again');
       } else {
         console.log('Listing submitted successfully.');
-        
+        alert('Listing submitted successfully.');
         setTitle('');
         setDescription('');
         setApt_type('studio');
@@ -94,6 +95,7 @@ export default function CreateListing() {
       }
     } catch (error) {
       console.error("Error submitting form, something went wrong:", error);
+      alert('Error submitting Listing. Please try again');
     }
   
     console.log('Form data:', {
