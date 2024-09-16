@@ -1,6 +1,10 @@
 import Authentication from "./Authentication.jsx";
 
 export const handleRegister = async (registerCredentials,resetRegisterFields) => {
+  if(!verifyStudentEmail(registerCredentials.email)) {
+    alert("Only students with a .edu email address are allowed to register");
+    return;
+  }
   try {
     var response = await fetch(`${window.BACKEND_URL}/api/register`, {
       method: "POST",
@@ -31,6 +35,13 @@ export const handleRegister = async (registerCredentials,resetRegisterFields) =>
     alert('Error submitting Registration. Please try again');
   }
 };
+
+export const verifyStudentEmail = (email) => {
+  // i think these are the things allowed in email addresses but idek
+    const allwoedEmailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(edu)$/;
+    return allwoedEmailPattern.test(email);
+  }
+
 
 export const handleLogin = async (credentials, setLoading, setAuthenticated) => {
   try {
