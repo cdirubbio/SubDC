@@ -18,14 +18,17 @@ export const handleRegister = async (registerCredentials,resetRegisterFields) =>
         response.status,
         response.statusText
       );
+      alert('Error submitting Registration. Please try again');
       return;
     }
     console.log(response.status);
     response = await response.json();
     console.log(response);
+    alert('Registration submitted successfully.');
     resetRegisterFields();
   } catch (error) {
     console.error("Error submitting registration, u fuked up:", error);
+    alert('Error submitting Registration. Please try again');
   }
 };
 
@@ -50,6 +53,7 @@ export const handleLogin = async (credentials, setLoading, setAuthenticated) => 
       }
     } else {
       console.error("Login failed");
+      alert('Login Failed. Please try again.');
     }
   } catch (error) {
     console.error("Error submitting login:", error);
