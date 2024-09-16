@@ -7,7 +7,6 @@ import ListingCard from "./ListingCard/ListingCard";
 
 const responsive = {
     superLargeDesktop: {
-        // the naming can be any, depends on you.
         breakpoint: { max: 4000, min: 3000 },
         items: 5
     },
@@ -62,7 +61,7 @@ export default function Listings() {
 
     return (
         <div className="Listings">
-            <h2 className="search-heading mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-5xl">Explore Listings</h2>
+            <h2 className="search-heading mb-4 text-3xl font-extrabold text-gray-900 md:text-5xl lg:text-5xl">Explore Listings</h2>
             {/* <section className="search-bar-section">
                 <input
                     type="text"
@@ -72,7 +71,7 @@ export default function Listings() {
                 <button className="search-button">Search</button>
             </section> */}
             <div>
-                <h5 className="apartment-type mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-2xl">
+                <h5 className="apartment-type mb-4 text-3xl font-extrabold text-gray-900 md:text-5xl lg:text-2xl">
                     Studio Apartments
                 </h5>
                 <Carousel responsive={responsive} infinite={true}>
@@ -89,7 +88,7 @@ export default function Listings() {
                 </Carousel>
             </div>
             <div>
-                <h5 className="apartment-type mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-2xl">
+                <h5 className="apartment-type mb-4 text-3xl font-extrabold text-gray-900 md:text-5xl lg:text-2xl">
                     1-Bedroom Apartments
                 </h5>
                 <Carousel responsive={responsive} infinite={true}>
@@ -106,7 +105,7 @@ export default function Listings() {
                 </Carousel>
             </div>
             <div>
-                <h5 className="apartment-type mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-2xl">
+                <h5 className="apartment-type mb-4 text-3xl font-extrabold text-gray-900 md:text-5xl lg:text-2xl">
                     2-Bedroom Apartments
                 </h5>
                 <Carousel responsive={responsive} infinite={true}>
