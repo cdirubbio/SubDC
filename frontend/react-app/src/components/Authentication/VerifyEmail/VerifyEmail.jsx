@@ -23,10 +23,13 @@ export default function VerifyEmail() {
         return <div>Error: {error}</div>;
     }
 
-    return (
-        <div className="email-verification-message">
-            {verificationStatus.message}
+      return (
+        <div className="verification-container">
+          <div className="verification-content">
+            <h1>Email Verified!</h1>
+            <p>Thank you for verifying your email. Your account is now fully activated and you can start using all of our services.</p>
+            <a href="/authentication" className="login-button">Go to Login</a>
+          </div>
         </div>
-
-    );
+      );
 }
