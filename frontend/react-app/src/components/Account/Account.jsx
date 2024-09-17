@@ -16,11 +16,11 @@ const responsive = {
 export default function Account() {
   const navigate = useNavigate();
   const [authenticated, setAuthenticated] = useState(false);
-  const [user_id, setUser_Id] = useState(localStorage.getItem('user_id'));
   const [userListings, setUserListings] = useState([]);
   const [userFavorites, setUserFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
   const [userInfo, setUserInfo] = useState({
+    user_id: '',
     first_name: '',
     last_name: '',
     username: '',
@@ -30,6 +30,7 @@ export default function Account() {
 
   const resetUserInfo = () => {
     setUserInfo({
+      user_id: '',
       first_name: '',
       last_name: '',
       username: '',
@@ -40,10 +41,8 @@ export default function Account() {
 
   const handleLogout = () => {
     localStorage.removeItem('jsonwebtoken');
-    localStorage.removeItem('user_id');
     setAuthenticated(false);
     resetUserInfo();
-    setUser_Id('');
     setUserListings([]);
     setUserFavorites([]);
     navigate('/Authentication');
@@ -51,16 +50,17 @@ export default function Account() {
 
   useEffect(() => {
     const token = localStorage.getItem('jsonwebtoken');
-    checkAuthentication(token, setLoading, setAuthenticated);
+    checkAuthentication(token, setLoading, setAuthenticated, setUserInfo);
   }, []);
 
   useEffect(() => {
-    if (authenticated && user_id) {
-      getUserInfo(user_id, setUserInfo);
-      getUserListings(user_id, setUserListings);
-      getUserFavorites(user_id, setUserFavorites)
+    const token = localStorage.getItem('jsonwebtoken');
+    if (authenticated && token) {
+      getUserInfo(token, setUserInfo);
+      getUserListings(token, setUserListings);
+      getUserFavorites(token, setUserFavorites)
     }
-  }, [authenticated, user_id]);
+  }, [authenticated, userInfo.user_id]);
 
   if (loading) {
     return <div>Loading...</div>;

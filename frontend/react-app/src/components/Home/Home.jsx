@@ -11,12 +11,11 @@ export default function Home() {
     const fetchFeaturedListings = async () => {
       try {
         const requests = [1, 2, 3, 4].map(id =>
-          fetch(`${window.BACKEND_URL}/api/listing`, {
-            method: "POST",
+          fetch(`${window.BACKEND_URL}/api/listing/${id}`, {
+            method: "GET",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ listing_id: id })
           })
         );
   

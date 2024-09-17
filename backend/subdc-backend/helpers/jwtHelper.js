@@ -8,67 +8,41 @@ const { checkUsernameExists } = require("./loginHelper");
 
 dotenv.config();
 
-const generateJSONWebToken = (username) => {
-  return jwt.sign({ username: username }, process.env.JWT_SECRET);
-};
-
-const getUsernameFromJSONWebToken = (token) => {
+const getUserInfoFromJSONWebToken = async (token) => {
   try {
+    if (!token) {
+      console.warn("no jwt found");
+      return null;
+    }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    return decoded.username;
+    const userInfo = decoded.user_id;
+    const exists = await checkUsernameExists(userInfo.username);
+
+    if (exists) {
+      return userInfo;
+    }
+    return null;
   } catch (err) {
-    console.error("Invalid JWT:", err);
+    console.error("Invalid or expired JWT:");
     return null;
   }
 };
-const verifyJSONWebToken = async (token) => {
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const username = decoded.username;
-    
-    const exists = await checkUsernameExists(username);
-    return exists;
-  } catch (err) {
-    console.error("Error verifying JWT:", err);
-    return false;
-  }
-};
 
-const getUserIDFromJSONWebToken = async (token) => {
-  try {
-    const isValid = await verifyJSONWebToken(token);
-    if (!isValid) {
-      return false;
+const generateJSONWebToken = (user_id, username, email) => {
+  return jwt.sign(
+    { 
+        user_id: user_id,
+        username: username,
+        email: email
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "7d",
     }
-
-    const username = getUsernameFromJSONWebToken(token);
-    if (!username) {
-      return false;
-    }
-    const sql = "SELECT user_id FROM Users WHERE username = ?";
-    const result = await new Promise((resolve, reject) => {
-      db.query(sql, [username], (err, result) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(result);
-        }
-      });
-    });
-
-    if (result.length === 0) {
-      return false;
-    } else {
-      return result[0].user_id;
-    }
-  } catch (error) {
-    console.error("Error in getUserIDFromJSONWebToken:", error);
-    return false;
-  }
+  );
 };
 
 module.exports = {
   generateJSONWebToken,
-  verifyJSONWebToken,
-  getUserIDFromJSONWebToken,
+  getUserInfoFromJSONWebToken,
 };

@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { toggleUserFavorite, fetchListingDetails, apartmentTypeConverter } from './ListingPage';
 import './ListingPage.css';
 
 export default function ListingPage() {
-
-    const location = useLocation();
-    const { listing_id } = location.state;
+    const token = localStorage.getItem('jsonwebtoken');
+    const { id: listing_id } = useParams()
     const [isFavorite, setIsFavorite] = useState(false);
-    const [user_id, setUser_id] = useState(localStorage.getItem('user_id'));
+    const [user_id, setUser_id] = useState('');
     const [listing, setListing] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetchListingDetails(user_id, listing_id, setListing, setIsFavorite, setLoading, setError);
-    }, [listing_id, user_id]);
+        fetchListingDetails(token, listing_id, setListing, setIsFavorite, setLoading, setError, setUser_id);
+    }, [listing_id, token]);
 
     if (loading) {
         return <div>Loading...</div>;
@@ -41,7 +40,7 @@ export default function ListingPage() {
                 {user_id && (
                     <div
                         className={`favorite-icon ${isFavorite ? 'favorited' : ''}`}
-                        onClick={() => toggleUserFavorite(user_id, listing_id, setIsFavorite)}>
+                        onClick={() => toggleUserFavorite(token, listing_id, setIsFavorite)}>
                         <i className={`fas fa-heart ${isFavorite ? 'favorited' : ''}`}></i>
                     </div>
                 )}

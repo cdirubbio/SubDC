@@ -1,6 +1,10 @@
 import Authentication from "./Authentication.jsx";
 
 export const handleRegister = async (registerCredentials,resetRegisterFields) => {
+  if(!verifyStudentEmail(registerCredentials.email)) {
+    alert("Only students with a .edu email address are allowed to register");
+    return;
+  }
   try {
     var response = await fetch(`${window.BACKEND_URL}/api/register`, {
       method: "POST",
@@ -32,6 +36,13 @@ export const handleRegister = async (registerCredentials,resetRegisterFields) =>
   }
 };
 
+export const verifyStudentEmail = (email) => {
+  // i think these are the things allowed in email addresses but idek
+    const allwoedEmailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(edu)$/;
+    return allwoedEmailPattern.test(email);
+  }
+
+
 export const handleLogin = async (credentials, setLoading, setAuthenticated) => {
   try {
     setLoading(true);
@@ -62,7 +73,7 @@ export const handleLogin = async (credentials, setLoading, setAuthenticated) => 
   }
 };
 
-export const checkAuthentication = async (token, setLoading, setAuthenticated) => {
+export const checkAuthentication = async (token, setLoading, setAuthenticated, setUserInfo) => {
   if (!token) {
     setAuthenticated(false);
     setLoading(false);
@@ -73,16 +84,15 @@ export const checkAuthentication = async (token, setLoading, setAuthenticated) =
     const response = await fetch(`${window.BACKEND_URL}/api/jwt/auth`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
 
     if (response.ok) {
-      const data = await response.json();
-      const user_id = data.user_id;
-      localStorage.setItem("user_id", user_id);
       setAuthenticated(true);
+      if (setUserInfo) {
+        setUserInfo({user_id: response.user_id || ""});
+      }
     } else {
       setAuthenticated(false);
     }

@@ -10,6 +10,7 @@ CREATE TABLE Users (
     first_name VARCHAR(20),
     last_name VARCHAR(20),
     phone_number VARCHAR(11),
+    email_is_verified BOOLEAN,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -27,9 +28,11 @@ CREATE TABLE Listings (
     availability_end DATE NOT NULL,
     image1 VARCHAR(255) NOT NULL,
     image2 VARCHAR(255) NOT NULL,
+    reserved_by INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (reserved_by) REFERENCES Users(user_id) ON DELETE SET NULL
 );
 
 CREATE TABLE Favorites (

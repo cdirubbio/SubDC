@@ -1,14 +1,14 @@
 import ListingPage from "./ListingPage.jsx";
 
-export const toggleUserFavorite = async (user_id, listing_id, setIsFavorite) => {
+export const toggleUserFavorite = async (token, listing_id, setIsFavorite) => {
     try {
         const response = await fetch(`${window.BACKEND_URL}/api/user/toggleFavorite`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
           },
           body: JSON.stringify({
-             user_id: user_id,
              listing_id: listing_id
             }),
         });
@@ -20,26 +20,25 @@ export const toggleUserFavorite = async (user_id, listing_id, setIsFavorite) => 
         console.log("Favorite status:", data.isFavorite);
         setIsFavorite(data.isFavorite); 
     } catch (error) {
-      console.error("Error fetching user listings:", error);
+      console.error("Error Toggling Favorite: ", error);
     }
   };
 
 
-  export const fetchListingDetails = async (user_id, listing_id, setListing, setIsFavorite, setLoading, setError) => {
+  export const fetchListingDetails = async (token, listing_id, setListing, setIsFavorite, setLoading, setError, setUser_id) => {
     try {
-        const response = await fetch(`${window.BACKEND_URL}/api/listing`, {
-            method: 'POST',
+        const response = await fetch(`${window.BACKEND_URL}/api/listing/${listing_id}`, {
+            method: 'GET',
             headers: {
-                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
             },
-            body: JSON.stringify({ user_id, listing_id }),
         });
-
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
 
         const data = await response.json();
+        setUser_id(data.user_id);
 
         const formattedData = {
             ...data,
