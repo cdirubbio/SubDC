@@ -25,7 +25,6 @@ export default function CreateListing() {
       return;
     }
 
-
     try {
       const response = await fetch(`${window.BACKEND_URL}/api/jwt/auth`, {
         method: 'POST',

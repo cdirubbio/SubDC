@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 const dotenv = require('dotenv');
 const cors = require('cors');
-
 const listingsRoutes = require('./routes/listings');
 const authRoutes = require('./routes/auth');
 const test = require('./routes/test');

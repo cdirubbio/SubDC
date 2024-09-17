@@ -33,7 +33,7 @@ export default function Authentication() {
 
   useEffect(() => {
     const token = localStorage.getItem('jsonwebtoken');
-    checkAuthentication(token, setLoading, setAuthenticated);
+    checkAuthentication(token, setLoading, setAuthenticated, null);
   }, [authenticated]);
 
   useEffect(() => {

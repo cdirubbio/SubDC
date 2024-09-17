@@ -73,7 +73,7 @@ export const handleLogin = async (credentials, setLoading, setAuthenticated) => 
   }
 };
 
-export const checkAuthentication = async (token, setLoading, setAuthenticated) => {
+export const checkAuthentication = async (token, setLoading, setAuthenticated, setUserInfo) => {
   if (!token) {
     setAuthenticated(false);
     setLoading(false);
@@ -84,16 +84,15 @@ export const checkAuthentication = async (token, setLoading, setAuthenticated) =
     const response = await fetch(`${window.BACKEND_URL}/api/jwt/auth`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
 
     if (response.ok) {
-      const data = await response.json();
-      const user_id = data.user_id;
-      localStorage.setItem("user_id", user_id);
       setAuthenticated(true);
+      if (setUserInfo) {
+        setUserInfo({user_id: response.user_id || ""});
+      }
     } else {
       setAuthenticated(false);
     }

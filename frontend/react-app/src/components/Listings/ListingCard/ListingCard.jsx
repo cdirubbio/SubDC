@@ -7,7 +7,8 @@ export default function ListingCard(props) {
     const navigate = useNavigate();
 
     const handleViewDetails = () => {
-        navigate("/Listing", { state: { listing_id: props.listing_id } });
+        const link = `/listing/${props.listing_id}`
+        navigate(link);
     };
     return (
         <div className="ListingCard ">

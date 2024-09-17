@@ -12,8 +12,8 @@ import ListingPage from './components/ListingPage/ListingPage';
 import Account from './components/Account/Account';
   
 
-
-window.BACKEND_URL = "http://ec2-98-80-175-250.compute-1.amazonaws.com:8080"
+//http://ec2-98-80-175-250.compute-1.amazonaws.com:8080
+window.BACKEND_URL = "http://localhost:8080"
 
 function App() {
   return (
@@ -21,13 +21,12 @@ function App() {
     <Routes>
       <Route path="/" element={<Header />}>
         <Route index element={<Home />} />
-        <Route path='Home' element={<Home />} />
-        <Route path='Listings' element={<Listings />} />
-        <Route path="/Listing" element={<ListingPage />} />
-        <Route path='CreateListing' element={<CreateListing />} />
-        <Route path='AboutUs' element={<AboutUs />} /> 
-        <Route path='Authentication' element={<Authentication />} />
-        <Route path='Account' element={<Account />} />
+        <Route path='listings' element={<Listings />} />
+        <Route path="/listing/:id" element={<ListingPage />} />
+        <Route path='createListing' element={<CreateListing />} />
+        <Route path='aboutUs' element={<AboutUs />} /> 
+        <Route path='authentication' element={<Authentication />} />
+        <Route path='account' element={<Account />} />
       </Route>
     </Routes>
     <Footer/>
