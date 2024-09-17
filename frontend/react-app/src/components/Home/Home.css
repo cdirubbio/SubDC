@@ -3,16 +3,19 @@
 @tailwind utilities;
 
 .homepage {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', 'sans-serif';
 }
 .text-on-image {
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 .hero-section {
-    background-image: url('./../../images/washingtonDC3.avif');
+    background-image: url('./../../images/hddcpic.jpg');
     background-size: cover;
     background-position: center;
-    padding: 100px 20px;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+    opacity: 95%;
+    padding: 300px 20px;
     text-align: center;
     color: white;
 }
@@ -34,7 +37,17 @@
     color: white;
     border: none;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 20px;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.cta-button:active {
+    transform: scale(0.95);
+    background-color: #1d2a34;
+}
+
+.cta-button:hover {
+    transform: scale(0.95);
 }
 
 .featured-listings {
