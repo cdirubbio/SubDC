@@ -3,9 +3,29 @@ import "./Home.css"
 import { Link } from "react-router-dom";
 import ListingCard from "../Listings/ListingCard/ListingCard";
 
+
+
 export default function Home() {
 
+  const [location, setLocation] = useState('Washington DC');
+  const locations = ['Washington DC', 'Arlington', 'Bethesda', 'the DMV'];
   const [listings, setListings] = useState([]);
+
+  useEffect(() => {
+    // this will update the locations on the homepage...
+    const updateLocation = () => {
+      setLocation(prevLocation => {
+        const currentIndex = locations.indexOf(prevLocation);
+        const nextIndex = (currentIndex + 1) % locations.length;
+        const newLocation = locations[nextIndex];
+        return locations[nextIndex];
+      });
+    };
+    // this is supposed to be every 2 secs?
+    const interval = setInterval(updateLocation, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const fetchFeaturedListings = async () => {
@@ -41,7 +61,7 @@ export default function Home() {
       <div className="homepage">
         <section className="hero-section">
           <div className="hero-content">
-            <h1 className="text-on-image">Find Your Perfect Sublease in Washington DC</h1>
+          <h1 className="text-on-image"> Find Your Perfect Sublease in <span>{location}</span></h1>
             <p className="text-on-image">Discover affordable sublease options for students in the DC area.</p>
             <Link to="Listings"><button className="cta-button">Start Searching</button></Link>
           </div>
