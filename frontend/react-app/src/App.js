@@ -12,8 +12,8 @@ import ListingPage from './components/ListingPage/ListingPage';
 import Account from './components/Account/Account';
   
 
-//http://ec2-98-80-175-250.compute-1.amazonaws.com:8080
-window.BACKEND_URL = "http://localhost:8080"
+//
+window.BACKEND_URL = "http://ec2-98-80-175-250.compute-1.amazonaws.com:8080"
 
 function App() {
   return (
