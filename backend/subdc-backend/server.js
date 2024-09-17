@@ -8,6 +8,7 @@ const authRoutes = require('./routes/auth');
 const test = require('./routes/test');
 const favorites = require('./routes/favorites');
 const userStuff = require('./routes/userStuff');
+const verifyEmail = require('./routes/verify-email');
 const createListing = require('./routes/createListing');
 
 const db = require('./db');
@@ -43,6 +44,7 @@ app.use('/api', createListing);
 app.use('/api', authRoutes);
 app.use('/api', userStuff);
 app.use('/api', favorites);
+app.use('/api', verifyEmail);
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Backend Server is running on http://localhost:${PORT}`);
