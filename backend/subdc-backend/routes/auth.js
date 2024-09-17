@@ -2,10 +2,11 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const db = require("../db");
-const nodemailer = require("nodemailer");
+
 const {
   checkUsernameNotExist,
   checkEmailNotExist,
+  sendVerificationEmail,
 } = require("../helpers/registerHelper");
 const { checkUsernameExists } = require("./../helpers/loginHelper");
 const {
@@ -17,27 +18,7 @@ dotenv.config();
 
 const router = express.Router();
 
-const emailTransporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL,
-    pass: process.env.EMAIL_PASSWORD,
-  },
-});
 
-const sendVerificationEmail = async (email) => {
-  const emailToken = jwt.sign({ email: email }, process.env.JWT_SECRET, {
-    expiresIn: "1h",
-  });
-  const verificationUrl = `${process.env.FRONTEND_URL}/verifyEmail?token=${emailToken}`;
-  const mailOptions = {
-    from: process.env.EMAIL,
-    to: email,
-    subject: "SubDC - Please Verify Your Email",
-    html: `Please click the following link to verify your email: <a href="${verificationUrl}">${verificationUrl}</a>`,
-  };
-  await emailTransporter.sendMail(mailOptions);
-};
 
 router.post("/register", async (req, res) => {
   const { username, email, password, first_name, last_name, phone_number } =

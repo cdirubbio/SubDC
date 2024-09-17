@@ -120,7 +120,13 @@ export default function CreateListing() {
   }
 
   if (!user_id) {
-    return <div>Please log in</div>;
+    return (
+      <div className="container">
+        <div className="login-message">
+          <p>Please log in to continue</p>
+        </div>
+      </div>
+    );
   }
 
   return (
