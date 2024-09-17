@@ -7,6 +7,7 @@ import Home from './components/Home/Home';
 import Listings from './components/Listings/Listings';
 import CreateListing from './components/CreateListing/CreateListing';
 import Authentication from './components/Authentication/Authentication';
+import VerifyEmail from './components/Authentication/VerifyEmail/VerifyEmail';
 import AboutUs from './components/AboutUs/AboutUs';
 import ListingPage from './components/ListingPage/ListingPage';
 import Account from './components/Account/Account';
@@ -26,6 +27,7 @@ function App() {
         <Route path='createListing' element={<CreateListing />} />
         <Route path='aboutUs' element={<AboutUs />} /> 
         <Route path='authentication' element={<Authentication />} />
+        <Route path='verifyEmail' element={<VerifyEmail />} />
         <Route path='account' element={<Account />} />
       </Route>
     </Routes>
