@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Carousel from 'react-multi-carousel';
 import { useNavigate } from "react-router-dom";
-import { getUserInfo, getUserListings, getUserFavorites } from './Account';
+import { getUserInfo, getUserListings, getUserFavorites, updateUserInfo } from './Account';
 import { checkAuthentication } from '../Authentication/Authentication';
 import ListingCard from './../Listings/ListingCard/ListingCard';
 import "./Account.css";
@@ -27,6 +27,15 @@ export default function Account() {
     email: '',
     phone_number: ''
   });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [updatedInfo, setUpdatedInfo] = useState({
+    username: userInfo.username,
+    first_name: userInfo.first_name,
+    last_name: userInfo.last_name,
+    email: userInfo.email,
+    phone_number: userInfo.phone_number,
+  });
+  
 
   const resetUserInfo = () => {
     setUserInfo({
@@ -48,6 +57,23 @@ export default function Account() {
     navigate('/Authentication');
   };
 
+  const handleModalOpen = () => {
+    setUpdatedInfo(userInfo);
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+  const handleSave = () => {
+    let token = localStorage.getItem('jsonwebtoken');
+    updateUserInfo(token, updatedInfo);
+    setUserInfo(updatedInfo);
+    handleModalClose();
+    alert("Please log back in to see the changes made to your Account");
+    handleLogout()
+  };
+
   useEffect(() => {
     const token = localStorage.getItem('jsonwebtoken');
     checkAuthentication(token, setLoading, setAuthenticated, setUserInfo);
@@ -62,6 +88,18 @@ export default function Account() {
     }
   }, [authenticated, userInfo.user_id]);
 
+  useEffect(() => {
+    // if (isModalOpen) {
+    //   setUpdatedInfo({
+    //     username: userInfo.username,
+    //     first_name: userInfo.first_name,
+    //     last_name: userInfo.last_name,
+    //     email: userInfo.email,
+    //     phone_number: userInfo.phone_number,
+    //   });
+    // }
+  }, [isModalOpen, userInfo]);
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -70,12 +108,26 @@ export default function Account() {
     <div className="account-page">
       <div className="user-info-section">
         <h2>Your Profile</h2>
+        <button className="edit-info-button" onClick={handleModalOpen}>&#9998;</button>
         <p><strong>Username:</strong> {userInfo.username}</p>
         <p><strong>Name:</strong> {userInfo.first_name} {userInfo.last_name}</p>
         <p><strong>Email:</strong> {userInfo.email}</p>
         <p><strong>Phone:</strong> {userInfo.phone_number}</p>
         <button className="logout-button" onClick={handleLogout}>Logout</button>
       </div>
+      {isModalOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <h3>Edit Your Info</h3>
+            <label>Username: <input name="username" value={updatedInfo.username}  onChange={(e) => setUpdatedInfo({ ...updatedInfo, [e.target.name]: e.target.value })} /></label>
+            <label>First Name: <input name="first_name" value={updatedInfo.first_name}  onChange={(e) => setUpdatedInfo({ ...updatedInfo, [e.target.name]: e.target.value })}/></label>
+            <label>Last Name: <input name="last_name" value={updatedInfo.last_name}  onChange={(e) => setUpdatedInfo({ ...updatedInfo, [e.target.name]: e.target.value })} /></label>
+            <label>Phone Number: <input name="phone_number" value={updatedInfo.phone_number}  onChange={(e) => setUpdatedInfo({ ...updatedInfo, [e.target.name]: e.target.value })} /></label>
+            <button onClick={handleSave}>Save</button>
+            <button onClick={handleModalClose}>Cancel</button>
+          </div>
+        </div>
+      )}
 
       <div className="user-listings-section">
         <h2>Your Listings</h2>
