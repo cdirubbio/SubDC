@@ -1,7 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const db = require("../db");
-const { getUserInfoFromJSONWebToken } = require("../helpers/jwtHelper");
+const { getUserInfoFromJSONWebToken, generateJSONWebToken } = require("../helpers/jwtHelper");
 
 const router = express.Router();
 dotenv.config();
@@ -31,7 +31,7 @@ router.post("/user/listings", async (req, res) => {
       res.json(result);
     });
   } catch (err) {
-    console.err(err);
+    console.error(err);
   }
 });
 
@@ -63,6 +63,37 @@ router.post("/userInfo", async (req, res) => {
     });
   } catch (error) {
     res.status(error.status).json({ message: error.message });
+  }
+});
+
+router.put("/userInfo", async (req, res) => {
+  const authHeader = req.headers["authorization"];
+  const { username, first_name, last_name, phone_number } = req.body;
+  const token = authHeader && authHeader.split(" ")[1];
+  if (!token) {
+    return res.status(401).json({ message: "No token provided" });
+  }
+  try {
+    const userInfo = await getUserInfoFromJSONWebToken(token);
+    const user_id = userInfo.user_id;
+    if (user_id == null) {
+      return res.status(401).json({ message: "Invalid User ID" });
+    }
+    const sql =
+      "UPDATE Users SET username = ?,  first_name = ?, last_name = ?, phone_number = ? WHERE user_id = ?;";
+    db.query(
+      sql, [username, first_name, last_name, phone_number, user_id], (err, result) => {
+        if (err) {
+          return res.status(500).json({ error: err.message });
+        }
+        if (result.affectedRows === 0) {
+          return res.status(404).json({ message: "User not found or no changes made" });
+        }
+        res.json({ success: "true"});
+      }
+    );
+  } catch (error) {
+    res.json({ message: error.message });
   }
 });
 

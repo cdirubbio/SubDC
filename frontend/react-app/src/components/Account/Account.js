@@ -68,4 +68,29 @@ export const getUserListings = async (token, setUserListings) => {
     }
   };
   
+
+  export const updateUserInfo = async (token, updatedUserInfo) => {
+    try {
+        const response = await fetch(`${window.BACKEND_URL}/api/userInfo`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify(updatedUserInfo),
+        });
+    
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        if (response.status == "200") {
+          console.log("User Info has been successfully updated");
+        }
+        const data = await response.json();
+    } catch (error) {
+      console.error("Error Toggling Favorite: ", error);
+    }
+  };
+  
+
 export default Account;
