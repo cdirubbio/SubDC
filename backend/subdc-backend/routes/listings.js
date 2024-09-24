@@ -98,9 +98,21 @@ router.get("/listing/:id", async (req, res) => {
 router.put("/listing/:id", async (req, res) => {
   try {
     const { id: listing_id } = req.params;
-    const {title, description, apt_type, price, address, zip_code, availability_start, availability_end} = req.body;
+    let token;
+    const {
+      title,
+      description,
+      apt_type,
+      price,
+      address,
+      zip_code,
+      availability_start,
+      availability_end,
+    } = req.body;
     const authHeader = req.headers["authorization"];
-
+    if (authHeader) {
+      token = authHeader.split(" ")[1];
+    }
     if (!listing_id) {
       return res.status(400).json({ message: "Listing ID is required" });
     }
@@ -116,29 +128,48 @@ router.put("/listing/:id", async (req, res) => {
     }
     const user_id = userInfo.user_id;
 
-
     const ownerSql = "SELECT user_id FROM Listings WHERE listing_id = ?";
-    const [ownerResult] = await db.query(ownerSql, [listing_id]);
-    if (ownerResult.length === 0) {
-      return res.status(404).json({ message: "Listing not found" });
-    }
-    const listingOwnerId = ownerResult[0].user_id;
-    if (user_id !== listingOwnerId) {
-      return res.status(403).json({ message: "You are not authorized to update this listing" });
-    }
-
+    db.query(ownerSql, listing_id, (err, result) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      if (result.length === 0) {
+        return res.status(404).json({ message: "Listing not found" });
+      }
+      const listingOwnerId = result[0].user_id;
+      console.log(listingOwnerId);
+      if (user_id !== listingOwnerId) {
+        return res
+          .status(403)
+          .json({ message: "You are not authorized to update this listing" });
+      }
+    });
 
     const sql =
-      "UPDATE Listings SET title = ?,  description = ?, apt_type = ?, price = ?, address = ?, zip_code = ?, availability_start = ?, availability_end WHERE listing_id = ?;";
+      "UPDATE Listings SET title = ?,  description = ?, apt_type = ?, price = ?, address = ?, zip_code = ?, availability_start = ?, availability_end = ? WHERE listing_id = ?;";
     db.query(
-      sql, [title, description, apt_type, price, address, zip_code, availability_start, availability_end], (err, result) => {
+      sql,
+      [
+        title,
+        description,
+        apt_type,
+        price,
+        address,
+        zip_code,
+        availability_start,
+        availability_end,
+        listing_id
+      ],
+      (err, result) => {
         if (err) {
           return res.status(500).json({ error: err.message });
         }
         if (result.affectedRows === 0) {
-          return res.status(404).json({ message: "Listing not found or no changes made" });
+          return res
+            .status(404)
+            .json({ message: "Listing not found or no changes made" });
         }
-        res.json({ success: "true"});
+        return res.json({ success: "true" });
       }
     );
   } catch (error) {
