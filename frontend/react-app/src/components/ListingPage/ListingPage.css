@@ -1,88 +1,112 @@
 .listingPage-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 20px;
-    gap: 20px; /* Add space between the listing and image container */
-  }
-  
-  .listing-container {
-    position: relative; /* Ensure positioning context for the favorite icon */
-    flex: 2; /* Take more space than the image container */
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    gap: 20px; /* Space between elements in the listing container */
-  }
-  
-  .favorite-icon {
-    position: absolute; /* Position the icon absolutely within the listing container */
-    top: 0;
-    right: 0;
-    margin: 20px; /* Margin from the top and right edges */
-    font-size: 24px;
-    cursor: pointer;
-    color: gray; 
-    z-index: 10;
-  }
-  
-  .favorite-icon.favorited {
-    color: red; 
-  }
-  
-  .listing-title {
-    font-size: 2.5rem;
-    color: #2c3e50; 
-    font-weight: bold;
-    margin-bottom: 15px; 
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px;
+  gap: 20px;
+}
+
+.listing-container {
+  position: relative;
+  flex: 2;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.favorite-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 20px;
+  font-size: 24px;
+  cursor: pointer;
+  color: gray;
+  z-index: 10;
+}
+
+.favorite-icon.favorited {
+  color: red;
+}
+
+.edit-info-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  margin-top: 5px;
+  margin-right: 5px;
+  background-color: #48abe0;
+  color: white;
+  border: none;
+  font-size: 31px;
+  height: 50px;
+  width: 50px;
+  box-shadow: 0 2px 4px darkslategray;
+  border-radius: 50%;
+}
+
+.edit-info-button:hover {
+  background-color: #65b9e6;
+}
+
+.edit-info-button:active {
+  box-shadow: 0 0 2px darkslategray;
+  transform: translateY(2px);
+}
+
+.listing-title {
+  font-size: 2.5rem;
+  color: #2c3e50;
+  font-weight: bold;
+  margin-bottom: 15px;
 }
 
 .listing-details p {
-    font-size: 1.2rem; 
-    margin: 12px 0;
-    line-height: 1.6; 
+  font-size: 1.2rem;
+  margin: 12px 0;
+  line-height: 1.6;
 }
 
 .listing-details strong {
-    color: #1a202c; 
-    font-size: 1.2rem; 
+  color: #1a202c;
+  font-size: 1.2rem;
 }
-  
-  .listing-image-container {
-    flex: 1; 
-    display: flex;
+
+.listing-image-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.listing-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .listingPage-container {
     flex-direction: column;
-    gap: 10px; 
     align-items: center;
   }
-  
-  .listing-image {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  .listing-container {
+    padding: 30;
+    max-width: 100%;
   }
-  
-  @media (max-width: 768px) {
-    .listingPage-container {
-      flex-direction: column;
-      align-items: center;
-    }
-  
-    .listing-container {
-      padding: 30;
-      max-width: 100%;
-    }
-  
-    .listing-title {
-      font-size: 1.5em;
-    }
-  
-    .listing-details p {
-      font-size: 0.9em;
-    }
+
+  .listing-title {
+    font-size: 1.5em;
   }
-  
+
+  .listing-details p {
+    font-size: 0.9em;
+  }
+}

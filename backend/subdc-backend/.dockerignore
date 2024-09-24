@@ -1,0 +1,4 @@
+/node_modoules
+.env
+.env.local
+.env.production.local

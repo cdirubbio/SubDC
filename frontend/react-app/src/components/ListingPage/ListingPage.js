@@ -25,7 +25,7 @@ export const toggleUserFavorite = async (token, listing_id, setIsFavorite) => {
   };
 
 
-  export const fetchListingDetails = async (token, listing_id, setListing, setIsFavorite, setLoading, setError, setUser_id) => {
+  export const fetchListingDetails = async (token, listing_id, setListing, setIsFavorite, setLoading, setError, setUser_id, setListing_user_id) => {
     try {
         const response = await fetch(`${window.BACKEND_URL}/api/listing/${listing_id}`, {
             method: 'GET',
@@ -39,6 +39,7 @@ export const toggleUserFavorite = async (token, listing_id, setIsFavorite) => {
 
         const data = await response.json();
         setUser_id(data.user_id);
+        setListing_user_id(data.listing_user_id);
 
         const formattedData = {
             ...data,

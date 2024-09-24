@@ -9,11 +9,12 @@ export default function ListingPage() {
     const [isFavorite, setIsFavorite] = useState(false);
     const [user_id, setUser_id] = useState('');
     const [listing, setListing] = useState(null);
+    const [listing_user_id, setListing_user_id] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetchListingDetails(token, listing_id, setListing, setIsFavorite, setLoading, setError, setUser_id);
+        fetchListingDetails(token, listing_id, setListing, setIsFavorite, setLoading, setError, setUser_id, setListing_user_id);
     }, [listing_id, token]);
 
     if (loading) {
@@ -37,13 +38,15 @@ export default function ListingPage() {
                     <p><strong>Available until:</strong> {listing.availability_end}</p>
                     <p><strong>Location:</strong> {listing.location}</p>
                 </div>
-                {user_id && (
-                    <div
-                        className={`favorite-icon ${isFavorite ? 'favorited' : ''}`}
-                        onClick={() => toggleUserFavorite(token, listing_id, setIsFavorite)}>
-                        <i className={`fas fa-heart ${isFavorite ? 'favorited' : ''}`}></i>
-                    </div>
-                )}
+                {user_id === listing_user_id && (
+        <button className="edit-info-button">&#9998;</button>)}
+      {user_id && user_id !== listing_user_id && (
+        <div
+          className={`favorite-icon ${isFavorite ? 'favorited' : ''}`}
+          onClick={() => toggleUserFavorite(token, listing_id, setIsFavorite)}>
+          <i className={`fas fa-heart ${isFavorite ? 'favorited' : ''}`}></i>
+        </div>
+      )}
             </div>
             <div className='listing-image-container'>
                 <img src={listing.image1} alt="Image1" className="listing-image" />

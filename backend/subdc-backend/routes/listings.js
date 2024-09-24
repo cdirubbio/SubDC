@@ -19,24 +19,21 @@ router.get("/listings", (req, res) => {
   });
 });
 
-
 router.get("/listing/:id", async (req, res) => {
   try {
     const { id: listing_id } = req.params;
-    let user_id = null; 
+    let user_id = null;
     const authHeader = req.headers["authorization"];
 
-    
     if (authHeader) {
       const token = authHeader.split(" ")[1];
       if (token != null) {
         const userInfo = await getUserInfoFromJSONWebToken(token);
         if (userInfo && userInfo.user_id) {
-          user_id = userInfo.user_id; 
+          user_id = userInfo.user_id;
         }
       }
     }
-
 
     if (!listing_id) {
       return res.status(400).json({ message: "Listing ID is required" });
@@ -47,7 +44,7 @@ router.get("/listing/:id", async (req, res) => {
 
     if (user_id) {
       listingSql = `
-        SELECT l.listing_id, l.user_id, l.title, l.description, l.apt_type, l.zip_code, l.price, l.availability_start, l.availability_end, l.image1, l.image2,
+        SELECT l.listing_id, l.user_id AS listing_user_id, l.title, l.description, l.apt_type, l.zip_code, l.price, l.availability_start, l.availability_end, l.image1, l.image2,
                IFNULL(f.isFavorite, 0) AS isFavorite
         FROM Listings l
         LEFT JOIN (
@@ -60,7 +57,7 @@ router.get("/listing/:id", async (req, res) => {
       queryParams = [user_id, listing_id];
     } else {
       listingSql = `
-        SELECT l.listing_id, l.user_id, l.title, l.description, l.apt_type, l.zip_code, l.price, l.availability_start, l.availability_end, l.image1, l.image2,
+        SELECT l.listing_id, l.user_id AS listing_user_id, l.title, l.description, l.apt_type, l.zip_code, l.price, l.availability_start, l.availability_end, l.image1, l.image2,
                0 AS isFavorite
         FROM Listings l
         WHERE l.listing_id = ?
@@ -98,5 +95,55 @@ router.get("/listing/:id", async (req, res) => {
   }
 });
 
+router.put("/listing/:id", async (req, res) => {
+  try {
+    const { id: listing_id } = req.params;
+    const {title, description, apt_type, price, address, zip_code, availability_start, availability_end} = req.body;
+    const authHeader = req.headers["authorization"];
+
+    if (!listing_id) {
+      return res.status(400).json({ message: "Listing ID is required" });
+    }
+    if (!authHeader) {
+      return res.status(400).json({ message: "Authorization is required" });
+    }
+    if (!token) {
+      return res.status(400).json({ message: "JWT is required" });
+    }
+    const userInfo = await getUserInfoFromJSONWebToken(token);
+    if (!userInfo || !userInfo.user_id) {
+      return res.status(400).json({ message: "JWT translation error" });
+    }
+    const user_id = userInfo.user_id;
+
+
+    const ownerSql = "SELECT user_id FROM Listings WHERE listing_id = ?";
+    const [ownerResult] = await db.query(ownerSql, [listing_id]);
+    if (ownerResult.length === 0) {
+      return res.status(404).json({ message: "Listing not found" });
+    }
+    const listingOwnerId = ownerResult[0].user_id;
+    if (user_id !== listingOwnerId) {
+      return res.status(403).json({ message: "You are not authorized to update this listing" });
+    }
+
+
+    const sql =
+      "UPDATE Listings SET title = ?,  description = ?, apt_type = ?, price = ?, address = ?, zip_code = ?, availability_start = ?, availability_end WHERE listing_id = ?;";
+    db.query(
+      sql, [title, description, apt_type, price, address, zip_code, availability_start, availability_end], (err, result) => {
+        if (err) {
+          return res.status(500).json({ error: err.message });
+        }
+        if (result.affectedRows === 0) {
+          return res.status(404).json({ message: "Listing not found or no changes made" });
+        }
+        res.json({ success: "true"});
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 module.exports = router;
