@@ -7,6 +7,7 @@ const {
   checkUsernameNotExist,
   checkEmailNotExist,
   sendVerificationEmail,
+  verifyStudentEmail
 } = require("../helpers/registerHelper");
 const { checkUsernameExists } = require("./../helpers/loginHelper");
 const {
@@ -24,8 +25,12 @@ router.post("/register", async (req, res) => {
   const { username, email, password, first_name, last_name, phone_number } =
     req.body;
   try {
+    if(!verifyStudentEmail(email)) {
+      return res.status(401).json({ message: "Not Authorized to sign up without student email"})
+    }
     await checkUsernameNotExist(username);
     await checkEmailNotExist(email);
+    
 
     const sql =
       "INSERT INTO Users (username, email, password, first_name, last_name, phone_number, email_is_verified) VALUES (?, ?, ?, ?, ?, ?, false)";
