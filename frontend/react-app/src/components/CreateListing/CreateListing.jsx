@@ -18,7 +18,7 @@ export default function CreateListing() {
   const [loading, setLoading] = useState(true);
   const JSONWebToken = localStorage.getItem('jsonwebtoken');
 
-   const checkAuthentication = async (token) => {
+  const checkAuthentication = async (token) => {
     if (!token) {
       console.warn('No JSONWebToken found in localStorage');
       setLoading(false);
@@ -55,7 +55,7 @@ export default function CreateListing() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-  
+    
     formData.append('user_id', user_id);
     formData.append('title', title);
     formData.append('description', description);
@@ -67,13 +67,16 @@ export default function CreateListing() {
     formData.append('availability_end', availability_end);
     formData.append('image1', image1);
     formData.append('image2', image2);
-  
+
     try {
       const response = await fetch(`${window.BACKEND_URL}/api/createListing`, {
-        method: 'POST',
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${JSONWebToken}`,
+        },
         body: formData,
       });
-  
+
       if (!response.ok) {
         console.log("Response not OK, please fix:", response.status, response.statusText);
         alert('Error submitting Listing. Please try again');
@@ -88,7 +91,7 @@ export default function CreateListing() {
         setZipCode('');
         setAvailability_start('');
         setAvailability_end('');
-      
+
         setImage1(null);
         setImage2(null);
       }
@@ -96,7 +99,7 @@ export default function CreateListing() {
       console.error("Error submitting form, something went wrong:", error);
       alert('Error submitting Listing. Please try again');
     }
-  
+
     console.log('Form data:', {
       user_id,
       title,
@@ -109,9 +112,10 @@ export default function CreateListing() {
       availability_end,
     });
   };
-  
+
 
   useEffect(() => {
+    const JSONWebToken = localStorage.getItem('jsonwebtoken');
     checkAuthentication(JSONWebToken);
   }, [JSONWebToken]);
 

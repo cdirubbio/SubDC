@@ -3,7 +3,12 @@ const dotenv = require("dotenv");
 const db = require("../db");
 const { dcZipCodes } = require("../helpers/locationHelper");
 const { getUserInfoFromJSONWebToken } = require("../helpers/jwtHelper");
+const { S3Client, DeleteObjectsCommand } = require("@aws-sdk/client-s3");
 const router = express.Router();
+
+const s3 = new S3Client({
+  region: "us-east-1",
+});
 
 dotenv.config();
 
@@ -104,8 +109,6 @@ router.put("/listing/:id", async (req, res) => {
       description,
       apt_type,
       price,
-      address,
-      zip_code,
       availability_start,
       availability_end,
     } = req.body;
@@ -131,6 +134,7 @@ router.put("/listing/:id", async (req, res) => {
     const ownerSql = "SELECT user_id FROM Listings WHERE listing_id = ?";
     db.query(ownerSql, listing_id, (err, result) => {
       if (err) {
+        console.log("poop");
         return res.status(500).json({ error: err.message });
       }
       if (result.length === 0) {
@@ -146,7 +150,7 @@ router.put("/listing/:id", async (req, res) => {
     });
 
     const sql =
-      "UPDATE Listings SET title = ?,  description = ?, apt_type = ?, price = ?, address = ?, zip_code = ?, availability_start = ?, availability_end = ? WHERE listing_id = ?;";
+      "UPDATE Listings SET title = ?,  description = ?, apt_type = ?, price = ?, availability_start = ?, availability_end = ? WHERE listing_id = ?;";
     db.query(
       sql,
       [
@@ -154,11 +158,9 @@ router.put("/listing/:id", async (req, res) => {
         description,
         apt_type,
         price,
-        address,
-        zip_code,
         availability_start,
         availability_end,
-        listing_id
+        listing_id,
       ],
       (err, result) => {
         if (err) {
@@ -174,6 +176,94 @@ router.put("/listing/:id", async (req, res) => {
     );
   } catch (error) {
     console.log(error);
+  }
+});
+
+router.delete("/listing/:id", async (req, res) => {
+  try {
+    const { id: listing_id } = req.params;
+    const authHeader = req.headers["authorization"];
+    if (!listing_id) {
+      return res.status(400).json({ message: "Listing ID is required" });
+    }
+    if (!authHeader) {
+      return res.status(400).json({ message: "Authorization is required" });
+    }
+
+    const token = authHeader.split(" ")[1];
+    const userInfo = await getUserInfoFromJSONWebToken(token);
+    if (!userInfo || !userInfo.user_id) {
+      return res.status(400).json({ message: "JWT translation error" });
+    }
+    const user_id = userInfo.user_id;
+
+    const ownerSql = "SELECT user_id FROM Listings WHERE listing_id = ?";
+    db.query(ownerSql, listing_id, (err, result) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      if (result.length === 0) {
+        return res.status(404).json({ message: "Listing not found" });
+      }
+      const listingOwnerId = result[0].user_id;
+
+      if (user_id !== listingOwnerId) {
+        return res
+          .status(403)
+          .json({ message: "You are not authorized to delete this listing" });
+      }
+
+      const imageUrlSql =
+        "SELECT image1, image2 FROM Listings WHERE listing_id = ?";
+      db.query(imageUrlSql, listing_id, (err, result) => {
+        if (err) {
+          return res.status(500).json({ error: err.message });
+        }
+        if (result.length === 0) {
+          return res.status(404).json({ message: "Listing not found" });
+        }
+        const image1 = result[0].image1;
+        const image2 = result[0].image2;
+
+        const deleteParams = {
+          Bucket: process.env.S3_BUCKET_NAME,
+          Delete: {
+            Objects: [
+              { Key: image1.split("/").pop() },
+              { Key: image2.split("/").pop() },
+            ],
+          },
+        };
+
+        const command = new DeleteObjectsCommand(deleteParams);
+        s3.send(command)
+          .then((data) => {
+            console.log("Images deleted from S3:", data);
+
+            const sql = "DELETE FROM Listings WHERE listing_id = ?";
+            db.query(sql, [listing_id], (err, result) => {
+              if (err) {
+                return res.status(500).json({ error: err.message });
+              }
+              if (result.affectedRows === 0) {
+                return res
+                  .status(404)
+                  .json({ message: "Listing not found or no changes made" });
+              }
+              return res.json({ success: "true" });
+            });
+          })
+          .catch((err) => {
+            console.error("Error deleting images from S3:", err);
+            return res
+              .status(500)
+              .json({ error: "Failed to delete images from S3" });
+          });
+      });
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Internal server error" });
   }
 });
 
