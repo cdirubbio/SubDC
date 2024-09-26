@@ -28,10 +28,10 @@ export const handleRegister = async (registerCredentials,resetRegisterFields) =>
     console.log(response.status);
     response = await response.json();
     console.log(response);
-    alert('Registration submitted successfully.');
+    alert('Registration submitted successfully. Please check your inbox (and spam) for an email from email.subdc@gmail.com in order to verify your email!');
     resetRegisterFields();
   } catch (error) {
-    console.error("Error submitting registration, u fuked up:", error);
+    console.error("Error submitting registration, u messed up:", error);
     alert('Error submitting Registration. Please try again');
   }
 };

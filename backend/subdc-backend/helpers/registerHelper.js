@@ -1,9 +1,9 @@
 ////////////////\\\\\\\\\\\\\\\\\\
 // Helper Methods for /api/register
 ////////////////\\\\\\\\\\\\\\\\\\
-const db = require('../db');
+const db = require("../db");
 const nodemailer = require("nodemailer");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 const emailTransporter = nodemailer.createTransport({
   service: "gmail",
@@ -12,49 +12,54 @@ const emailTransporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASSWORD,
   },
 });
+const verifyStudentEmail = (email) => {
+  // i think these are the things allowed in email addresses but idek
+  const allwoedEmailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(edu)$/;
+  return allwoedEmailPattern.test(email);
+};
 
 const checkUsernameNotExist = (username) => {
-    return new Promise((resolve, reject) => {
-      const sql = 'SELECT user_id FROM Users WHERE username = ?';
-  
-      db.query(sql, [username], (err, result) => {
-        if (err) {
-          reject({ status: 500, message: err.message }); 
-        } else if (result.length !== 0) {
-          reject({ status: 409, message: 'Username already exists' }); 
-        } else {
-          resolve(true); 
-        }
-      });
-    });
-  };
+  return new Promise((resolve, reject) => {
+    const sql = "SELECT user_id FROM Users WHERE username = ?";
 
-  const checkEmailNotExist = (email) => {
-    return new Promise((resolve, reject) => {
-      const sql = 'SELECT user_id FROM Users WHERE email = ?';
-  
-      db.query(sql, [email], (err, result) => {
-        if (err) {
-          reject({ status: 500, message: err.message });
-        } else if (result.length !== 0) {
-          reject({ status: 409, message: 'Email already exists' }); 
-        } else {
-          resolve(true);
-        }
-      });
+    db.query(sql, [username], (err, result) => {
+      if (err) {
+        reject({ status: 500, message: err.message });
+      } else if (result.length !== 0) {
+        reject({ status: 409, message: "Username already exists" });
+      } else {
+        resolve(true);
+      }
     });
-  };
-  
-  const sendVerificationEmail = async (email) => {
-    const emailToken = jwt.sign({ email: email }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+  });
+};
+
+const checkEmailNotExist = (email) => {
+  return new Promise((resolve, reject) => {
+    const sql = "SELECT user_id FROM Users WHERE email = ?";
+
+    db.query(sql, [email], (err, result) => {
+      if (err) {
+        reject({ status: 500, message: err.message });
+      } else if (result.length !== 0) {
+        reject({ status: 409, message: "Email already exists" });
+      } else {
+        resolve(true);
+      }
     });
-    const verificationUrl = `${process.env.FRONTEND_URL}/verifyEmail?token=${emailToken}`;
-    const mailOptions = {
-      from: process.env.EMAIL,
-      to: email,
-      subject: "SubDC - Please Verify Your Email",
-      html: `
+  });
+};
+
+const sendVerificationEmail = async (email) => {
+  const emailToken = jwt.sign({ email: email }, process.env.JWT_SECRET, {
+    expiresIn: "1h",
+  });
+  const verificationUrl = `${process.env.FRONTEND_URL}/verifyEmail?token=${emailToken}`;
+  const mailOptions = {
+    from: process.env.EMAIL,
+    to: email,
+    subject: "SubDC - Please Verify Your Email",
+    html: `
   <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; background-color: #f9f9f9;">
     <div style="text-align: center; margin-bottom: 20px;">
       <img src="https://subdc-listing-images.s3.us-east-1.amazonaws.com/logo.jpg" alt="SubDC Logo" style="width: 150px; height: auto;">
@@ -73,7 +78,12 @@ const checkUsernameNotExist = (username) => {
     </footer>
   </div>
 `,
-    };
-    await emailTransporter.sendMail(mailOptions);
   };
-module.exports = { checkUsernameNotExist, checkEmailNotExist, sendVerificationEmail };
+  await emailTransporter.sendMail(mailOptions);
+};
+module.exports = {
+  checkUsernameNotExist,
+  checkEmailNotExist,
+  sendVerificationEmail,
+  verifyStudentEmail,
+};

@@ -1,6 +1,6 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import '@fortawesome/fontawesome-free/css/all.min.css';
+// import '@fortawesome/fontawesome-free/css/all.min.css';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Home from './components/Home/Home';
@@ -13,7 +13,7 @@ import ListingPage from './components/ListingPage/ListingPage';
 import Account from './components/Account/Account';
   
 
-//
+
 window.BACKEND_URL = "http://ec2-98-80-175-250.compute-1.amazonaws.com:8080"
 
 function App() {
