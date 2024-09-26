@@ -34,7 +34,9 @@ router.post(
       return res.status(401).json({ message: "No token provided" });
     }
     try {
-      const user_id = await getUserInfoFromJSONWebToken(token).user_id;
+      const userInfo = await getUserInfoFromJSONWebToken(token);
+      const user_id = userInfo.user_id;
+
       const {
         title,
         description,
@@ -76,6 +78,7 @@ router.post(
         ],
         (err, result) => {
           if (err) {
+            console.log(err);
             return res.status(500).json({ error: err.message });
           }
 
@@ -86,6 +89,7 @@ router.post(
       );
     } catch (err) {
       console.error(err);
+      console.error("testasdfsdf")
     }
   }
 );

@@ -87,19 +87,6 @@ export default function Account() {
       getUserFavorites(token, setUserFavorites)
     }
   }, [authenticated, userInfo.user_id]);
-
-  useEffect(() => {
-    // if (isModalOpen) {
-    //   setUpdatedInfo({
-    //     username: userInfo.username,
-    //     first_name: userInfo.first_name,
-    //     last_name: userInfo.last_name,
-    //     email: userInfo.email,
-    //     phone_number: userInfo.phone_number,
-    //   });
-    // }
-  }, [isModalOpen, userInfo]);
-
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -132,7 +119,7 @@ export default function Account() {
       <div className="user-listings-section">
         <h2>Your Listings</h2>
         {userListings.length > 0 ? (
-          <Carousel responsive={responsive} infinite={true}>
+          <Carousel responsive={responsive} removeArrowOnDeviceType={["mobile"]} infinite={true}>
             {userListings.map(listing => (
               <div key={listing.listing_id}>
                 <ListingCard
