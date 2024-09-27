@@ -1,15 +1,29 @@
 version: 0.2
+
 phases:
-  install:
+  backend:
     commands:
-      - echo Installing dependencies...
+      - echo Retrieving private key for backend deployment from Secrets Manager...
+      - |
+        SECRET=$(aws secretsmanager get-secret-value --secret-id MySSHKey --query SecretString --output text)
+        echo "$SECRET" > /tmp/private-key.pem
+        chmod 600 /tmp/private-key.pem
+        
+      - echo Transferring the entire backend directory to EC2 instance...
+      - scp -i /tmp/private-key.pem -r . ec2-user@3.80.188.158:/subdc/
+
+  frontend_install:
+    commands:
+      - echo Installing dependencies for frontend...
       - cd frontend/react-app
       - npm install 
-  build:
+
+  frontend_build:
     commands:
       - echo Building the React app...
       - npm run build 
-  post_build:
+
+  frontend_post_build:
     commands:
-      - echo Build completed, deploying to S3...
+      - echo Frontend build completed, deploying to S3...
       - aws s3 sync ./build/ s3://subdc.christiandirubbio.com/ --delete
