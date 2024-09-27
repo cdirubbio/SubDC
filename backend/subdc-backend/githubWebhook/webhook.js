@@ -11,22 +11,13 @@ router.post("/github-webhook", (req, res) => {
   console.log("Webhook payload:", req.body);
 
   if (ref === "refs/heads/main") {
-    exec("/home/ec2-user/subdc/deploy-frontend.sh", (err, stdout, stderr) => {
+    exec("/home/ec2-user/subdc/deploy.sh", (err, stdout, stderr) => {
       if (err) {
-        console.error(`Error deploying frontend: ${stderr}`);
-        return res.status(500).send("Error deploying frontend");
+        console.error(`Error deploying : ${stderr}`);
+        return res.status(500).send("Error deploying ");
       }
-      console.log(`Frontend deployed: ${stdout}`);
+      console.log(`Frontend and Backenddeployed: ${stdout}`);
     });
-
-    exec("/home/ec2-user/subdc/deploy-backend.sh", (err, stdout, stderr) => {
-      if (err) {
-        console.error(`Error deploying backend: ${stderr}`);
-        return res.status(500).send("Error deploying backend");
-      }
-      console.log(`Backend deployed: ${stdout}`);
-    });
-
     res.status(200).send("Deployments triggered");
   } else {
     res.status(200).send("Not on main branch");
