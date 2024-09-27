@@ -10,6 +10,7 @@ const favorites = require('./routes/favorites');
 const userStuff = require('./routes/userStuff');
 const verifyEmail = require('./routes/verify-email');
 const createListing = require('./routes/createListing');
+const webhook = require('./githubWebhook/webhook');
 
 const db = require('./db');
 
@@ -19,6 +20,9 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8080;
 
+const githubWebhookServer = express();
+const webhookServerPort = process.env.WEBHOOK_SERVER_PORT
+webhookServerPort.use(express.json());
 // Middleware thingy
 app.use(bodyParser.json());
 
@@ -28,6 +32,12 @@ app.use(cors({
     // 'http://subdc.s3-website-us-east-1.amazonaws.com', 
     // 'http://subdc.christiandirubbio.com.s3-website-us-east-1.amazonaws.com',
     'http://subdc.christiandirubbio.com'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 
+  allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Origin']
+}));
+
+githubWebhookServer.use(cors({
+  origin: [],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 
   allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Origin']
 }));
@@ -53,3 +63,9 @@ app.use('/api', verifyEmail);
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Backend Server is running on http://localhost:${PORT}`);
 });
+
+githubWebhookServer.use('/api', webhook);
+
+githubWebhookServer.listen(webhookServerPort, "0.0.0.0", () => {
+  console.log(`GitHub Webhook Listener server is running on http://localhost:${webhookServerPort}`)
+})
