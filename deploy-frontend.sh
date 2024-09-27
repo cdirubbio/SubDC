@@ -6,3 +6,4 @@ npm install
 npm run build
 aws s3 sync ./build/ s3://subdc.christiandirubbio.com --delete
 echo "Frontend deployed to S3"
+
