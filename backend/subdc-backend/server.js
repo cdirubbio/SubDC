@@ -22,7 +22,7 @@ const PORT = process.env.PORT || 8080;
 
 const githubWebhookServer = express();
 const webhookServerPort = process.env.WEBHOOK_SERVER_PORT
-webhookServerPort.use(express.json());
+githubWebhookServer.use(express.json());
 // Middleware thingy
 app.use(bodyParser.json());
 

@@ -1,3 +1,7 @@
+const express = require('express');
+const crypto = require('crypto');
+const { exec } = require('child_process');
+
 const express = require("express");
 const dotenv = require("dotenv");
 
@@ -19,7 +23,7 @@ function verifySignature(req, res, next) {
     const { ref } = req.body;
   
     if (ref === 'refs/heads/main') {
-      exec('./deploy-frontend.sh', (err, stdout, stderr) => {
+      exec('./../../../deploy-frontend.sh', (err, stdout, stderr) => {
         if (err) {
           console.error(`Error deploying frontend: ${stderr}`);
           return res.status(500).send('Error deploying frontend');
@@ -27,7 +31,7 @@ function verifySignature(req, res, next) {
         console.log(`Frontend deployed: ${stdout}`);
       });
 
-      exec('./deploy-backend.sh', (err, stdout, stderr) => {
+      exec('./../../../deploy-backend.sh', (err, stdout, stderr) => {
         if (err) {
           console.error(`Error deploying backend: ${stderr}`);
           return res.status(500).send('Error deploying backend');
