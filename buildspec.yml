@@ -1,7 +1,7 @@
 version: 0.2
 
 phases:
-  backend:
+  pre_build:
     commands:
       - echo Retrieving private key for backend deployment from Secrets Manager...
       - |
@@ -9,21 +9,31 @@ phases:
         echo "$SECRET" > /tmp/private-key.pem
         chmod 600 /tmp/private-key.pem
         
-      - echo Transferring the entire backend directory to EC2 instance...
+      - echo Transferring the entire repo to EC2 instance...
       - scp -i /tmp/private-key.pem -r . ec2-user@3.80.188.158:/subdc/
 
-  frontend_install:
+      - echo Retrieving environment variables from AWS Secrets Manager...
+      - |
+        ENV_VARS=$(aws secretsmanager get-secret-value --secret-id prod/subdc/env-vars --query SecretString --output text)
+        echo "$ENV_VARS" | jq -r 'to_entries | .[] | "\(.key)=\(.value)"' > /home/ec2-user/.env
+
+      - echo Setting permissions for .env file...
+      - chmod 600 /home/ec2-user/.env
+
+      - echo Restarting the server using PM2...
+      - ssh -i /tmp/private-key.pem ec2-user@3.80.188.158'source /home/ec2-user/.env && pm2 restart server'
+  install:
     commands:
       - echo Installing dependencies for frontend...
       - cd frontend/react-app
       - npm install 
 
-  frontend_build:
+  build:
     commands:
       - echo Building the React app...
       - npm run build 
 
-  frontend_post_build:
+  post_build:
     commands:
       - echo Frontend build completed, deploying to S3...
       - aws s3 sync ./build/ s3://subdc.christiandirubbio.com/ --delete
