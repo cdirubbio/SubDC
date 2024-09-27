@@ -1,6 +1,9 @@
-#!/bin/bash
-git pull origin main
-cd frontend/react-app
+cd backend/subdc-backend
+npm install --no-optional
+pm2 restart server
+echo "Backend deployed to EC2"
+
+cd ../../frontend/react-app
 npm install --no-optional
 npm run build
 aws s3 rm s3://subdc.christiandirubbio.com --recursive
