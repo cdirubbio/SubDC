@@ -15,4 +15,4 @@ phases:
       - echo Build completed, deploying to S3...
 artifacts:
   files:
-    - '**/*' 
+    - build/**/*
