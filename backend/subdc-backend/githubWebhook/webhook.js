@@ -1,25 +1,13 @@
 const express = require('express');
-const crypto = require('crypto');
 const { exec } = require('child_process');
-
-const express = require("express");
 const dotenv = require("dotenv");
 
 const router = express.Router();
 
+dotenv.config();
 
-function verifySignature(req, res, next) {
-    const sig = req.headers['x-hub-signature-256'];
-    const hmac = crypto.createHmac('sha256', process.env.WEBHOOK_SECRET);
-    const digest = 'sha256=' + hmac.update(JSON.stringify(req.body)).digest('hex');
-    if (sig === digest) {
-      return next();
-    } else {
-      return res.status(401).send('Invalid signature');
-    }
-  }
   
-  app.post('/github-webhook', verifySignature, (req, res) => {
+  router.post('/github-webhook', (req, res) => {
     const { ref } = req.body;
   
     if (ref === 'refs/heads/main') {
