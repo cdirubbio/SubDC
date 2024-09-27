@@ -4,16 +4,16 @@ phases:
   install:
     commands:
       - echo Installing dependencies...
-      - npm install 
+      - npm install  
   build:
     commands:
       - echo Building the React app...
-      - npm run build 
+      - npm run build  
   post_build:
     commands:
       - echo Build completed, deploying to S3...
-      - aws s3 sync build/ s3://subdc.christiandirubbio.com/ --delete 
+      - aws s3 sync ./build/ s3://subdc.christiandirubbio.com/ --delete 
 
 artifacts:
   files:
-    - '**/*' 
+    - '**/*'  # Include all files in the build folder
