@@ -14,7 +14,7 @@ import Account from './components/Account/Account';
   
 
 
-window.BACKEND_URL = "http://ec2-98-80-175-250.compute-1.amazonaws.com:8080"
+window.BACKEND_URL = "http://ec2-44-204-209-25.compute-1.amazonaws.com:8080"
 
 function App() {
   return (
