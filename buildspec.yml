@@ -1,12 +1,19 @@
 version: 0.2
+
 phases:
+  install:
+    commands:
+      - echo Installing dependencies...
+      - npm install 
   build:
     commands:
-      - cd frontend/react-app
-      - npm install
-      - npm run build
+      - echo Building the React app...
+      - npm run build 
+  post_build:
+    commands:
+      - echo Build completed, deploying to S3...
+      - aws s3 sync build/ s3://subdc.christiandirubbio.com/ --delete 
 
 artifacts:
   files:
-    - '**/*'
-  base-directory: frontend/react-app/build
+    - '**/*' 
