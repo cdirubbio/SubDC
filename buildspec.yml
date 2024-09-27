@@ -13,6 +13,7 @@ phases:
   post_build:
     commands:
       - echo Build completed, deploying to S3...
+      - aws s3 sync ./build/ s3://subdc.christiandirubbio.com/ --delete
 artifacts:
   files:
     - ./build/**/*
