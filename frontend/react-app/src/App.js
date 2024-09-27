@@ -12,7 +12,7 @@ import ListingPage from './components/ListingPage/ListingPage';
 import Account from './components/Account/Account';
 
 
-window.BACKEND_URL = "http://ec2-3-82-147-156.compute-1.amazonaws.com:8080"
+window.BACKEND_URL = "http://ec2-44-211-159-30.compute-1.amazonaws.com:8080"
 
 
 function App() {
