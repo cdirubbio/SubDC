@@ -3,33 +3,31 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - echo Retrieving private key for backend deployment from Secrets Manager...
-      - |
-        SECRET=$(aws secretsmanager get-secret-value --secret-id MySSHKey --query SecretString --output text)
-        echo "$SECRET" > /tmp/private-key.pem
-        chmod 600 /tmp/private-key.pem
-        
-      - echo Transferring the entire repo to EC2 instance...
-      - scp -i /tmp/private-key.pem -r . ec2-user@3.80.188.158:/subdc/
-
+      - echo "Retrieving the private key..."
+      - PRIVATE_KEY=$(aws secretsmanager get-secret-value --secret-id MySSHKey --query SecretString --output text)
+      - echo "$PRIVATE_KEY" > /tmp/private-key.pem
+      - chmod 400 /tmp/private-key.pem
+      - echo "Validating private key format..."
+      - ssh-keygen -y -f /tmp/private-key.pem || echo "Invalid private key format."
+      - echo "Adding host to known_hosts..."
+      - ssh-keyscan -H 3.80.188.158 >> ~/.ssh/known_hosts
+      - echo "Transferring files..."
+      - rsync -avz --exclude='.git' -e "ssh -i /tmp/private-key.pem -o StrictHostKeyChecking=no" . ec2-user@3.80.188.158:/home/ec2-user/subdc/
       - echo Retrieving environment variables from AWS Secrets Manager...
-      - |
-        ENV_VARS=$(aws secretsmanager get-secret-value --secret-id prod/subdc/env-vars --query SecretString --output text)
-        echo "$ENV_VARS" | jq -r 'to_entries | .[] | "\(.key)=\(.value)"' > /home/ec2-user/.env
+      - ENV_VARS=$(aws secretsmanager get-secret-value --secret-id prod/subdc/env-vars --query SecretString --output text)
+      - echo "$ENV_VARS" | jq -r 'to_entries | .[] | "\(.key)=\(.value)"' > .env
 
-      - echo Setting permissions for .env file...
-      - chmod 600 /home/ec2-user/.env
+      - echo "Transferring files to EC2 instance..."
+      - scp -o StrictHostKeyChecking=no -i /tmp/private-key.pem -r .env ec2-user@3.80.188.158:/home/ec2-user/subdc/
 
       - echo Restarting the server using PM2...
-      - ssh -i /tmp/private-key.pem ec2-user@3.80.188.158'source /home/ec2-user/.env && pm2 restart server'
-  install:
+      - ssh -i /tmp/private-key.pem ec2-user@3.80.188.158 'cd subdc/backend/subdc-backend && npm install && pm2 restart server'
+
+  build:
     commands:
       - echo Installing dependencies for frontend...
       - cd frontend/react-app
       - npm install 
-
-  build:
-    commands:
       - echo Building the React app...
       - npm run build 
 
