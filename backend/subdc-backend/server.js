@@ -18,9 +18,6 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 8080;
-
-const githubWebhookServer = express();
-// Middleware thingy
 app.use(bodyParser.json());
 
 
@@ -33,7 +30,6 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Origin']
 }));
 
-githubWebhookServer.use(cors());
 
 
 // DB Connection
