@@ -11,7 +11,6 @@ const userStuff = require('./routes/userStuff');
 const verifyEmail = require('./routes/verify-email');
 const createListing = require('./routes/createListing');
 
-const db = require('./db');
 
 
 dotenv.config();
@@ -29,17 +28,6 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 
   allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Origin']
 }));
-
-
-
-// DB Connection
-db.connect((err) => {
-  if (err) {
-    console.error('Error connecting to MySQL:', err);
-    process.exit(1);
-  }
-  console.log('Connected to MySQL database');
-});
 
 
 app.use('/api', listingsRoutes);
