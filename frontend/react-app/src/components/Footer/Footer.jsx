@@ -17,7 +17,7 @@ export default function Footer() {
             <li><a href="/Listings">Listings</a></li>
             <li><a href="/CreateListing">Create Listing</a></li>
             <li><a href="/Authentication">Account</a></li>
-            
+            <li><a href="https://ipropertymanagement.com/laws/subletting-laws#:~:text=Find%20out%20if%20subletting%20is%20legal%20in%20each">Sublet Policies by State</a></li>
             {/* <li><a href="/AboutUs">About Us</a></li> */}
 
           </ul>

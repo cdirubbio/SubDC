@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "./CreateListing.css"
+import { useNavigate } from "react-router-dom";
 
 export default function CreateListing() {
   const [user_id, setUser_id] = useState('');
@@ -16,6 +17,7 @@ export default function CreateListing() {
 
 
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
   const JSONWebToken = localStorage.getItem('jsonwebtoken');
 
   const checkAuthentication = async (token) => {
@@ -128,6 +130,9 @@ export default function CreateListing() {
       <div className="container">
         <div className="login-message">
           <p>Please log in to continue</p>
+          <button onClick={() => navigate('/authentication')} className="login-button">
+            Go to Login
+          </button>
         </div>
       </div>
     );

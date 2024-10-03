@@ -14,8 +14,7 @@ dotenv.config();
 
 router.get("/listings", (req, res) => {
   const sql =
-    "SELECT listing_id, title, apt_type, zip_code, image1, price FROM Listings";
-
+    "SELECT listing_id, title, apt_type, zip_code, image1, price FROM Listings WHERE reserved_by IS NULL";
   db.query(sql, (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });
@@ -49,7 +48,7 @@ router.get("/listing/:id", async (req, res) => {
 
     if (user_id) {
       listingSql = `
-        SELECT l.listing_id, l.user_id AS listing_user_id, l.title, l.description, l.apt_type, l.zip_code, l.price, l.availability_start, l.availability_end, l.image1, l.image2,
+        SELECT l.listing_id, l.user_id AS listing_user_id, l.title, l.description, l.apt_type, l.zip_code, l.price, l.availability_start, l.availability_end, l.reserved_by, l.image1, l.image2,
                IFNULL(f.isFavorite, 0) AS isFavorite
         FROM Listings l
         LEFT JOIN (
@@ -81,6 +80,14 @@ router.get("/listing/:id", async (req, res) => {
       }
 
       const listing = result[0];
+
+      // check perms to view listing when reserved
+      if (user_id) {
+        if (listing.reserved_by && (listing.reserved_by !== user_id && listing.user_id !== user_id)) {
+          return res.status(403).json({ message: "You do not have permission to view this listing" });
+        }
+      }
+
       const location = dcZipCodes[listing.zip_code] || "Unknown Location";
 
       const transformedListing = {

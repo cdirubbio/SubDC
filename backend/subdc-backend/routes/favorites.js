@@ -55,9 +55,14 @@ router.post("/user/favorites", async (req, res) => {
   try {
     const userInfo = await getUserInfoFromJSONWebToken(token);
     const user_id = userInfo.user_id;
-    const sql =
-      "SELECT l.listing_id, l.title, l.price, l.user_id, l.image1 FROM Listings l JOIN Favorites f ON l.listing_id = f.listing_id WHERE f.user_id = ?";
-    db.query(sql, [user_id], (err, result) => {
+    const sql = `
+      SELECT l.listing_id, l.title, l.price, l.user_id, l.image1, l.reserved_by
+      FROM Listings l
+      JOIN Favorites f ON l.listing_id = f.listing_id
+      WHERE f.user_id = ?
+      AND (l.reserved_by IS NULL OR l.reserved_by = ?)
+    `;
+    db.query(sql, [user_id, user_id], (err, result) => {
       if (err) {
         return res.status(500).json({ error: err.message });
       }

@@ -2,7 +2,6 @@ const { getUserInfoFromJSONWebToken } = require("../helpers/jwtHelper");
 const multer = require("multer");
 const express = require("express");
 const multerS3 = require("multer-s3");
-const aws = require("aws-sdk");
 const db = require("../db");
 const dotenv = require("dotenv");
 const { S3Client } = require("@aws-sdk/client-s3");
@@ -57,8 +56,8 @@ router.post(
 
       const sql = `
         INSERT INTO Listings 
-        (user_id, title, description, apt_type, price, address, zip_code, availability_start, availability_end, image1, image2) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (user_id, title, description, apt_type, price, address, zip_code, availability_start, availability_end, image1, image2, reserved_by) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)
       `;
 
       db.query(
@@ -89,9 +88,9 @@ router.post(
       );
     } catch (err) {
       console.error(err);
-      console.error("testasdfsdf")
     }
   }
 );
 
 module.exports = router;
+
