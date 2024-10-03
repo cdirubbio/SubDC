@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { getUserInfo, getUserListings, getUserFavorites, updateUserInfo } from './Account';
 import { checkAuthentication } from '../Authentication/Authentication';
 import ListingCard from './../Listings/ListingCard/ListingCard';
+import { CustomLeftArrow, CustomRightArrow } from '../Arrows/Arrows';
 import "./Account.css";
 
 const responsive = {
@@ -35,7 +36,7 @@ export default function Account() {
     email: userInfo.email,
     phone_number: userInfo.phone_number,
   });
-  
+
 
   const resetUserInfo = () => {
     setUserInfo({
@@ -106,10 +107,10 @@ export default function Account() {
         <div className="modal">
           <div className="modal-content">
             <h3>Edit Your Info</h3>
-            <label>Username: <input name="username" value={updatedInfo.username}  onChange={(e) => setUpdatedInfo({ ...updatedInfo, [e.target.name]: e.target.value })} /></label>
-            <label>First Name: <input name="first_name" value={updatedInfo.first_name}  onChange={(e) => setUpdatedInfo({ ...updatedInfo, [e.target.name]: e.target.value })}/></label>
-            <label>Last Name: <input name="last_name" value={updatedInfo.last_name}  onChange={(e) => setUpdatedInfo({ ...updatedInfo, [e.target.name]: e.target.value })} /></label>
-            <label>Phone Number: <input name="phone_number" value={updatedInfo.phone_number}  onChange={(e) => setUpdatedInfo({ ...updatedInfo, [e.target.name]: e.target.value })} /></label>
+            <label>Username: <input name="username" value={updatedInfo.username} onChange={(e) => setUpdatedInfo({ ...updatedInfo, [e.target.name]: e.target.value })} /></label>
+            <label>First Name: <input name="first_name" value={updatedInfo.first_name} onChange={(e) => setUpdatedInfo({ ...updatedInfo, [e.target.name]: e.target.value })} /></label>
+            <label>Last Name: <input name="last_name" value={updatedInfo.last_name} onChange={(e) => setUpdatedInfo({ ...updatedInfo, [e.target.name]: e.target.value })} /></label>
+            <label>Phone Number: <input name="phone_number" value={updatedInfo.phone_number} onChange={(e) => setUpdatedInfo({ ...updatedInfo, [e.target.name]: e.target.value })} /></label>
             <button onClick={handleSave}>Save</button>
             <button onClick={handleModalClose}>Cancel</button>
           </div>
@@ -119,7 +120,8 @@ export default function Account() {
       <div className="user-listings-section">
         <h2>Your Listings</h2>
         {userListings.length > 0 ? (
-          <Carousel responsive={responsive} removeArrowOnDeviceType={["mobile"]} infinite={true}>
+          <Carousel responsive={responsive} removeArrowOnDeviceType={["mobile"]} infinite={true} customLeftArrow={<CustomLeftArrow />}
+            customRightArrow={<CustomRightArrow />}>
             {userListings.map(listing => (
               <div key={listing.listing_id}>
                 <ListingCard
@@ -138,7 +140,8 @@ export default function Account() {
       <div className="user-favorites-section">
         <h2>Your Favorite Listings</h2>
         {userFavorites.length > 0 ? (
-          <Carousel responsive={responsive} infinite={true}>
+          <Carousel responsive={responsive} infinite={true} customLeftArrow={<CustomLeftArrow />}
+            customRightArrow={<CustomRightArrow />}>
             {userFavorites.map(favorite => (
               <div key={favorite.listing_id}>
                 <ListingCard

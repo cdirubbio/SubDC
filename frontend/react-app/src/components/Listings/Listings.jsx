@@ -3,6 +3,7 @@ import "./Listings.css"
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import ListingCard from "./ListingCard/ListingCard";
+import { CustomLeftArrow, CustomRightArrow } from "../Arrows/Arrows";
 
 
 const responsive = {
@@ -34,7 +35,7 @@ export default function Listings() {
     });
 
     useEffect(() => {
-        
+
         const fetchListings = async () => {
             try {
                 const response = await fetch(`${window.BACKEND_URL}/api/listings`);
@@ -74,7 +75,10 @@ export default function Listings() {
                 <h5 className="apartment-type mb-4 text-3xl font-extrabold text-gray-900 md:text-5xl lg:text-2xl">
                     Studio Apartments
                 </h5>
-                <Carousel responsive={responsive} infinite={true}>
+                <Carousel responsive={responsive} infinite={true}
+                    customLeftArrow={<CustomLeftArrow />}
+                    customRightArrow={<CustomRightArrow />}
+                >
                     {listings.studio.map(listing => (
                         <div key={listing.listing_id}>
                             <ListingCard
@@ -91,12 +95,15 @@ export default function Listings() {
                 <h5 className="apartment-type mb-4 text-3xl font-extrabold text-gray-900 md:text-5xl lg:text-2xl">
                     1-Bedroom Apartments
                 </h5>
-                <Carousel responsive={responsive} infinite={true}>
+                <Carousel responsive={responsive} infinite={true}
+                 customLeftArrow={<CustomLeftArrow />}
+                 customRightArrow={<CustomRightArrow />}
+                 >
                     {listings['1br'].map(listing => (
                         <div key={listing.listing_id}>
                             <ListingCard
                                 listing_id={listing.listing_id}
-                                listingImage={listing.image1} 
+                                listingImage={listing.image1}
                                 listingName={listing.title}
                                 listingPrice={listing.price}
                             />
@@ -112,7 +119,7 @@ export default function Listings() {
                     {listings['2br'].map(listing => (
                         <div key={listing.listing_id}>
                             <ListingCard
-                                listingImage={listing.image1} 
+                                listingImage={listing.image1}
                                 listing_id={listing.listing_id}
                                 listingName={listing.title}
                                 listingPrice={listing.price}
