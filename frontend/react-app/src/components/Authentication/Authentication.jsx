@@ -43,8 +43,13 @@ export default function Authentication() {
   }, [authenticated, navigate]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="spinner-container">
+        <div className="spinner"></div> {/* Spinner */}
+      </div>
+    ); // show spinner
   }
+  
 
   return (
     <div className="authentication-container">
