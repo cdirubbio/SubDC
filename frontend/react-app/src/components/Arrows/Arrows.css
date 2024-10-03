@@ -1,0 +1,39 @@
+.custom-arrow {
+    background-color: #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: 2px solid #007bff;
+    color: #007bff;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .custom-arrow:hover {
+    background-color: #007bff;
+    color: #ffffff;
+  }
+  
+  .left-arrow {
+    left: 20px;
+  }
+  
+  .right-arrow {
+    right: 20px;
+  }
+  
+  @media (max-width: 768px) {
+    .custom-arrow {
+      width: 40px;
+      height: 40px;
+    }
+  }
+  
