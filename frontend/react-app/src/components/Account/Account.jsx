@@ -120,7 +120,7 @@ export default function Account() {
       <div className="user-listings-section">
         <h2>Your Listings</h2>
         {userListings.length > 0 ? (
-          <Carousel responsive={responsive} removeArrowOnDeviceType={["mobile"]} infinite={true} customLeftArrow={<CustomLeftArrow />}
+          <Carousel responsive={responsive} infinite={true} customLeftArrow={<CustomLeftArrow />}
             customRightArrow={<CustomRightArrow />}>
             {userListings.map(listing => (
               <div key={listing.listing_id}>
