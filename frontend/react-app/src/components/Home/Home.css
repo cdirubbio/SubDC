@@ -6,7 +6,7 @@
     font-family: 'Roboto', 'sans-serif';
 }
 .text-on-image {
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.7);
 }
 .hero-section {
     background-image: url('./../../images/hddcpic.jpg');
@@ -22,6 +22,7 @@
 
 .hero-content h1 {
     font-size: 3em;
+    text-shadow: 4px 4px 4px #0D1B2A;
     margin-bottom: 10px;
 }
 
@@ -56,6 +57,15 @@
     text-align: center;
 }
 
+.featured-listings-text {
+    color: #264F7B;
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 2.5rem;
+    letter-spacing: 5px;
+    font-weight: 800;
+}
+
 .listings-container {
     display: flex;
     justify-content: center;
@@ -66,7 +76,7 @@
 .view-details-button {
     padding: 10px 15px;
     margin: auto;
-    background-color: #2e3a46;
+    background-color: #415A77;
     color: white;
     border: none;
     display: block;
@@ -85,13 +95,13 @@
 .how-it-works h2 {
     font-size: 2.5em;
     margin-bottom: 20px;
-    color: #333;
+    color: #264F7B;
 }
 
 .how-it-works p {
     font-size: 1.2em;
     margin-bottom: 30px;
-    color: #555;
+    color: #0D1B2A;
 }
 
 .steps-container {
@@ -109,12 +119,12 @@
 .step h3 {
     font-size: 1.8em;
     margin-bottom: 10px;
-    color: #29cce5;
+    color: #264F7B
 }
 
 .step p {
     font-size: 1em;
-    color: #666;
+    color: #0D1B2A;
     line-height: 1.6;
 }
 
@@ -130,5 +140,5 @@
 }
 
 .register-button:hover {
-    background-color: #29cce5;
+    background-color: #415A77;
 }

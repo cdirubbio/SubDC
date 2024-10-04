@@ -4,7 +4,21 @@
 
 .search-heading {
     text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1.875rem;
+    letter-spacing: 5px;
+    font-weight: 800;
+    color: #1f2937;
+
+    @media (min-width: 768px) {
+        font-size: 3rem;
+    }
+
+    @media (min-width: 1024px) {
+        font-size: 3rem;
+    }
 }
+
 
 
 .search-bar-section {
@@ -16,7 +30,7 @@
     padding: 10px;
     width: 600px;
     font-size: 1em;
-    outline: 3px ridge #2e3a46 ;
+    outline: 3px ridge #2e3a46;
     border-radius: 1rem;
     margin-right: 10px;
 }
@@ -30,6 +44,28 @@
     cursor: pointer;
     border-radius: 5px;
 }
+
 .apartment-type {
     margin-left: 10px;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #1f2937;
+    
+    @media (min-width: 768px) {
+        font-size: 2rem;
+    }
+    @media (min-width: 1024px) {
+        font-size: 2.5rem;
+    }
+
 }
+
+.carousel-item-padding {
+    padding-left: 75px;
+  }
+  
+  .carousel-container-padding {
+    padding: 0 10px; 
+  }

@@ -7,23 +7,20 @@ import { CustomLeftArrow, CustomRightArrow } from "../Arrows/Arrows";
 
 
 const responsive = {
-    superLargeDesktop: {
-        breakpoint: { max: 4000, min: 3000 },
-        items: 5
-    },
     desktop: {
         breakpoint: { max: 3000, min: 1024 },
-        items: 4
+        items: 3,
     },
     tablet: {
         breakpoint: { max: 1024, min: 464 },
-        items: 2
+        items: 2,
     },
     mobile: {
         breakpoint: { max: 464, min: 0 },
-        items: 1
-    }
+        items: 1,
+    },
 };
+
 
 
 export default function Listings() {
@@ -62,7 +59,7 @@ export default function Listings() {
 
     return (
         <div className="Listings">
-            <h2 className="search-heading mb-4 text-3xl font-extrabold text-gray-900 md:text-5xl lg:text-5xl">Explore Listings</h2>
+            <h2 className="search-heading">EXPLORE</h2>
             {/* <section className="search-bar-section">
                 <input
                     type="text"
@@ -72,11 +69,12 @@ export default function Listings() {
                 <button className="search-button">Search</button>
             </section> */}
             <div>
-                <h5 className="apartment-type mb-4 text-3xl font-extrabold text-gray-900 md:text-5xl lg:text-2xl">
-                    Studio Apartments
+                <h5 className="apartment-type ">
+                    STUDIO APARTMENTS
                 </h5>
                 <Carousel responsive={responsive} infinite={true}
                     customLeftArrow={<CustomLeftArrow />}
+                    itemClass="carousel-item-padding" containerClass="carousel-container-padding" keyBoardControl={true}
                     customRightArrow={<CustomRightArrow />}
                 >
                     {listings.studio.map(listing => (
@@ -92,13 +90,14 @@ export default function Listings() {
                 </Carousel>
             </div>
             <div>
-                <h5 className="apartment-type mb-4 text-3xl font-extrabold text-gray-900 md:text-5xl lg:text-2xl">
-                    1-Bedroom Apartments
+                <h5 className="apartment-type">
+                    1 BEDROOM APARTMENTS
                 </h5>
                 <Carousel responsive={responsive} infinite={true}
-                 customLeftArrow={<CustomLeftArrow />}
-                 customRightArrow={<CustomRightArrow />}
-                 >
+                    customLeftArrow={<CustomLeftArrow />}
+                    itemClass="carousel-item-padding" containerClass="carousel-container-padding" keyBoardControl={true}
+                    customRightArrow={<CustomRightArrow />}
+                >
                     {listings['1br'].map(listing => (
                         <div key={listing.listing_id}>
                             <ListingCard
@@ -112,10 +111,14 @@ export default function Listings() {
                 </Carousel>
             </div>
             <div>
-                <h5 className="apartment-type mb-4 text-3xl font-extrabold text-gray-900 md:text-5xl lg:text-2xl">
-                    2-Bedroom Apartments
+                <h5 className="apartment-type ">
+                    2 BEDROOM APARTMENTS
                 </h5>
-                <Carousel responsive={responsive} infinite={true}>
+                <Carousel responsive={responsive} infinite={true}
+                    customLeftArrow={<CustomLeftArrow />}
+                    itemClass="carousel-item-padding" containerClass="carousel-container-padding" keyBoardControl={true}
+                    customRightArrow={<CustomRightArrow />}
+                >
                     {listings['2br'].map(listing => (
                         <div key={listing.listing_id}>
                             <ListingCard

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Header.css";
 import { Outlet, NavLink } from "react-router-dom";
+import { ReactComponent as ApartmentSVG } from "./../../images/apartment_SVG.svg";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,10 +12,12 @@ export default function Header() {
 
   return (
     <nav className="bg-white border-gray-200">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
-        <NavLink exact="true" to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <img src={require("./../../images/logo.jpg")} className="h-11" alt="SubDC Logo" />
-          <span className="self-center text-2xl font-semibold whitespace-nowrap">SubDC</span>
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2 title-spacing">
+        <NavLink exact="true" to="/" className="flex items-center space-x-2 rtl:space-x-reverse">
+        <ApartmentSVG className="h-11 w-11" style={{ fill: "#1B263B" }} alt="SubDC Logo" />
+        <span className="self-center text-2xl font-semibold whitespace-nowrap title-text"><strong>SUB <br className="break"/> DC</strong></span>
+          
+
         </NavLink>
         <button
           className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
@@ -36,7 +39,7 @@ export default function Header() {
                     : 'block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0'
                 }
               >
-                Home
+                HOME
               </NavLink>
             </li>
             <li>
@@ -49,7 +52,7 @@ export default function Header() {
                     : 'block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0'
                 }
               >
-                Listings
+                LISTINGS
               </NavLink>
             </li>
             <li>
@@ -62,7 +65,7 @@ export default function Header() {
                     : 'block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0'
                 }
               >
-                Create a Listing
+                CREATE
               </NavLink>
             </li>
             <li>
@@ -75,7 +78,7 @@ export default function Header() {
                     : 'block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0'
                 }
               >
-                Account
+                ACCOUNT
               </NavLink>
             </li>
           </ul>

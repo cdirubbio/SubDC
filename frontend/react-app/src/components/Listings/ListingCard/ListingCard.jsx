@@ -13,7 +13,7 @@ export default function ListingCard(props) {
     return (
         <div className="ListingCard ">
             <img src={props.listingImage} alt="Listing" className="listing-image" />
-            <h3>{props.listingName}</h3>
+            <h3><strong>{props.listingName}</strong></h3>
             <p><strong>${props.listingPrice}</strong>/month</p>
             <button className="view-details-button" onClick={handleViewDetails}>
                 View Details

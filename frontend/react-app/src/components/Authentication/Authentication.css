@@ -20,7 +20,7 @@
 .authentication-container h2 {
     font-size: 2rem;
     font-weight: bold;
-    color: #007bff;
+    color: #1B263B;
     margin-bottom: 20px;
     text-transform: capitalize;
     text-align: center;
@@ -57,14 +57,14 @@
     margin: 10px 5px;
     padding: 10px 20px;
     border: none;
-    background-color: #007bff;
+    background-color: #264f7b;
     color: white;
     cursor: pointer;
     border-radius: 4px;
 }
 
 .auth-section button:hover {
-    background-color: #0056b3;
+    background-color: #1D334C;
 }
 
 .spinner-container {
