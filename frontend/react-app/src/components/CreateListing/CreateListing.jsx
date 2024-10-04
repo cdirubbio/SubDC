@@ -140,7 +140,7 @@ export default function CreateListing() {
 
   return (
     <div className="create-listing">
-      <h2 className="font-extrabold" id="create-listing">Create a New Listing</h2>
+      <h2 className="font-extrabold" id="create-listing">CREATE NEW LISTING</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="title">Title of the Listing</label>

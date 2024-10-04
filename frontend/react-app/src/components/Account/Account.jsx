@@ -50,7 +50,7 @@ export default function Account() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('jsonwebtoken');
+    localStorage.removeItzem('jsonwebtoken');
     setAuthenticated(false);
     resetUserInfo();
     setUserListings([]);
@@ -95,14 +95,34 @@ export default function Account() {
   return (
     <div className="account-page">
       <div className="user-info-section">
-        <h2>Your Profile</h2>
-        <button className="edit-info-button" onClick={handleModalOpen}>&#9998;</button>
-        <p><strong>Username:</strong> {userInfo.username}</p>
-        <p><strong>Name:</strong> {userInfo.first_name} {userInfo.last_name}</p>
-        <p><strong>Email:</strong> {userInfo.email}</p>
-        <p><strong>Phone:</strong> {userInfo.phone_number}</p>
+        <h2>PROFILE</h2>
+        <button className="editor" onClick={handleModalOpen}>EDIT</button>
+
+        <table className="user-info-table">
+          <tbody>
+            <tr>
+              <th>Username:</th>
+              <td>{userInfo.username}</td>
+            </tr>
+            <tr>
+              <th>Name:</th>
+              <td>{userInfo.first_name} {userInfo.last_name}</td>
+            </tr>
+            <tr>
+              <th>Email:</th>
+              <td>{userInfo.email}</td>
+            </tr>
+            <tr>
+              <th>Phone:</th>
+              <td>{userInfo.phone_number}</td>
+            </tr>
+          </tbody>
+        </table>
+
         <button className="logout-button" onClick={handleLogout}>Logout</button>
       </div>
+      
+
       {isModalOpen && (
         <div className="modal">
           <div className="modal-content">
@@ -118,10 +138,13 @@ export default function Account() {
       )}
 
       <div className="user-listings-section">
-        <h2>Your Listings</h2>
+        <h2>YOUR LISTINGS</h2>
         {userListings.length > 0 ? (
-          <Carousel responsive={responsive} infinite={true} customLeftArrow={<CustomLeftArrow />}
-            customRightArrow={<CustomRightArrow />}>
+          <Carousel responsive={responsive} infinite={true}
+            customLeftArrow={<CustomLeftArrow />}
+            itemClass="carousel-item-padding" containerClass="carousel-container-padding" keyBoardControl={true}
+            customRightArrow={<CustomRightArrow />}
+          >
             {userListings.map(listing => (
               <div key={listing.listing_id}>
                 <ListingCard
@@ -138,10 +161,13 @@ export default function Account() {
         )}
       </div>
       <div className="user-favorites-section">
-        <h2>Your Favorite Listings</h2>
+        <h2>YOUR FAVORITES</h2>
         {userFavorites.length > 0 ? (
-          <Carousel responsive={responsive} infinite={true} customLeftArrow={<CustomLeftArrow />}
-            customRightArrow={<CustomRightArrow />}>
+          <Carousel responsive={responsive} infinite={true}
+            customLeftArrow={<CustomLeftArrow />}
+            itemClass="carousel-item-padding" containerClass="carousel-container-padding" keyBoardControl={true}
+            customRightArrow={<CustomRightArrow />}
+          >
             {userFavorites.map(favorite => (
               <div key={favorite.listing_id}>
                 <ListingCard

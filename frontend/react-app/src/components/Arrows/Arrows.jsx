@@ -2,11 +2,10 @@ import React from 'react';
 import "./Arrows.css";
 const CustomLeftArrow = ({ onClick }) => {
   return (
-    <button
-      onClick={onClick}
+    <button onClick={onClick}
       className="custom-arrow left-arrow"
       aria-label="Previous slide"
-    >
+      >
       &#9664;
     </button>
   );

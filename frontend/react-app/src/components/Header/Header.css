@@ -22,7 +22,6 @@
         display: block;
     }
 }
-
 button {
     display: inline-flex;
     align-items: center;
@@ -34,5 +33,14 @@ button {
 }
 
 button:hover {
-    background-color: #f1f1f1;
+    background-color: #1B263B;
 }
+.title-text {
+    color: #1B263B;
+}
+br {   
+    content: "";
+    margin: 15%;
+    display: block;
+    margin-bottom: -20px; 
+ }

@@ -113,9 +113,9 @@ export default function ListingPage() {
                             />
                         </label>
                         <div className='modal-footer'>
-                            <button className="saveButton" onClick={handleSave}>Save</button>
-                            <button className="cancelButton" onClick={handleModalClose}>Cancel</button>
-                            <button className="deleteButton" onClick={handleListingDelete}>Delete</button>
+                            <button className="save-edits-button" onClick={handleSave}>Save</button>
+                            <button className="cancel-edits-button" onClick={handleModalClose}>Cancel</button>
+                            <button className="delete-edits-button" onClick={handleListingDelete}>Delete</button>
                         </div>
 
                     </div>
@@ -123,7 +123,14 @@ export default function ListingPage() {
             )}
 
             <div className="listing-container">
-                <h1 className="listing-title">{listing.title}</h1>
+                <div className="listing-header">
+                    <h1 className="listing-title">{listing.title}</h1>
+                    {user_id === listing_user_id && (
+                        <button className="editor" onClick={handleModalOpen}>
+                            EDIT
+                        </button>
+                    )}
+                </div>
                 <h6 className="listing-id">#{listing_id}</h6>
                 <div className="listing-details">
                     <p><strong>Description:</strong> {listing.description}</p>
@@ -133,11 +140,6 @@ export default function ListingPage() {
                     <p><strong>Available until:</strong> {formatDateToReadable(listing.availability_end)}</p>
                     <p><strong>Location:</strong> {listing.location}</p>
                 </div>
-                {user_id === listing_user_id && (
-                    <button className="edit-info-button" onClick={handleModalOpen}>
-                        &#9998;
-                    </button>
-                )}
                 {user_id && user_id !== listing_user_id && (
                     <div
                         className={`favorite-icon ${isFavorite ? 'favorited' : ''}`}
