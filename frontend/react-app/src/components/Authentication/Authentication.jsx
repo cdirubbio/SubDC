@@ -56,7 +56,7 @@ export default function Authentication() {
       <h1>Login Or Register</h1>
       <div className="auth-sections">
         <div className="auth-section login-section">
-          <h2>Login</h2>
+          <h2>LOGIN</h2>
           <input
             type="text"
             name="username"
@@ -75,7 +75,7 @@ export default function Authentication() {
         </div>
 
         <div className="auth-section register-section">
-          <h2>Register</h2>
+          <h2>REGISTER</h2>
           <input
             type="text"
             value={registerCredentials.first_name}

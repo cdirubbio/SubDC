@@ -50,7 +50,7 @@ export default function Account() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItzem('jsonwebtoken');
+    localStorage.removeItem('jsonwebtoken');
     setAuthenticated(false);
     resetUserInfo();
     setUserListings([]);
@@ -131,8 +131,8 @@ export default function Account() {
             <label>First Name: <input name="first_name" value={updatedInfo.first_name} onChange={(e) => setUpdatedInfo({ ...updatedInfo, [e.target.name]: e.target.value })} /></label>
             <label>Last Name: <input name="last_name" value={updatedInfo.last_name} onChange={(e) => setUpdatedInfo({ ...updatedInfo, [e.target.name]: e.target.value })} /></label>
             <label>Phone Number: <input name="phone_number" value={updatedInfo.phone_number} onChange={(e) => setUpdatedInfo({ ...updatedInfo, [e.target.name]: e.target.value })} /></label>
-            <button onClick={handleSave}>Save</button>
-            <button onClick={handleModalClose}>Cancel</button>
+            <button className="save-edits-button" onClick={handleSave}>Save</button>
+            <button className="cancel-edits-button" onClick={handleModalClose}>Cancel</button>
           </div>
         </div>
       )}
