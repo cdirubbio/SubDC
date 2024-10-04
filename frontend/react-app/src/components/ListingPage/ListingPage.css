@@ -6,6 +6,16 @@
   gap: 20px;
 }
 
+.listing-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+
 .listing-container {
   position: relative;
   flex: 2;
@@ -33,29 +43,26 @@
   color: red;
 }
 
-.edit-info-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  margin-top: 5px;
-  margin-right: 5px;
-  background-color: #48abe0;
+.editor {
+  margin-top: 10px;
+  background-color: #415A77;
   color: white;
   border: none;
-  font-size: 31px;
+  font-size: 15px;
   height: 50px;
-  width: 50px;
+  width: 80px;
+  letter-spacing: 2.5px;
   box-shadow: 0 2px 4px darkslategray;
-  border-radius: 50%;
+  border-radius: 20%;
+  align-self: flex-start;
 }
 
-.edit-info-button:hover {
-  background-color: #65b9e6;
+.editor:hover {
+  background-color: #778DA9;
 }
 
-.edit-info-button:active {
+.edit:active {
   box-shadow: 0 0 2px darkslategray;
-  transform: translateY(2px);
 }
 
 .listing-title {
@@ -110,6 +117,7 @@
     font-size: 0.9em;
   }
 }
+
 .modal {
   position: fixed;
   top: 0;
@@ -121,19 +129,19 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  padding: 10px; 
+  padding: 10px;
 }
 
 .modal-content {
   background-color: white;
   position: relative;
-  padding: 20px; 
+  padding: 20px;
   border-radius: 12px;
   width: 90%;
   max-width: 400px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   overflow-y: auto;
-  max-height: 90%; 
+  max-height: 90%;
 }
 
 .modal-content h3 {
@@ -145,7 +153,7 @@
 
 .description-textarea {
   width: 100%;
-  height: 80px; 
+  height: 80px;
   resize: none;
   padding: 5px 10px;
   margin-top: 3px;
@@ -159,13 +167,13 @@
 .modal-content label {
   display: block;
   margin-bottom: 10px;
-  font-size: 0.9rem; 
+  font-size: 0.9rem;
   color: #555;
 }
 
 .modal-content input {
   width: 100%;
-  padding: 8px; 
+  padding: 8px;
   margin-top: 5px;
   border-radius: 4px;
   border: 1px solid #ccc;
@@ -174,16 +182,17 @@
   background-color: #f9f9f9;
 }
 
-.modal-content input:focus, .modal-content textarea:focus {
-  border-color: #007bff; 
-  box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+.modal-content input:focus,
+.modal-content textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(27, 38, 59, 0.4);
   outline: none;
 }
 
 .modal-content button {
   padding: 8px 16px;
   margin-right: 10px;
-  margin-top: 15px; 
+  margin-top: 15px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -191,17 +200,17 @@
   transition: background-color 0.3s ease;
 }
 
-.saveButton {
-  background-color: #007bff;
+.save-edits-button {
+  background-color: #1B263B;
   color: white;
 }
 
-.cancelButton {
+.cancel-edits-button {
   background-color: #6c757d;
   color: white;
 }
 
-.deleteButton {
+.delete-edits-button {
   background-color: red !important;
   color: white;
   padding: 8px 16px;
@@ -212,7 +221,7 @@
   margin-top: 15px;
 }
 
-.deleteButton:hover {
+.delete-edits-button:hover {
   background-color: darkred !important;
 }
 
@@ -222,18 +231,18 @@ select {
   border: 1px solid #ccc;
   border-radius: 4px;
   background-color: #f9f9f9;
-  font-size: 0.9rem; 
+  font-size: 0.9rem;
   resize: none;
 }
 
 @media (max-width: 480px) {
   .modal-content {
-    width: 95%; 
+    width: 95%;
     padding: 15px;
   }
 
   .modal-content button {
     font-size: 0.8rem;
-    padding: 6px 12px; 
+    padding: 6px 12px;
   }
 }

@@ -30,7 +30,7 @@
   
   .login-button {
     display: inline-block;
-    background-color: #007bff;
+    background-color: #1B263B;
     color: white;
     padding: 10px 20px;
     text-decoration: none;
@@ -40,5 +40,5 @@
   }
   
   .login-button:hover {
-    background-color: #0056b3;
+    background-color: #0D1B2A;
   }

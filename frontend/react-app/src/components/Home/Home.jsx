@@ -68,7 +68,7 @@ export default function Home() {
         </section>
         <section className="featured-listings">
           <h2 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-5xl">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Featured Listings</span>
+            <span className="featured-listings-text"><strong>FEATURED LISTINGS</strong></span>
           </h2>
           <div className="listings-container">
             {listings.map(listing => (
@@ -83,7 +83,7 @@ export default function Home() {
           </div>
         </section>
         <section className="how-it-works">
-          <h2 className="font-extrabold">How It Works</h2>
+          <h2 className="font-extrabold">HOW IT WORKS</h2>
           <p>
             SubDC is designed to simplify the subleasing process for students in Washington DC. Whether you're looking for a temporary place to stay or need someone to take over your lease, SubDC provides a straightforward and secure platform to connect with others. Here’s how it works:
           </p>
