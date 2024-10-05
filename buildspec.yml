@@ -34,4 +34,4 @@ phases:
   post_build:
     commands:
       - echo Frontend build completed, deploying to S3...
-      - aws s3 sync ./build/ s3://subdc.christiandirubbio.com/ --delete
+      - aws s3 sync ./build/ s3://subdc.co/ --delete
