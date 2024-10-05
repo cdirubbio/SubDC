@@ -1,7 +1,6 @@
 .account-page {
   padding: 20px;
   background-color: #f9f9f9;
-  font-family: 'Arial', sans-serif;
 }
 
 .user-info-section {
@@ -30,9 +29,6 @@
   color: #555;
 }
 
-.user-info-section p strong {
-  color: #333;
-}
 
 /* Listings Section */
 .user-listings-section,
@@ -46,15 +42,6 @@
   margin-bottom: 20px;
 }
 
-.carousel-container {
-  margin: 0 auto;
-  max-width: 1200px;
-}
-
-.carousel-container .react-multi-carousel-list {
-  padding: 10px 0;
-}
-
 .logout-button {
   padding: 10px 15px;
   margin-top: 10px;
@@ -65,10 +52,12 @@
   display: flex;
   border-radius: 5px;
 }
+
 .user-info-table {
-  width: 100%;
+  width: 90%;
   border-collapse: collapse;
   margin-top: 15px;
+
 }
 
 .user-info-table th {
