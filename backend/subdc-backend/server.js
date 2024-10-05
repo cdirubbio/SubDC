@@ -22,7 +22,8 @@ app.use(
     origin: [
       "http://localhost:3000",
       "http://10.0.0.224:3000",
-      "http://subdc.christiandirubbio.com",
+      "https://subdc.co",
+      "http://subdc.co"
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: [
