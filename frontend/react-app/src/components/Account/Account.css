@@ -1,48 +1,86 @@
-.account-page {
+.common-padding {
   padding: 20px;
+}
+
+.common-bg-color {
   background-color: #f9f9f9;
 }
 
-.user-info-section {
-  background-color: #f9f9f9;
-  padding: 15px;
-  margin-bottom: 30px;
-  position: relative;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+.common-box-shadow {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
+
+.common-border-radius {
+  border-radius: 8px;
+}
+
+.common-font-color {
+  color: white;
+}
+
+.common-border {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.common-margin-bottom {
+  margin-bottom: 40px;
+}
+
+.common-heading {
+  font-size: 1.8rem;
+  
+  margin-bottom: 20px;
+}
+
+.account-page {
+  @extend .common-padding, .common-bg-color;
+}
+
 .account-page h2 {
   font-size: 2rem;
   letter-spacing: 5px;
 }
 
-.user-info-section th {
+.user-info-section {
+  @extend .common-bg-color, .common-box-shadow, .common-border-radius;
+  padding: 15px;
+  margin-bottom: 30px;
+  position: relative;
+  border: 1px solid #ccc;
+}
+
+.user-info-section th,
+.user-info-section td {
   font-size: 1.4rem;
+}
+
+.user-info-section th {
   margin-bottom: 20px;
 }
 
 .user-info-section td {
-  font-size: 1.4rem;
   line-height: 1.6;
   margin-bottom: 10px;
   color: #555;
 }
 
 
-/* Listings Section */
 .user-listings-section,
 .user-favorites-section {
-  margin-bottom: 40px;
+  @extend .common-margin-bottom;
 }
 
 .user-listings-section h2,
 .user-favorites-section h2 {
-  font-size: 1.8rem;
-  margin-bottom: 20px;
+  @extend .common-heading;
+  margin-left: 15px;
 }
 
+
 .logout-button {
+  @extend .common-border, .common-font-color;
   padding: 10px 15px;
   margin-top: 10px;
   background-color: #2e3a46;
@@ -57,7 +95,6 @@
   width: 90%;
   border-collapse: collapse;
   margin-top: 15px;
-
 }
 
 .user-info-table th {
@@ -73,14 +110,13 @@
 }
 
 .editor {
+  @extend .common-font-color, .common-border;
   position: absolute;
-  top: 10px; 
-  right: 10px; 
+  top: 10px;
+  right: 10px;
   margin-top: 5px;
   margin-right: 5px;
   background-color: #415A77;
-  color: white;
-  border: none;
   font-size: 15px;
   letter-spacing: 2.5px;
   height: 50px;
@@ -91,13 +127,12 @@
 }
 
 .editor:hover {
-  background-color: #0D1B2A
+  background-color: #0D1B2A;
 }
 
 .editor:active {
   box-shadow: 0 0 2px darkslategray;
 }
-
 
 .modal {
   position: fixed;
@@ -109,43 +144,35 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; 
+  z-index: 1000;
 }
 
 .modal-content {
   background-color: white;
   padding: 30px;
-  border-radius: 12px;
+  @extend .common-border-radius, .common-box-shadow;
   width: 450px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .modal-content label {
   display: block;
   margin: 10px 0;
+  font-size: 1rem;
+  color: #555;
 }
-
-
 
 .modal-content h3 {
   margin-bottom: 20px;
-  font-size: 1.75rem; 
+  font-size: 1.75rem;
   text-align: center;
   color: #333;
-}
-
-.modal-content label {
-  display: block;
-  margin-bottom: 15px;
-  font-size: 1rem;
-  color: #555;
 }
 
 .modal-content input {
   width: 100%;
   padding: 10px;
   margin-top: 5px;
-  border-radius: 4px;
+  @extend .common-border-radius;
   border: 1px solid #ccc;
   font-size: 1rem;
   color: #333;
@@ -153,7 +180,7 @@
 }
 
 .modal-content input:focus {
-  border-color: #007bff; 
+  border-color: #007bff;
   box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
   outline: none;
 }
@@ -162,9 +189,133 @@
   padding: 10px 20px;
   margin-right: 10px;
   margin-top: 20px;
+  @extend .common-border-radius;
   border: none;
-  border-radius: 4px;
   cursor: pointer;
   font-size: 1rem;
   transition: background-color 0.3s ease;
+}
+
+.sections-div {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (min-width: 1024px) {
+  .sections-div {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .user-info-section,
+  .user-notifications-section {
+    flex: 1;
+  }
+
+  .user-info-section {
+    margin-right: 20px;
+  }
+}
+
+.user-notification-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  margin-top: 15px;
+}
+
+.user-notification-table td {
+  padding: 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 1rem;
+  color: #333;
+}
+
+.user-notification-table tr td {
+  word-wrap: break-word;
+}
+
+.user-notification-table tr td:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.no-notifications {
+  text-align: center;
+  padding: 20px;
+  font-size: 1.1rem;
+  color: #888;
+}
+.sections-div {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.user-info-section,
+.user-notifications-section {
+  flex: 1;
+  height: 400px;
+  box-sizing: border-box;
+}
+
+.user-notifications-section {
+  overflow: auto; 
+}
+
+
+@media (min-width: 1024px) {
+  .sections-div {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .user-info-section,
+  .user-notifications-section {
+    flex: 1;
+    height: 420px;
+  }
+}
+.user-notifications-section {
+  overflow: auto;
+}
+
+.user-notification-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px; 
+}
+
+.user-notification-table td {
+  padding: 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 1rem;
+  color: #333;
+  word-wrap: break-word;
+}
+
+.notification-remove {
+  text-align: center;
+}
+
+.remove-notif {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  font-size: 16px;
+}
+
+.remove-notif:hover {
+  background: none; 
+  color: #f2545b; 
 }

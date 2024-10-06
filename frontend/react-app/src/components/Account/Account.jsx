@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Carousel from 'react-multi-carousel';
 import { useNavigate } from "react-router-dom";
-import { getUserInfo, getUserListings, getUserFavorites, updateUserInfo } from './Account';
+import { getUserInfo, getUserListings, getUserFavorites, updateUserInfo, getUserNotifications } from './Account';
 import { checkAuthentication } from '../Authentication/Authentication';
 import ListingCard from './../Listings/ListingCard/ListingCard';
 import { CustomLeftArrow, CustomRightArrow } from '../Arrows/Arrows';
@@ -19,6 +19,7 @@ export default function Account() {
   const [authenticated, setAuthenticated] = useState(false);
   const [userListings, setUserListings] = useState([]);
   const [userFavorites, setUserFavorites] = useState([]);
+  const [userNotifications, setUserNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [userInfo, setUserInfo] = useState({
     user_id: '',
@@ -37,7 +38,6 @@ export default function Account() {
     phone_number: userInfo.phone_number,
   });
 
-
   const resetUserInfo = () => {
     setUserInfo({
       user_id: '',
@@ -55,6 +55,7 @@ export default function Account() {
     resetUserInfo();
     setUserListings([]);
     setUserFavorites([]);
+    setUserNotifications([]);
     navigate('/Authentication');
   };
 
@@ -66,14 +67,45 @@ export default function Account() {
   const handleModalClose = () => {
     setIsModalOpen(false);
   };
+
   const handleSave = () => {
     let token = localStorage.getItem('jsonwebtoken');
     updateUserInfo(token, updatedInfo);
     setUserInfo(updatedInfo);
     handleModalClose();
     alert("Please log back in to see the changes made to your Account");
-    handleLogout()
+    handleLogout();
   };
+
+
+  const handleRemoveNotification = async (notificationId) => {
+    let token = localStorage.getItem('jsonwebtoken');
+    try {
+      const response = await fetch(`${window.BACKEND_URL}/api/userNotifications/remove`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ notification_id: notificationId }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      if (response.status == "200") {
+        console.log("Notification has been successfully removed");
+        setUserNotifications((prevNotifications) =>
+          prevNotifications.filter((notification) => notification.notification_id !== notificationId)
+        );
+
+      }
+    } catch (error) {
+      console.error("Error Toggling Favorite: ", error);
+    }
+  };
+
+
 
   useEffect(() => {
     const token = localStorage.getItem('jsonwebtoken');
@@ -85,43 +117,78 @@ export default function Account() {
     if (authenticated && token) {
       getUserInfo(token, setUserInfo);
       getUserListings(token, setUserListings);
-      getUserFavorites(token, setUserFavorites)
+      getUserFavorites(token, setUserFavorites);
+      getUserNotifications(token, setUserNotifications);
     }
   }, [authenticated, userInfo.user_id]);
+
   if (loading) {
     return <div>Loading...</div>;
   }
 
   return (
     <div className="account-page">
-      <div className="user-info-section">
-        <h2>PROFILE</h2>
-        <button className="editor" onClick={handleModalOpen}>EDIT</button>
+      <div className="sections-div">
+        <div className="user-info-section">
+          <h2>PROFILE</h2>
+          <button className="editor" onClick={handleModalOpen}>EDIT</button>
 
-        <table className="user-info-table">
-          <tbody>
-            <tr>
-              <th>Username:</th>
-              <td>{userInfo.username}</td>
-            </tr>
-            <tr>
-              <th>Name:</th>
-              <td>{userInfo.first_name} {userInfo.last_name}</td>
-            </tr>
-            <tr>
-              <th>Email:</th>
-              <td>{userInfo.email}</td>
-            </tr>
-            <tr>
-              <th>Phone:</th>
-              <td>{userInfo.phone_number}</td>
-            </tr>
-          </tbody>
-        </table>
+          <table className="user-info-table">
+            <tbody>
+              <tr>
+                <th>Username:</th>
+                <td>{userInfo.username}</td>
+              </tr>
+              <tr>
+                <th>Name:</th>
+                <td>{userInfo.first_name} {userInfo.last_name}</td>
+              </tr>
+              <tr>
+                <th>Email:</th>
+                <td>{userInfo.email}</td>
+              </tr>
+              <tr>
+                <th>Phone:</th>
+                <td>{userInfo.phone_number}</td>
+              </tr>
+            </tbody>
+          </table>
 
-        <button className="logout-button" onClick={handleLogout}>Logout</button>
+          <button className="logout-button" onClick={handleLogout}>Logout</button>
+        </div>
+        <div className="user-notifications-section user-info-section">
+          <h2>NOTIFICATIONS</h2>
+
+          <table className="user-notification-table">
+            <tbody>
+              {userNotifications.length > 0 ? (
+                [...userNotifications].reverse().map((notification) => (
+                  <tr key={notification.notification_id}>
+                    <td className="notification-text">
+                      <strong>{`${notification.username} ${notification.listing_action}d`}</strong> your Listing with ID: <strong>{`${notification.listing_id}`}</strong>
+                    </td>
+                    <td className="notification-remove">
+                      <button
+                        className="remove-notif"
+                        onClick={() => handleRemoveNotification(notification.notification_id)}
+                      >
+                        <strong>X</strong>
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td className="no-notifications">No notifications available.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+
+
+
       </div>
-      
 
       {isModalOpen && (
         <div className="modal">
