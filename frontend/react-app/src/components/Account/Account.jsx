@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Carousel from 'react-multi-carousel';
 import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { getUserInfo, getUserListings, getUserFavorites, updateUserInfo, getUserNotifications } from './Account';
 import { checkAuthentication } from '../Authentication/Authentication';
 import ListingCard from './../Listings/ListingCard/ListingCard';
@@ -165,7 +166,7 @@ export default function Account() {
                 [...userNotifications].reverse().map((notification) => (
                   <tr key={notification.notification_id}>
                     <td className="notification-text">
-                      <strong>{`${notification.username} ${notification.listing_action}d`}</strong> your Listing with ID: <strong>{`${notification.listing_id}`}</strong>
+                    <NavLink to={`/listing/${notification.listing_id}`}><strong>{`${notification.username} ${notification.listing_action}d`}</strong> your Listing with ID: <strong>{`${notification.listing_id}`}</strong></NavLink>
                     </td>
                     <td className="notification-remove">
                       <button
