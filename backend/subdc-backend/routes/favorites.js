@@ -17,32 +17,67 @@ router.post("/user/toggleFavorite", async (req, res) => {
     const user_id = userInfo.user_id;
     const { listing_id } = req.body;
 
+    const getOwnerSql = "SELECT user_id FROM Listings WHERE listing_id = ?";
     const checkFavoriteSql =
       "SELECT * FROM Favorites WHERE user_id = ? AND listing_id = ?";
     const addFavoriteSql =
       "INSERT INTO Favorites (user_id, listing_id) VALUES (?, ?)";
     const removeFavoriteSql =
       "DELETE FROM Favorites WHERE user_id = ? AND listing_id = ?";
+    const addNotificationSql = `INSERT INTO UserNotifications (owner_user_id, user_id, listing_id, listing_action, visible) 
+       VALUES (?, ?, ?, 'favorite', true)`;
+    const unfavNotificationSql = `INSERT INTO UserNotifications (owner_user_id, user_id, listing_id, listing_action, visible) 
+        VALUES (?, ?, ?, 'unfavorite', true)`;
 
-    db.query(checkFavoriteSql, [user_id, listing_id], (err, result) => {
+    db.query(getOwnerSql, [listing_id], (err, result) => {
       if (err) {
         return res.status(500).json({ error: err.message });
-      } 
-
-      if (result.length > 0) {
-        db.query(removeFavoriteSql, [user_id, listing_id], (err) => {
-          if (err) return res.status(500).json({ error: err.message });
-          return res.json({ isFavorite: false });
-        });
-      } else {
-        db.query(addFavoriteSql, [user_id, listing_id], (err) => {
-          if (err) return res.status(500).json({ error: err.message });
-          return res.json({ isFavorite: true });
-        });
       }
+
+      if (result.length === 0) {
+        return res.status(404).json({ message: "Listing not found" });
+      }
+
+      const owner_user_id = result[0].user_id;
+
+      db.query(checkFavoriteSql, [user_id, listing_id], (err, result) => {
+        if (err) {
+          return res.status(500).json({ error: err.message });
+        }
+
+        if (result.length > 0) {
+          db.query(removeFavoriteSql, [user_id, listing_id], (err) => {
+            if (err) return res.status(500).json({ error: err.message });
+
+            db.query(
+              unfavNotificationSql,
+              [owner_user_id, user_id, listing_id],
+              (err) => {
+                if (err) return res.status(500).json({ error: err.message });
+                return res.json({ isFavorite: false });
+              }
+            );
+          });
+        } else {
+          db.query(addFavoriteSql, [user_id, listing_id], (err) => {
+            if (err) return res.status(500).json({ error: err.message });
+
+            db.query(
+              addNotificationSql,
+              [owner_user_id, user_id, listing_id],
+              (err) => {
+                if (err) return res.status(500).json({ error: err.message });
+
+                return res.json({ isFavorite: true });
+              }
+            );
+          });
+        }
+      });
     });
   } catch (err) {
     console.error(err);
+    return res.status(500).json({ message: "Internal server error" });
   }
 });
 
