@@ -1,3 +1,5 @@
+const https = require("https");
+const fs = require("fs");
 const express = require("express");
 const bodyParser = require("body-parser");
 const mysql = require("mysql2");
@@ -14,15 +16,19 @@ const createListing = require("./routes/createListing");
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 8080;
-app.use(bodyParser.json());
 
+const options = {
+  key: fs.readFileSync('/etc/letsencrypt/live/subdc.co/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/subdc.co/cert.pem'),
+};
+
+app.use(bodyParser.json());
 app.use(
   cors({
     origin: [
       "http://localhost:3000",
       "https://subdc.co",
-      "http://subdc.co"
+      "https://www.subdc.co"
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: [
@@ -33,6 +39,7 @@ app.use(
   })
 );
 
+
 app.use("/api", listingsRoutes);
 app.use("/api", createListing);
 app.use("/api", authRoutes);
@@ -40,6 +47,15 @@ app.use("/api", userStuff);
 app.use("/api", favorites);
 app.use("/api", verifyEmail);
 
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Backend Server is running on http://localhost:${PORT}`);
+
+https.createServer(options, app).listen(443, "0.0.0.0", () => {
+  console.log(`Backend Server is running on https://localhost:443`);
+});
+
+const http = require("http");
+http.createServer((req, res) => {
+  res.writeHead(301, { "Location": "https://" + req.headers["host"] + req.url });
+  res.end();
+}).listen(80, "0.0.0.0", () => {
+  console.log(`HTTP server is redirecting traffic to HTTPS`);
 });

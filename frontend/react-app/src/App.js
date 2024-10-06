@@ -12,7 +12,7 @@ import ListingPage from './components/ListingPage/ListingPage';
 import Account from './components/Account/Account';
 
 
-window.BACKEND_URL = "http://ec2-3-80-188-158.compute-1.amazonaws.com:8080"
+window.BACKEND_URL = "https://subdc.co";
 
 
 function App() {
