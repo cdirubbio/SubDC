@@ -46,6 +46,26 @@ export const getUserListings = async (token, setUserListings) => {
     console.error("Error fetching user listings:", error);
   }
 };
+export const getUserNotifications = async (token, setUserNotifications) => {
+  try {
+    const response = await fetch(`${window.BACKEND_URL}/api/userNotifications`, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`, 
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+
+    setUserNotifications(data.notifications);
+  } catch (error) {
+    console.error("Error fetching user notifications:", error);
+  }
+};
 
 
   export const getUserFavorites = async (token, setUserFavorites) => {

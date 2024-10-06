@@ -43,3 +43,17 @@ CREATE TABLE Favorites (
     FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (listing_id) REFERENCES Listings(listing_id) ON DELETE CASCADE
 );
+
+CREATE TABLE UserNotifications (
+    notification_id INT AUTO_INCREMENT PRIMARY KEY,
+    owner_user_id INT NOT NULL,
+    user_id INT NOT NULL,
+    listing_id INT NOT NULL,
+    listing_action ENUM('favorite', 'unfavorite', 'reserve', 'unreserve') NOT NULL,
+    visible BOOLEAN NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (owner_user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (listing_id) REFERENCES Listings(listing_id) ON DELETE CASCADE
+);

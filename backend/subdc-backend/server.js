@@ -21,7 +21,6 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "http://10.0.0.224:3000",
       "https://subdc.co",
       "http://subdc.co"
     ],
