@@ -39,7 +39,9 @@ router.post("/register", async (req, res) => {
       [username, email, password, first_name, last_name, phone_number],
       async (err, result) => {
         if (err) {
-          return res.status(500).json({ error: err.message });
+          console.error("Error in INSERT INTO Users:", err);
+          console.log([username, email, password, first_name, last_name, phone_number]);
+          return res.status(500).json({error: err.message });
         }
         sendVerificationEmail(email);
         res.status(201).json({
