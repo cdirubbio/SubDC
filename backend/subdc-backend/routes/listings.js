@@ -83,8 +83,14 @@ router.get("/listing/:id", async (req, res) => {
 
       // check perms to view listing when reserved
       if (user_id) {
-        if (listing.reserved_by && (listing.reserved_by !== user_id && listing.user_id !== user_id)) {
-          return res.status(403).json({ message: "You do not have permission to view this listing" });
+        if (
+          listing.reserved_by &&
+          listing.reserved_by !== user_id &&
+          listing.user_id !== user_id
+        ) {
+          return res.status(403).json({
+            message: "You do not have permission to view this listing",
+          });
         }
       }
 
@@ -155,9 +161,13 @@ router.put("/listing/:id", async (req, res) => {
           .json({ message: "You are not authorized to update this listing" });
       }
     });
+    const formattedStart = new Date(availability_start)
+      .toISOString()
+      .split("T")[0];
+    const formattedEnd = new Date(availability_end).toISOString().split("T")[0];
 
     const sql =
-      "UPDATE Listings SET title = ?,  description = ?, apt_type = ?, price = ?, availability_start = ?, availability_end = ? WHERE listing_id = ?;";
+      "UPDATE Listings SET title = ?, description = ?, apt_type = ?, price = ?, availability_start = ?, availability_end = ? WHERE listing_id = ?;";
     db.query(
       sql,
       [
@@ -165,20 +175,33 @@ router.put("/listing/:id", async (req, res) => {
         description,
         apt_type,
         price,
-        availability_start,
-        availability_end,
+        formattedStart,
+        formattedEnd,
         listing_id,
       ],
       (err, result) => {
         if (err) {
+          console.log("SQL Error:", err.message);
+          console.log(
+            title,
+            description,
+            apt_type,
+            price,
+            availability_start,
+            availability_end,
+            listing_id
+          );
           return res.status(500).json({ error: err.message });
         }
+
         if (result.affectedRows === 0) {
           return res
             .status(404)
             .json({ message: "Listing not found or no changes made" });
         }
-        return res.json({ success: "true" });
+        return res
+          .status(200)
+          .json({ message: "Listing updated successfully!" });
       }
     );
   } catch (error) {
