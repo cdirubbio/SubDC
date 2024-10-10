@@ -11,17 +11,32 @@ const s3 = new S3Client({
 });
 
 dotenv.config();
-
 router.get("/listings", (req, res) => {
   const sql =
-    "SELECT listing_id, title, apt_type, zip_code, image1, price FROM Listings WHERE reserved_by IS NULL";
+    "SELECT listing_id, title, apt_type, zip_code, image1, image2, price FROM Listings WHERE reserved_by IS NULL";
+
   db.query(sql, (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
-    return res.status(200).json(results);
+
+    const transformedListings = results.map((listing) => {
+      const location = dcZipCodes[listing.zip_code] || "Unknown Location";
+      const transformedListing = {
+        ...listing,
+        location,
+
+      };
+      delete transformedListing.zip_code;
+      return transformedListing;
+    });
+
+    return res.status(200).json(transformedListings);
   });
 });
+
+
+
 
 router.get("/listing/:id", async (req, res) => {
   try {
@@ -80,8 +95,6 @@ router.get("/listing/:id", async (req, res) => {
       }
 
       const listing = result[0];
-
-      // check perms to view listing when reserved
       if (user_id) {
         if (
           listing.reserved_by &&

@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const db = require("../db");
+const { dcZipCodes } = require("../helpers/locationHelper");
 const { getUserInfoFromJSONWebToken } = require("../helpers/jwtHelper");
 
 const router = express.Router();
@@ -91,7 +92,7 @@ router.post("/user/favorites", async (req, res) => {
     const userInfo = await getUserInfoFromJSONWebToken(token);
     const user_id = userInfo.user_id;
     const sql = `
-      SELECT l.listing_id, l.title, l.price, l.user_id, l.image1, l.reserved_by
+      SELECT l.listing_id, l.title, l.price, l.user_id, l.image1, l.image2, l.reserved_by, l.zip_code
       FROM Listings l
       JOIN Favorites f ON l.listing_id = f.listing_id
       WHERE f.user_id = ?
@@ -105,7 +106,17 @@ router.post("/user/favorites", async (req, res) => {
       if (result.length === 0) {
         return res.status(404).json({ message: "User has no Favorites." });
       }
-      res.json(result);
+      const transformedListings = result.map((listing) => {
+        const location = dcZipCodes[listing.zip_code] || "Unknown Location";
+        const transformedListing = {
+          ...listing,
+          location,
+        };
+        delete transformedListing.zip_code;
+        return transformedListing;
+      });
+
+      return res.status(200).json(transformedListings);
     });
   } catch (err) {
     console.error(err);
