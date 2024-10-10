@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import Carousel from 'react-multi-carousel';
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { getUserInfo, getUserListings, getUserFavorites, updateUserInfo, getUserNotifications } from './Account';
 import { checkAuthentication } from '../Authentication/Authentication';
 import ListingCard from './../Listings/ListingCard/ListingCard';
-import { CustomLeftArrow, CustomRightArrow } from '../Arrows/Arrows';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import "./Account.css";
-
-const responsive = {
-  superLargeDesktop: { breakpoint: { max: 4000, min: 3000 }, items: 5 },
-  desktop: { breakpoint: { max: 3000, min: 1024 }, items: 3 },
-  tablet: { breakpoint: { max: 1024, min: 464 }, items: 2 },
-  mobile: { breakpoint: { max: 464, min: 0 }, items: 1 },
-};
 
 export default function Account() {
   const navigate = useNavigate();
@@ -78,7 +71,6 @@ export default function Account() {
     handleLogout();
   };
 
-
   const handleRemoveNotification = async (notificationId) => {
     let token = localStorage.getItem('jsonwebtoken');
     try {
@@ -95,18 +87,14 @@ export default function Account() {
         throw new Error("Network response was not ok");
       }
       if (response.status == "200") {
-        console.log("Notification has been successfully removed");
         setUserNotifications((prevNotifications) =>
           prevNotifications.filter((notification) => notification.notification_id !== notificationId)
         );
-
       }
     } catch (error) {
       console.error("Error Toggling Favorite: ", error);
     }
   };
-
-
 
   useEffect(() => {
     const token = localStorage.getItem('jsonwebtoken');
@@ -131,7 +119,7 @@ export default function Account() {
     <div className="account-page">
       <div className="sections-div">
         <div className="user-info-section">
-          <h2>PROFILE</h2>
+          <h2 className='account-page-title'>PROFILE</h2>
           <button className="editor" onClick={handleModalOpen}>EDIT</button>
 
           <table className="user-info-table">
@@ -158,7 +146,7 @@ export default function Account() {
           <button className="logout-button" onClick={handleLogout}>Logout</button>
         </div>
         <div className="user-notifications-section user-info-section">
-          <h2>NOTIFICATIONS</h2>
+          <h2 className="h2-titles account-page-title">NOTIFICATIONS</h2>
 
           <table className="user-notification-table">
             <tbody>
@@ -166,7 +154,7 @@ export default function Account() {
                 [...userNotifications].reverse().map((notification) => (
                   <tr key={notification.notification_id}>
                     <td className="notification-text">
-                    <NavLink to={`/listing/${notification.listing_id}`}><strong>{`${notification.username} ${notification.listing_action}d`}</strong> your Listing with ID: <strong>{`${notification.listing_id}`}</strong></NavLink>
+                      <NavLink to={`/listing/${notification.listing_id}`}><strong>{`${notification.username} ${notification.listing_action}d`}</strong> your Listing with ID: <strong>{`${notification.listing_id}`}</strong></NavLink>
                     </td>
                     <td className="notification-remove">
                       <button
@@ -186,9 +174,6 @@ export default function Account() {
             </tbody>
           </table>
         </div>
-
-
-
       </div>
 
       {isModalOpen && (
@@ -206,47 +191,40 @@ export default function Account() {
       )}
 
       <div className="user-listings-section">
-        <h2>YOUR LISTINGS</h2>
+        <h2 className="h2-titles account-page-title">YOUR LISTINGS</h2>
         {userListings.length > 0 ? (
-          <Carousel responsive={responsive} infinite={true}
-            customLeftArrow={<CustomLeftArrow />}
-            itemClass="carousel-item-padding" containerClass="carousel-container-padding" keyBoardControl={true}
-            customRightArrow={<CustomRightArrow />}
-          >
+          <div className="grid-container">
             {userListings.map(listing => (
-              <div key={listing.listing_id}>
-                <ListingCard
-                  listing_id={listing.listing_id}
-                  listingName={listing.title}
-                  listingPrice={listing.price}
-                  listingImage={listing.image1}
-                />
-              </div>
+              <ListingCard
+                key={listing.listing_id}
+                listing_id={listing.listing_id}
+                listingName={listing.title}
+                listingLocation={listing.location}
+                listingPrice={listing.price}
+                listingImage={listing.image1}
+              />
             ))}
-          </Carousel>
+          </div>
         ) : (
           <p>You have no listings.</p>
         )}
       </div>
+
       <div className="user-favorites-section">
-        <h2>YOUR FAVORITES</h2>
+        <h2 className="h2-titles account-page-title">YOUR FAVORITES</h2>
         {userFavorites.length > 0 ? (
-          <Carousel responsive={responsive} infinite={true}
-            customLeftArrow={<CustomLeftArrow />}
-            itemClass="carousel-item-padding" containerClass="carousel-container-padding" keyBoardControl={true}
-            customRightArrow={<CustomRightArrow />}
-          >
+          <div className="grid-container">
             {userFavorites.map(favorite => (
-              <div key={favorite.listing_id}>
-                <ListingCard
-                  listing_id={favorite.listing_id}
-                  listingName={favorite.title}
-                  listingPrice={favorite.price}
-                  listingImage={favorite.image1}
-                />
-              </div>
+              <ListingCard
+                key={favorite.listing_id}
+                listing_id={favorite.listing_id}
+                listingName={favorite.title}
+                listingLocation={favorite.location}
+                listingPrice={favorite.price}
+                listingImage={favorite.image1}
+              />
             ))}
-          </Carousel>
+          </div>
         ) : (
           <p>You have no favorite listings.</p>
         )}

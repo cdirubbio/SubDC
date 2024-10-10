@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const db = require("../db");
+const { dcZipCodes } = require("../helpers/locationHelper");
 const {
   getUserInfoFromJSONWebToken,
   generateJSONWebToken,
@@ -22,7 +23,7 @@ router.post("/user/listings", async (req, res) => {
       return res.status(401).json({ message: "Invalid User ID" });
     }
     const sql =
-      "SELECT listing_id, title, price, image1 FROM Listings WHERE user_id = ?";
+      "SELECT listing_id, title, price, image1, image2, zip_code FROM Listings WHERE user_id = ?";
 
     db.query(sql, [user_id], (err, result) => {
       if (err) {
@@ -31,7 +32,17 @@ router.post("/user/listings", async (req, res) => {
       if (result.length === 0) {
         return res.status(404).json({ message: "User has no listings" });
       }
-      res.json(result);
+      const transformedListings = result.map((listing) => {
+        const location = dcZipCodes[listing.zip_code] || "Unknown Location";
+        const transformedListing = {
+          ...listing,
+          location,
+        };
+        delete transformedListing.zip_code;
+        return transformedListing;
+      });
+
+      return res.status(200).json(transformedListings);
     });
   } catch (err) {
     console.error(err);
@@ -152,21 +163,17 @@ router.put("/userNotifications/remove", async (req, res) => {
     }
     const sql =
       "UPDATE UserNotifications SET visible = false WHERE notification_id= ?;";
-    db.query(
-      sql,
-      [notification_id],
-      (err, result) => {
-        if (err) {
-          return res.status(500).json({ error: err.message });
-        }
-        if (result.affectedRows === 0) {
-          return res
-            .status(404)
-            .json({ message: "Notification not found or no change made" });
-        }
-        res.json({ success: "true" });
+    db.query(sql, [notification_id], (err, result) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
       }
-    );
+      if (result.affectedRows === 0) {
+        return res
+          .status(404)
+          .json({ message: "Notification not found or no change made" });
+      }
+      res.json({ success: "true" });
+    });
   } catch (error) {
     res.json({ message: error.message });
   }

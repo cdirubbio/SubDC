@@ -10,14 +10,14 @@ export default function ListingCard(props) {
         const link = `/listing/${props.listing_id}`
         navigate(link);
     };
+    
+
     return (
-        <div className="ListingCard ">
+        <div className="ListingCard " onClick={handleViewDetails}>
             <img src={props.listingImage} alt="Listing" className="listing-image" />
-            <h3><strong>{props.listingName}</strong></h3>
+            <h2><strong>{props.listingName}</strong></h2>
+            <h3>{props.listingLocation}</h3>
             <p><strong>${props.listingPrice}</strong>/month</p>
-            <button className="view-details-button" onClick={handleViewDetails}>
-                View Details
-            </button>
         </div>
     );
 }
