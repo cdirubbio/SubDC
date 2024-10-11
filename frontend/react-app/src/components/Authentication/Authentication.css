@@ -70,16 +70,17 @@
 .spinner-container {
     display: flex; 
     align-items: center; 
-    position: fixed; 
-    top: 20px; 
-    left: 20px; 
+    justify-content: center;
+    /* position: fixed;  */
+    /* top: 20px; 
+    left: 20px;  */
     z-index: 1000; 
   }
   
   .spinner {
     border: 4px solid rgba(0, 0, 0, 0.1);
-    width: 36px;
-    height: 36px;
+    width: 360px;
+    height: 360px;
     border-radius: 50%;
     border-left-color: #09f;
     animation: spin 1s linear infinite;

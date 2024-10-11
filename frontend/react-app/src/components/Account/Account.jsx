@@ -112,7 +112,11 @@ export default function Account() {
   }, [authenticated, userInfo.user_id]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="spinner-container">
+        <div className="spinner"></div> 
+      </div>
+    );
   }
 
   return (
