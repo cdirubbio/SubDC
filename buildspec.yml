@@ -35,3 +35,4 @@ phases:
     commands:
       - echo Frontend build completed, deploying to S3...
       - aws s3 sync ./build/ s3://subdc.co/ --delete
+      - aws cloudfront create-invalidation --distribution-id E1P3GOK735IFDO --paths "/*"

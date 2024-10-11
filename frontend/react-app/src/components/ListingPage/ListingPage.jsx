@@ -40,6 +40,7 @@ export default function ListingPage() {
     }
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         fetchListingDetails(token, listing_id, setListing, setIsFavorite, setLoading, setError, setUser_id, setListing_user_id);
     }, [listing_id, token]);
 
@@ -155,8 +156,8 @@ export default function ListingPage() {
             </div>
 
             <div className="listing-image-container">
-                <img src={listing.image1} alt="Image1" className="listing-image" />
-                <img src={listing.image2} alt="Image2" className="listing-image" />
+                <img src={listing.image1} alt="Image1" className="listing-page-image" />
+                <img src={listing.image2} alt="Image2" className="listing-page-image" />
             </div>
         </div>
     );
