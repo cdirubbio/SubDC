@@ -8,7 +8,10 @@ export default function Listings() {
         "1br": [],
         "2br": [],
     });
-
+    const handleCardClick = (e) => {
+        e.preventDefault();  // Prevent any default action
+        // Handle navigation or actions here
+    };
     useEffect(() => {
         const fetchListings = async () => {
             try {
@@ -82,7 +85,7 @@ export default function Listings() {
                 <h5 className="apartment-type">2 BEDROOM APARTMENTS</h5>
                 <div className="grid-container">
                     {listings["2br"].map((listing) => (
-                        <ListingCard
+                        <ListingCard onClick={handleCardClick}
                             key={listing.listing_id}
                             listing_id={listing.listing_id}
                             listingName={listing.title}
