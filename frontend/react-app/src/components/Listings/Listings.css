@@ -29,11 +29,14 @@
 
 .search-input {
     padding: 10px;
-    width: 600px;
+    width: 50%;
     font-size: 1em;
     outline: 3px ridge #2e3a46;
     border-radius: 1rem;
     margin-right: 10px;
+    @media (max-width: 768px) {
+       width: 70%;
+    }
 }
 
 .search-button {
@@ -67,9 +70,7 @@
     letter-spacing: 2px;
     color: #1f2937;
 
-    @media (min-width: 768px) {
-        font-size: 2rem;
-    }
+    
 
     @media (min-width: 1024px) {
         font-size: 2.5rem;
