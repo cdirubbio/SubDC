@@ -44,8 +44,12 @@ export default function ListingPage() {
     }, [listing_id, token]);
 
     if (loading) {
-        return <div>Loading...</div>;
-    }
+        return (
+          <div className="spinner-container">
+            <div className="spinner"></div> {/* Spinner */}
+          </div>
+        ); // show spinner
+      }
 
     if (error) {
         return <div>Error: {error}</div>;

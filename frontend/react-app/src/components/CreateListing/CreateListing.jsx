@@ -122,7 +122,11 @@ export default function CreateListing() {
   }, [JSONWebToken]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="spinner-container">
+        <div className="spinner"></div> {/* Spinner */}
+      </div>
+    ); // show spinner
   }
 
   if (!user_id) {
