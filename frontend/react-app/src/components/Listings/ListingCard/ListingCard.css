@@ -1,7 +1,7 @@
 .ListingCard {
     background-color: white;
-    width: 300px; 
-    height: 400px;
+    width: 270px;
+    height: 360px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 3px;
     display: flex;
@@ -10,6 +10,7 @@
     margin: auto;
     cursor: pointer;
     position: relative;
+    transition: transform 0.3s ease;
 }
 
 .ListingCard:hover {
@@ -22,7 +23,7 @@
 }
 
 .ListingCard h2 {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
 }
 
 .ListingCard h3, p {
@@ -36,4 +37,21 @@
     object-fit: cover;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
+}
+
+
+@media (max-width: 600px) {
+    .ListingCard {
+        transform: scale(0.9); 
+        width: 270px; 
+        height: 360px;
+    }
+
+    .ListingCard h2 {
+        font-size: 1.2rem;
+    }
+
+    .ListingCard h3, p {
+        font-size: 0.95rem;
+    }
 }
