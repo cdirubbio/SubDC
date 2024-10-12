@@ -1,0 +1,236 @@
+Description:
+  This CloudFormation template is being used in ISTM 4210, by the Undergraduate Capstone Group at the George Washington University.
+  It creates the required Compute Resources (EC2, SG, RDS) to create our backend AWS Infrastructure.
+
+Parameters:
+  KeyName:
+    Description:
+      Enter the name of the EC2 Key Pair you created earlier in this process.
+      It should be a file called (<name>.pem or <name>.ppk). Only enter the <name> part of the key
+    Type: String
+  VPC:
+    Description: Enter the ID of your VPC.
+    Type: String
+    Default: vpc-026740ceba10ed6ba
+  PublicSubnet:
+    Description: Enter the id of a public subnet inside of your VPC.
+    Type: String
+    Default: subnet-09ef34832e99d2552
+  Environment:
+    Description: Pick the ENV... PROD or TEST
+    Type: String
+    AllowedValues:
+      - PROD
+      - TEST
+
+Conditions:
+  ProductionEnvironment:
+    Fn::Equals: [!Ref Environment, "PROD"]
+  TestEnvironment:
+    Fn::Equals: [!Ref Environment, "TEST"]
+
+Outputs:
+  ProdDNSName:
+    Description: The DNS name for your EC2 instance -- ENV == PROD.
+    Condition: ProductionEnvironment
+    Value: !GetAtt ProdEC2.PublicDnsName
+  ProdPublicIP:
+    Description: The Public IP for your EC2 instance -- ENV == PROD.
+    Condition: ProductionEnvironment
+    Value: !GetAtt ProdEC2.PublicIp
+  TestDNSName:
+    Description: The DNS name for your EC2 instance -- ENV == TEST.
+    Condition: TestEnvironment
+    Value: !GetAtt TestEC2.PublicDnsName
+  TestPublicIP:
+    Description: The Public IP for your EC2 instance -- ENV == TEST.
+    Condition: TestEnvironment
+    Value: !GetAtt TestEC2.PublicIp
+
+Resources:
+  ####### Compute Resources #######
+  ProdEC2:
+    Type: AWS::EC2::Instance
+    Condition: ProductionEnvironment
+    Properties:
+      ImageId: ami-0ebfd941bbafe70c6
+      InstanceType: t2.micro
+      KeyName: !Ref KeyName
+      IamInstanceProfile: CAPSTONEBackendServerRole
+      SecurityGroupIds:
+        - !Ref InstanceSecurityGroup
+      Tags:
+        - Key: Stack
+          Value: Capstone-PROD
+        - Key: Name
+          Value: Production Capstone Server
+      UserData: !Base64
+        Fn::Sub: |
+          #!/bin/bash
+          sudo yum update -y
+          sudo yum install git -y
+
+          sudo dnf install -y mariadb105-server
+          sudo systemctl start mariadb
+          sudo systemctl enable mariadb
+
+          sudo curl -sL https://rpm.nodesource.com/setup_20.x | sudo bash -
+          sudo yum install -y nodejs-20.10.0
+          sudo npm install -g npm@10.2.5
+          sudo npm install pm2@latest -g
+
+          sudo amazon-linux-extras install nginx1 -y
+          sudo yum install -y certbot python3-certbot-nginx
+
+          sudo systemctl start nginx
+          sudo systemctl enable nginx
+
+          sudo firewall-cmd --permanent --add-service=http
+          sudo firewall-cmd --permanent --add-service=https
+          sudo firewall-cmd --reload
+
+          sudo certbot certonly --nginx -d subdc.co -d www.subdc.co --non-interactive --agree-tos -m your-email@example.com
+
+          sudo chown -R ec2-user:ec2-user /etc/letsencrypt/live/subdc.co
+          sudo chown -R ec2-user:ec2-user /etc/letsencrypt/archive/subdc.co
+
+          cat << 'EOF_NGINX' | sudo tee /etc/nginx/conf.d/subdc.co.conf
+          server {
+              listen 443 ssl;
+              server_name subdc.co www.subdc.co;
+
+              ssl_certificate /etc/letsencrypt/live/subdc.co/fullchain.pem;
+              ssl_certificate_key /etc/letsencrypt/live/subdc.co/privkey.pem;
+
+              location /api/ {
+                  proxy_pass http://localhost:8080;
+                  proxy_http_version 1.1;
+                  proxy_set_header Upgrade $http_upgrade;
+                  proxy_set_header Connection 'upgrade';
+                  proxy_set_header Host $host;
+                  proxy_cache_bypass $http_upgrade;
+              }
+
+              location / {
+                  return 403;
+              }
+          }
+
+          server {
+              listen 80;
+              server_name subdc.co www.subdc.co;
+
+              return 301 https://$host$request_uri;
+          }
+          EOF_NGINX
+
+          sudo systemctl reload nginx
+
+          sudo su - ec2-user <<'EOF'
+          cd ~
+          git clone https://github.com/cdirubbio/subdc.git
+
+          cd subdc/backend/subdc-backend
+          npm install
+
+          ENV_VARS=$(aws secretsmanager get-secret-value --secret-id prod/subdc/env-vars --query 'SecretString' --output text)
+          echo $ENV_VARS | jq -r 'to_entries | .[] | "\(.key)=\(.value)"' > .env
+          export DB_USER=$(echo $ENV_VARS | jq -r '.DB_USER')
+          export DB_PASSWORD=$(echo $ENV_VARS | jq -r '.DB_PASSWORD')
+
+          aws s3 cp s3://subdc-mysqldumps/database_backup.sql database_backup.sql
+          sudo mysql <<EOF_MYSQL
+          CREATE USER '$DB_USER'@'localhost' IDENTIFIED BY '$DB_PASSWORD';
+          GRANT ALL PRIVILEGES ON subdc.* TO '$DB_USER'@'localhost';
+          FLUSH PRIVILEGES;
+          CREATE DATABASE IF NOT EXISTS subdc;
+          USE subdc;
+          SOURCE database_backup.sql;
+          EOF_MYSQL
+
+          pm2 start server.js --update-env
+          pm2 save
+          EOF
+  TestEC2:
+    Type: AWS::EC2::Instance
+    Condition: TestEnvironment
+    Properties:
+      ImageId: ami-0ebfd941bbafe70c6
+      InstanceType: t2.micro
+      KeyName: !Ref KeyName
+      IamInstanceProfile: CAPSTONEBackendServerRole
+      SecurityGroupIds:
+        - !Ref InstanceSecurityGroup
+      Tags:
+        - Key: Stack
+          Value: Capstone-TEST
+        - Key: Name
+          Value: TEST Capstone Server
+      UserData: !Base64
+        Fn::Sub: |
+          #!/bin/bash
+          sudo yum update -y
+          sudo yum install git -y
+
+          sudo dnf install -y mariadb105-server
+          sudo systemctl start mariadb
+          sudo systemctl enable mariadb
+
+          sudo curl -sL https://rpm.nodesource.com/setup_20.x | sudo bash -
+          sudo yum install -y nodejs-20.10.0
+          sudo npm install -g npm@10.2.5
+          sudo npm install pm2@latest -g
+
+          sudo su - ec2-user <<'EOF'
+          cd ~
+          git clone https://github.com/cdirubbio/subdc.git
+
+          cd subdc/backend/subdc-backend
+          npm install
+
+          ENV_VARS=$(aws secretsmanager get-secret-value --secret-id prod/subdc/env-vars --query 'SecretString' --output text)
+          echo $ENV_VARS | jq -r 'to_entries | .[] | "\(.key)=\(.value)"' > .env
+          export DB_USER=$(echo $ENV_VARS | jq -r '.DB_USER')
+          export DB_PASSWORD=$(echo $ENV_VARS | jq -r '.DB_PASSWORD')
+
+          aws s3 cp s3://subdc-mysqldumps/database_backup.sql database_backup.sql
+          sudo mysql <<EOF_MYSQL
+          CREATE USER '$DB_USER'@'localhost' IDENTIFIED BY '$DB_PASSWORD';
+          GRANT ALL PRIVILEGES ON subdc.* TO '$DB_USER'@'localhost';
+          FLUSH PRIVILEGES;
+          CREATE DATABASE IF NOT EXISTS subdc;
+          USE subdc;
+          SOURCE database_backup.sql;
+          EOF_MYSQL
+
+          pm2 start server.js --update-env
+          pm2 save
+          EOF
+  InstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable HTTP and SSH access
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 3001
+          ToPort: 3001
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 8080
+          ToPort: 8080
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Stack
+          Value: Capstone
