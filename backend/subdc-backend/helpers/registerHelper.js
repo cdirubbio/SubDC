@@ -64,10 +64,10 @@ const sendVerificationEmail = async (email) => {
     <div style="text-align: center; margin-bottom: 20px;">
       <img src="https://subdc-listing-images.s3.us-east-1.amazonaws.com/logo.jpg" alt="SubDC Logo" style="width: 150px; height: auto;">
     </div>
-    <h2 style="color: #007bff; text-align: center;">Welcome to SubDC!</h2>
+    <h2 style="color: #415a77; text-align: center;">Welcome to SubDC!</h2>
     <p style="font-size: 16px; color: #333;">Thank you for signing up for SubDC. To complete your registration, please verify your email address by clicking the button below:</p>
     <div style="text-align: center; margin: 20px 0;">
-      <a href="${verificationUrl}" style="background-color: #007bff; color: white; padding: 12px 20px; text-decoration: none; border-radius: 5px; font-size: 16px;">Verify Email</a>
+      <a href="${verificationUrl}" style="background-color: #415a77; color: white; padding: 12px 20px; text-decoration: none; border-radius: 5px; font-size: 16px;">Verify Email</a>
     </div>
     <p style="font-size: 14px; color: #777;">Or copy and paste this link into your browser:</p>
     <p style="word-wrap: break-word; font-size: 14px; color: #555;">${verificationUrl}</p>

@@ -130,11 +130,13 @@ router.post("/userNotifications", async (req, res) => {
     }
 
     const sql = `
-      SELECT UserNotifications.notification_id, UserNotifications.listing_id, UserNotifications.user_id, Users.username, 
-             UserNotifications.listing_action, UserNotifications.created_at
-      FROM UserNotifications
-      JOIN Users ON UserNotifications.user_id = Users.user_id
-      WHERE UserNotifications.owner_user_id = ? AND UserNotifications.visible = true;`;
+  SELECT UserNotifications.notification_id, UserNotifications.listing_id, UserNotifications.user_id, Users.username, 
+         UserNotifications.listing_action, UserNotifications.created_at, Listings.title, Listings.listing_id
+  FROM UserNotifications
+  JOIN Listings ON UserNotifications.listing_id = Listings.listing_id
+  JOIN Users ON UserNotifications.user_id = Users.user_id
+  WHERE UserNotifications.owner_user_id = ? 
+  AND UserNotifications.visible = true`;
 
     db.query(sql, [user_id], (err, result) => {
       if (err) {

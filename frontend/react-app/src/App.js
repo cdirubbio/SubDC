@@ -12,7 +12,7 @@ import ListingPage from './components/ListingPage/ListingPage';
 import Account from './components/Account/Account';
 
 
-window.BACKEND_URL = "https://subdc.co";
+window.BACKEND_URL = "http://54.242.80.211:8080";
 
 
 function App() {
@@ -21,9 +21,9 @@ function App() {
     <Routes>
       <Route path="/" element={<Header />}>
         <Route index element={<Home />} />
-        <Route path='listings' element={<Listings />} />
+        <Route path='explore' element={<Listings />} />
         <Route path="/listing/:id" element={<ListingPage />} />
-        <Route path='createListing' element={<CreateListing />} />
+        <Route path='create' element={<CreateListing />} />
         <Route path='aboutUs' element={<AboutUs />} /> 
         <Route path='authentication' element={<Authentication />} />
         <Route path='verifyEmail' element={<VerifyEmail />} />
