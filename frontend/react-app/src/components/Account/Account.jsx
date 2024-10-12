@@ -158,7 +158,7 @@ export default function Account() {
                 [...userNotifications].reverse().map((notification) => (
                   <tr key={notification.notification_id}>
                     <td className="notification-text">
-                      <NavLink to={`/listing/${notification.listing_id}`}><strong>{`${notification.username} ${notification.listing_action}d`}</strong> your Listing with ID: <strong>{`${notification.listing_id}`}</strong></NavLink>
+                      <NavLink to={`/listing/${notification.listing_id}`}><strong>{`${notification.username} ${notification.listing_action}d`} {`${notification.title}`}</strong></NavLink>
                     </td>
                     <td className="notification-remove">
                       <button

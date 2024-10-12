@@ -38,16 +38,16 @@ export default function Header() {
             </li>
             <li>
               <NavLink
-                to="/Listings"
+                to="/Explore"
                 onClick={toggleMenu}
                 className={({ isActive }) => isActive ? 'nav-link active md' : 'nav-link md'}
               >
-                LISTINGS
+                EXPLORE
               </NavLink>
             </li>
             <li>
               <NavLink
-                to="/CreateListing"
+                to="/Create"
                 onClick={toggleMenu}
                 className={({ isActive }) => isActive ? 'nav-link active md' : 'nav-link md'}
               >
