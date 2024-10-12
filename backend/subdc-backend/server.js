@@ -22,7 +22,8 @@ app.use(
     origin: [
       "http://localhost:3000",
       "https://subdc.co",
-      "https://www.subdc.co"
+      "https://www.subdc.co",
+      "http://subdc-test.s3-website-us-east-1.amazonaws.com"
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: [

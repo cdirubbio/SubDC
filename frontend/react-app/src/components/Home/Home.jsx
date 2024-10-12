@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react"
 import "./Home.css"
 import { Link } from "react-router-dom";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-
 import ListingCard from "../Listings/ListingCard/ListingCard";
 
 
@@ -66,7 +63,7 @@ export default function Home() {
         <div className="title-text-div">
           <h1 className="text-on-image"> Find Your Perfect Sublease in <span className="location">{location}</span></h1>
           <p className="text-on-image">Discover affordable sublease options for students in the DC area.</p>
-          <Link to="Listings"><button className="cta-button">Start Searching</button></Link>
+          <Link to="Explore"><button className="cta-button">Start Searching</button></Link>
           </div>
         </div>
 
