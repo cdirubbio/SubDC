@@ -36,3 +36,15 @@
     margin-left: 20px;
   }
   
+  .team-member img {
+    width: 128px;
+    height: 128px;
+    object-fit: cover; 
+  }
+  
+  .team-member {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+  }
+  

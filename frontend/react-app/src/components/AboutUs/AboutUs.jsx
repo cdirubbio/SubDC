@@ -1,6 +1,14 @@
 import React from "react";
 import "./AboutUs.css";
 import GWAboutImg from "./image/gwu_about_img.jpg";
+import SojiImg from "./image/soji_img.png";
+import AhmedImg from "./image/ahmed_img.png";
+import AbbyImg from "./image/abby_img.png";
+import SimoImg from "./image/simo_img.png";
+import ChrisImg from "./image/chris_img.png";
+import EmmyImg from "./image/emmy_img.png";
+
+
 
 
 export default function AboutUs() {
@@ -41,74 +49,74 @@ export default function AboutUs() {
     {/* Team Members - make this an element later bc 2 much code */} 
     <div className="team-member bg-white shadow-lg rounded-lg p-5 m-4 max-w-xs">
       <img 
-        src="path-to-team-member1.jpg" 
+        src={ChrisImg} 
+        alt="Chris" 
+        className="w-32 h-auto rounded-full mx-auto mb-4 object-cover"  
+      />
+      <h3 className="text-xl font-semibold">CEO</h3>
+      <p className="text-gray-600">Christian DiRubbio</p>
+      <p className="text-gray-500 mt-3">
+        
+      </p>
+    </div>
+    <div className="team-member bg-white shadow-lg rounded-lg p-5 m-4 max-w-xs">
+      <img 
+        src={SimoImg} 
+        alt="Simo" 
+        className="w-32 h-auto rounded-full mx-auto mb-4 object-cover"  
+      />
+      <h3 className="text-xl font-semibold">CTO</h3>
+      <p className="text-gray-600">Simone Levy</p>
+      <p className="text-gray-500 mt-3">
+        
+      </p>
+    </div>
+    <div className="team-member bg-white shadow-lg rounded-lg p-5 m-4 max-w-xs">
+      <img 
+        src={SojiImg} 
         alt="Team Member 1" 
-        className="w-32 h-32 rounded-full mx-auto mb-4" 
+        className="w-32 h-auto rounded-full mx-auto mb-4 object-cover"  
       />
-      <h3 className="text-xl font-semibold">Team Member 1</h3>
-      <p className="text-gray-600">CEO & Founder</p>
+      <h3 className="text-xl font-semibold">COO</h3>
+      <p className="text-gray-600">Soji Maksudova</p>
       <p className="text-gray-500 mt-3">
-      Blah blah bio.
+      
       </p>
     </div>
     <div className="team-member bg-white shadow-lg rounded-lg p-5 m-4 max-w-xs">
       <img 
-        src="path-to-team-member2.jpg" 
+        src={AhmedImg} 
         alt="Team Member 2" 
-        className="w-32 h-32 rounded-full mx-auto mb-4" 
+        className="w-32 h-auto rounded-full mx-auto mb-4 object-cover"  
       />
-      <h3 className="text-xl font-semibold">Team Member 2</h3>
-      <p className="text-gray-600">Other Person</p>
+      <h3 className="text-xl font-semibold">CFO</h3>
+      <p className="text-gray-600">Ahmed Ismael</p>
       <p className="text-gray-500 mt-3">
-        Blah blah bio.
+        
       </p>
     </div>
     <div className="team-member bg-white shadow-lg rounded-lg p-5 m-4 max-w-xs">
       <img 
-        src="path-to-team-member2.jpg" 
+        src={AbbyImg} 
         alt="Team Member 2" 
-        className="w-32 h-32 rounded-full mx-auto mb-4" 
+        className="w-32 h-auto rounded-full mx-auto mb-4 object-cover"  
       />
-      <h3 className="text-xl font-semibold">Team Member 2</h3>
-      <p className="text-gray-600">Other Person</p>
+      <h3 className="text-xl font-semibold">CIO</h3>
+      <p className="text-gray-600">Abby Mansoor</p>
       <p className="text-gray-500 mt-3">
-        Blah blah bio.
+        
       </p>
     </div>
     <div className="team-member bg-white shadow-lg rounded-lg p-5 m-4 max-w-xs">
       <img 
-        src="path-to-team-member2.jpg" 
+        src={EmmyImg} 
         alt="Team Member 2" 
-        className="w-32 h-32 rounded-full mx-auto mb-4" 
+        className="w-32 h-auto rounded-full mx-auto mb-4 object-cover"  
       />
-      <h3 className="text-xl font-semibold">Team Member 2</h3>
-      <p className="text-gray-600">Other Person</p>
+      <h3 className="text-xl font-semibold">PM</h3>
+      <p className="text-gray-600">Emmy Ly</p>
       <p className="text-gray-500 mt-3">
-        Blah blah bio.
-      </p>
-    </div>
-    <div className="team-member bg-white shadow-lg rounded-lg p-5 m-4 max-w-xs">
-      <img 
-        src="path-to-team-member2.jpg" 
-        alt="Team Member 2" 
-        className="w-32 h-32 rounded-full mx-auto mb-4" 
-      />
-      <h3 className="text-xl font-semibold">Team Member 2</h3>
-      <p className="text-gray-600">Other Person</p>
-      <p className="text-gray-500 mt-3">
-        Blah blah bio.
-      </p>
-    </div>
-    <div className="team-member bg-white shadow-lg rounded-lg p-5 m-4 max-w-xs">
-      <img 
-        src="path-to-team-member2.jpg" 
-        alt="Team Member 2" 
-        className="w-32 h-32 rounded-full mx-auto mb-4" 
-      />
-      <h3 className="text-xl font-semibold">Team Member 2</h3>
-      <p className="text-gray-600">Other Person</p>
-      <p className="text-gray-500 mt-3">
-        Blah blah bio.
+        
       </p>
     </div>
   </div>
