@@ -36,7 +36,7 @@ export default function ListingPage() {
         let token = localStorage.getItem('jsonwebtoken');
         deleteListing(token, listing_id);
 
-        navigate('/listings');
+        navigate('/Explore');
     }
 
     useEffect(() => {

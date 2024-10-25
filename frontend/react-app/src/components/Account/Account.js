@@ -13,15 +13,16 @@ export const getUserInfo = async (token, setUserInfo) => {
       throw new Error("Network response was not ok");
     }
 
-    const data = await response.json();
+    const responseFromServer = await response.json();
+    const data = responseFromServer[0];
 
     setUserInfo({
-      user_id: data.user.user_id || "",
-      first_name: data.user.first_name || "",
-      last_name: data.user.last_name || "",
-      username: data.user.username || "",
-      email: data.user.email || "",
-      phone_number: data.user.phone_number || "",
+      user_id: data.user_id || "",
+      first_name: data.first_name || "",
+      last_name: data.last_name || "",
+      username: data.username || "",
+      email: data.email || "",
+      phone_number: data.phone_number || "",
     });
   } catch (error) {
     console.error("Error fetching user info:", error);

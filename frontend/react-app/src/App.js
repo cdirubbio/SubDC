@@ -12,7 +12,8 @@ import ListingPage from './components/ListingPage/ListingPage';
 import Account from './components/Account/Account';
 
 
-window.BACKEND_URL = "https://subdc.co";
+// window.BACKEND_URL = "https://subdc.co";
+window.BACKEND_URL = "http://localhost:8080";
 
 
 function App() {
