@@ -1,7 +1,7 @@
 ////////////////\\\\\\\\\\\\\\\\\\
 // Helper Methods for /api/login
 ////////////////\\\\\\\\\\\\\\\\\\
-const db = require('../database/db');
+const db = require('../../database/db');
 
 const checkUsernameExists = (username) => {
     return new Promise((resolve, reject) => {

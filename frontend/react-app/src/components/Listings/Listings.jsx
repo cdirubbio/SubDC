@@ -8,10 +8,17 @@ export default function Listings() {
         "1br": [],
         "2br": [],
     });
+    const [searchQuery, setSearchQuery] = useState("");
+    const [filteredListings, setFilteredListings] = useState({
+        studio: [],
+        "1br": [],
+        "2br": [],
+    });
+
     const handleCardClick = (e) => {
-        e.preventDefault();  // Prevent any default action
-        // Handle navigation or actions here
+        e.preventDefault();
     };
+
     useEffect(() => {
         const fetchListings = async () => {
             try {
@@ -29,6 +36,7 @@ export default function Listings() {
                     categorizedListings[listing.apt_type].push(listing);
                 });
                 setListings(categorizedListings);
+                setFilteredListings(categorizedListings);
             } catch (error) {
                 console.error("Failed to fetch listings:", error);
             }
@@ -36,6 +44,38 @@ export default function Listings() {
 
         fetchListings();
     }, []);
+
+    useEffect(() => {
+        const filterListings = () => {
+            const newFilteredListings = {
+                studio: listings.studio.filter((listing) =>
+                    listing.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    listing.location?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    listing.zip_code?.includes(searchQuery) ||
+                    listing.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    listing.price?.toString().includes(searchQuery)
+                ),
+                "1br": listings["1br"].filter((listing) =>
+                    listing.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    listing.location?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    listing.zip_code?.includes(searchQuery) ||
+                    listing.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    listing.price?.toString().includes(searchQuery)
+                ),
+                "2br": listings["2br"].filter((listing) =>
+                    listing.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    listing.location?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    listing.zip_code?.includes(searchQuery) ||
+                    listing.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    listing.price?.toString().includes(searchQuery)
+                ),
+            };
+            setFilteredListings(newFilteredListings);
+        };
+
+
+        filterListings();
+    }, [searchQuery, listings]);
 
     return (
         <div className="Listings">
@@ -45,14 +85,15 @@ export default function Listings() {
                     type="text"
                     className="search-input"
                     placeholder="Search by neighborhood, price, or apartment type..."
-                // value={query}
-                // onChange={(e) => setQuery(e.target.value)}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                 />
             </div>
+
             <div>
                 <h5 className="apartment-type">STUDIO APARTMENTS</h5>
                 <div className="grid-container">
-                    {listings["studio"].map((listing) => (
+                    {filteredListings.studio.map((listing) => (
                         <ListingCard
                             key={listing.listing_id}
                             listing_id={listing.listing_id}
@@ -68,7 +109,7 @@ export default function Listings() {
             <div>
                 <h5 className="apartment-type">1 BEDROOM APARTMENTS</h5>
                 <div className="grid-container">
-                    {listings["1br"].map((listing) => (
+                    {filteredListings["1br"].map((listing) => (
                         <ListingCard
                             key={listing.listing_id}
                             listing_id={listing.listing_id}
@@ -84,8 +125,9 @@ export default function Listings() {
             <div>
                 <h5 className="apartment-type">2 BEDROOM APARTMENTS</h5>
                 <div className="grid-container">
-                    {listings["2br"].map((listing) => (
-                        <ListingCard onClick={handleCardClick}
+                    {filteredListings["2br"].map((listing) => (
+                        <ListingCard
+                            onClick={handleCardClick}
                             key={listing.listing_id}
                             listing_id={listing.listing_id}
                             listingName={listing.title}
