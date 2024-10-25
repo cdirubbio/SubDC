@@ -68,9 +68,9 @@
   color: #778DA9;
 }
 
-.footer-bottom {
+.footer-bottom p {
   text-align: center;
   margin-top: 30px;
   font-size: 0.9em;
-  color: #aaa;
+  color: #fff;
 }
