@@ -1,8 +1,6 @@
 const express = require("express");
 // const dotenv = require("dotenv");
 const db = require("../database/db");
-
-const { getUserInfoFromJSONWebToken } = require("../helpers/jwtHelper");
 const { S3Client, DeleteObjectsCommand } = require("@aws-sdk/client-s3");
 
 const s3 = new S3Client({
@@ -12,7 +10,7 @@ const s3 = new S3Client({
 module.exports = {
   queryAllListings: () => {
     const sql =
-      "SELECT listing_id, title, apt_type, zip_code, image1, image2, price FROM Listings WHERE reserved_by IS NULL";
+      "SELECT listing_id, title, description, apt_type, zip_code, image1, image2, price FROM Listings WHERE reserved_by IS NULL";
     const result = db
       .promise()
       .query(sql)

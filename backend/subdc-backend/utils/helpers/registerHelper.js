@@ -1,7 +1,7 @@
 ////////////////\\\\\\\\\\\\\\\\\\
 // Helper Methods for /api/register
 ////////////////\\\\\\\\\\\\\\\\\\
-const db = require("../database/db");
+const db = require("../../database/db");
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 
