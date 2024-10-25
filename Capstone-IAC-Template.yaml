@@ -156,7 +156,7 @@ Resources:
     Condition: TestEnvironment
     Properties:
       ImageId: ami-0ebfd941bbafe70c6
-      InstanceType: t2.nano
+      InstanceType: t2.micro
       KeyName: !Ref KeyName
       IamInstanceProfile: CAPSTONEBackendServerRole
       SecurityGroupIds:

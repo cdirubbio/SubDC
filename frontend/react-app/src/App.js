@@ -13,7 +13,7 @@ import Account from './components/Account/Account';
 
 
 // window.BACKEND_URL = "https://subdc.co";
-window.BACKEND_URL = "http://localhost:8080";
+window.BACKEND_URL = "http://ec2-54-242-80-211.compute-1.amazonaws.com:8080";
 
 
 function App() {
