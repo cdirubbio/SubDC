@@ -2,7 +2,7 @@ import Account from "./Account.jsx";
 
 export const getUserInfo = async (token, setUserInfo) => {
   try {
-    const response = await fetch(`${window.BACKEND_URL}/api/userInfo`, {
+    const response = await fetch(`${window.BACKEND_URL}/api/user/info`, {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${token}`, 
@@ -48,7 +48,7 @@ export const getUserListings = async (token, setUserListings) => {
 };
 export const getUserNotifications = async (token, setUserNotifications) => {
   try {
-    const response = await fetch(`${window.BACKEND_URL}/api/userNotifications`, {
+    const response = await fetch(`${window.BACKEND_URL}/api/user/notifications`, {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${token}`, 
@@ -91,7 +91,7 @@ export const getUserNotifications = async (token, setUserNotifications) => {
 
   export const updateUserInfo = async (token, updatedUserInfo) => {
     try {
-        const response = await fetch(`${window.BACKEND_URL}/api/userInfo`, {
+        const response = await fetch(`${window.BACKEND_URL}/api/user/info`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
