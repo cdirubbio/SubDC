@@ -36,7 +36,7 @@ export default function Listings() {
                     categorizedListings[listing.apt_type].push(listing);
                 });
                 setListings(categorizedListings);
-                setFilteredListings(categorizedListings); 
+                setFilteredListings(categorizedListings);
             } catch (error) {
                 console.error("Failed to fetch listings:", error);
             }
@@ -49,29 +49,30 @@ export default function Listings() {
         const filterListings = () => {
             const newFilteredListings = {
                 studio: listings.studio.filter((listing) =>
-                    listing.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    listing.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    listing.zip_code.toString().includes(searchQuery) ||
-                    listing.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    listing.price.toString().includes(searchQuery)
+                    listing.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    listing.location?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    listing.zip_code?.includes(searchQuery) ||
+                    listing.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    listing.price?.toString().includes(searchQuery)
                 ),
                 "1br": listings["1br"].filter((listing) =>
-                    listing.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    listing.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    listing.zip_code.toString().includes(searchQuery) ||
-                    listing.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    listing.price.toString().includes(searchQuery)
+                    listing.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    listing.location?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    listing.zip_code?.includes(searchQuery) ||
+                    listing.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    listing.price?.toString().includes(searchQuery)
                 ),
                 "2br": listings["2br"].filter((listing) =>
-                    listing.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    listing.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    listing.zip_code.toString().includes(searchQuery) ||
-                    listing.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    listing.price.toString().includes(searchQuery)
+                    listing.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    listing.location?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    listing.zip_code?.includes(searchQuery) ||
+                    listing.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    listing.price?.toString().includes(searchQuery)
                 ),
             };
             setFilteredListings(newFilteredListings);
         };
+
 
         filterListings();
     }, [searchQuery, listings]);
