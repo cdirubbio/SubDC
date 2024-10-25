@@ -74,7 +74,7 @@ export default function Account() {
   const handleRemoveNotification = async (notificationId) => {
     let token = localStorage.getItem('jsonwebtoken');
     try {
-      const response = await fetch(`${window.BACKEND_URL}/api/userNotifications/remove`, {
+      const response = await fetch(`${window.BACKEND_URL}/api/user/notifications/remove`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
