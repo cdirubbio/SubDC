@@ -57,9 +57,6 @@
   align-self: flex-start;
 }
 
-.editor:hover {
-  background-color: #778DA9;
-}
 
 .edit:active {
   box-shadow: 0 0 2px darkslategray;
@@ -73,14 +70,14 @@
 }
 
 .listing-details p {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   margin: 12px 0;
   line-height: 1.6;
 }
 
 .listing-details strong {
   color: #1a202c;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
 }
 
 .listing-image-container {
@@ -96,6 +93,30 @@
   height: auto;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.listing-content {
+  display: grid;
+  gap: 12px;
+}
+.description {
+  font-size: 1.3rem !important;
+  margin-top: 10px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.detail-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.detail-row i {
+  color: #5465FF;
+}
+
+.detail-row span {
+  font-size: 1.15rem;
 }
 
 @media (max-width: 768px) {

@@ -18,7 +18,7 @@ export default function Header() {
           <span className="self-center text-2xl font-semibold whitespace-nowrap title-text"><strong>SUB <br className="break" /> DC</strong></span>
         </NavLink>
         <button
-          className="nav-toggle inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+          className="logobutton nav-toggle inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
           onClick={toggleMenu}
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

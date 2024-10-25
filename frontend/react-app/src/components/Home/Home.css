@@ -82,7 +82,7 @@
     text-align: center;
     margin-bottom: 1rem;
     font-size: 2.5rem;
-    letter-spacing: 5px;
+    letter-spacing: 2px;
     font-weight: 800;
 }
 
@@ -103,51 +103,19 @@
     cursor: pointer;
     border-radius: 5px;
 }
-.why-choose-us {
-    padding: 2rem;
-    background-color: #f8f9fa;
-    text-align: center;
-  }
-  
-  .why-choose-us h2 {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  .benefits-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-  }
-  
-  .benefit {
-    background-color: #ffffff;
-    border-radius: 0.5rem;
-    padding: 1rem;
-    max-width: 300px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .benefit:hover {
-    background-color: #f8f8f8;
-  }
-
-  .benefit h3 {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .benefit p {
-    font-size: 1rem;
-    color: #555;
-  }
   .testimonials {
     padding: 2rem;
     background-color: #f9f9f9;
     text-align: center;
   }
-  
+  .testimonials-text {
+    color: #264F7B;
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    font-weight: 800;
+  }
   .testimonials h2 {
     font-size: 2rem;
     margin-bottom: 1.5rem;
