@@ -59,7 +59,7 @@
 
 
 }
-button {
+.logobutton button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -69,7 +69,7 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+.logobutton button:hover {
     background-color: #1B263B;
 }
 .title-text {

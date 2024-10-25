@@ -46,11 +46,11 @@ export default function ListingPage() {
 
     if (loading) {
         return (
-          <div className="spinner-container">
-            <div className="spinner"></div> {/* Spinner */}
-          </div>
+            <div className="spinner-container">
+                <div className="spinner"></div> {/* Spinner */}
+            </div>
         ); // show spinner
-      }
+    }
 
     if (error) {
         return <div>Error: {error}</div>;
@@ -131,29 +131,53 @@ export default function ListingPage() {
                 <div className="listing-header">
                     <h1 className="listing-title">{listing.title}</h1>
                     {user_id === listing_user_id && (
-                        <button className="editor" onClick={handleModalOpen}>
-                            EDIT
+                        <button className="edit-button" onClick={handleModalOpen}>
+                            <i className="fas fa-edit"></i> EDIT
                         </button>
                     )}
                 </div>
-                <h6 className="listing-id">#{listing_id}</h6>
-                <div className="listing-details">
-                    <p><strong>Description:</strong> {listing.description}</p>
-                    <p><strong>Type:</strong> {apartmentTypeConverter(listing.apt_type)}</p>
-                    <p><strong>Price:</strong> ${listing.price}</p>
-                    <p><strong>Available from:</strong> {formatDateToReadable(listing.availability_start)}</p>
-                    <p><strong>Available until:</strong> {formatDateToReadable(listing.availability_end)}</p>
-                    <p><strong>Location:</strong> {listing.location}</p>
+
+                <div className="listing-meta">
+                    <h6 className="listing-id">Listing ID: #{listing_id}</h6>
+                    {user_id && user_id !== listing_user_id && (
+                        <div
+                            className={`favorite-icon ${isFavorite ? 'favorited' : ''}`}
+                            onClick={() => toggleUserFavorite(token, listing_id, setIsFavorite)}
+                        >
+                            <i className={`fas fa-heart ${isFavorite ? 'favorited' : ''}`}></i>
+                        </div>
+                    )}
                 </div>
-                {user_id && user_id !== listing_user_id && (
-                    <div
-                        className={`favorite-icon ${isFavorite ? 'favorited' : ''}`}
-                        onClick={() => toggleUserFavorite(token, listing_id, setIsFavorite)}
-                    >
-                        <i className={`fas fa-heart ${isFavorite ? 'favorited' : ''}`}></i>
+
+                <div className="listing-content">
+                    <div className="listing-details">
+                        <div className="detail-row">
+                            <span className="description">{listing.description}</span>
+                        </div>
+                        <div className="detail-row">
+                            <i className="fas fa-building"></i>
+                            <span><strong>Type:</strong> {apartmentTypeConverter(listing.apt_type)}</span>
+                        </div>
+                        <div className="detail-row">
+                            <i className="fas fa-dollar-sign"></i>
+                            <span><strong>Price:</strong> ${listing.price}</span>
+                        </div>
+                        <div className="detail-row">
+                            <i className="fas fa-calendar-alt"></i>
+                            <span><strong>Available from:</strong> {formatDateToReadable(listing.availability_start)}</span>
+                        </div>
+                        <div className="detail-row">
+                            <i className="fas fa-calendar-check"></i>
+                            <span><strong>Available until:</strong> {formatDateToReadable(listing.availability_end)}</span>
+                        </div>
+                        <div className="detail-row">
+                            <i className="fas fa-map-marker-alt"></i>
+                            <span><strong>Location:</strong> {listing.location}</span>
+                        </div>
                     </div>
-                )}
+                </div>
             </div>
+
 
             <div className="listing-image-container">
                 <img src={listing.image1} alt="Image1" className="listing-page-image" />
