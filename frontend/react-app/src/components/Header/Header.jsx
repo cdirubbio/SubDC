@@ -55,21 +55,21 @@ export default function Header() {
               </NavLink>
             </li>
             <li>
+            <NavLink
+                to="/AboutUs"
+                onClick={toggleMenu}
+                className={({ isActive }) => isActive ? 'nav-link active md' : 'nav-link md'}
+              >
+                ABOUT US
+              </NavLink>
+            </li>
+            <li>
               <NavLink
                 to="/Authentication"
                 onClick={toggleMenu}
                 className={({ isActive }) => isActive ? 'nav-link active md' : 'nav-link md'}
               >
                 ACCOUNT
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/AboutUs"
-                onClick={toggleMenu}
-                className={({ isActive }) => isActive ? 'nav-link active md' : 'nav-link md'}
-              >
-                ABOUT US
               </NavLink>
             </li>
           </ul>
