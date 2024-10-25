@@ -71,7 +71,7 @@ export default function CreateListing() {
     formData.append('image2', image2);
 
     try {
-      const response = await fetch(`${window.BACKEND_URL}/api/createListing`, {
+      const response = await fetch(`${window.BACKEND_URL}/api/listing/create`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${JSONWebToken}`,

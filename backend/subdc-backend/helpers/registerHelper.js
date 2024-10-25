@@ -1,7 +1,7 @@
 ////////////////\\\\\\\\\\\\\\\\\\
 // Helper Methods for /api/register
 ////////////////\\\\\\\\\\\\\\\\\\
-const db = require("../db");
+const db = require("../database/db");
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 
@@ -14,8 +14,8 @@ const emailTransporter = nodemailer.createTransport({
 });
 const verifyStudentEmail = (email) => {
   // i think these are the things allowed in email addresses but idek
-  const allwoedEmailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(edu)$/;
-  return allwoedEmailPattern.test(email);
+  const allowedEmailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(edu)$/;
+  return allowedEmailPattern.test(email);
 };
 
 const checkUsernameNotExist = (username) => {
