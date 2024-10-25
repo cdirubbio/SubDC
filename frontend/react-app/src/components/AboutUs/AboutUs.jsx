@@ -46,8 +46,8 @@ export default function AboutUs() {
   <h2 className="aboutus-title text-3xl font-bold mb-10">Meet the SubDC Team</h2>
   
   <div className="flex flex-wrap justify-center">
-    {/* Team Members - make this an element later bc 2 much code */} 
-    <a href="https://linkedin.com/in/cdirubbio">
+    {/* Team Members - make this an component later bc 2 much code */} 
+    <a href="https://linkedin.com/in/cdirubbio" target="_blank">
     <div className="team-member bg-white shadow-lg rounded-lg p-5 m-4 max-w-xs">
       <img 
         src={ChrisImg} 
@@ -57,7 +57,6 @@ export default function AboutUs() {
       <h3 className="text-xl font-semibold">CEO & Developer</h3>
       <p className="text-gray-600">Christian DiRubbio</p>
       <p className="text-gray-500 mt-3">
-        
       </p>
     </div>
     </a>
