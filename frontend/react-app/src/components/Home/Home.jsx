@@ -108,42 +108,8 @@ export default function Home() {
           ))}
         </div>
       </section>
-
-      <section className="why-choose-us">
-        <h2 className="font-extrabold">WHY CHOOSE SUBDC</h2>
-        <div className="benefits-container">
-          <div className="benefit">
-            <h3>Trustworthy and Verified</h3>
-            <p>
-              Our platform is designed exclusively for students, ensuring all users
-              are verified and providing a secure subleasing experience.
-            </p>
-          </div>
-          <div className="benefit">
-            <h3>Easy and Accessible</h3>
-            <p>
-              With user-friendly search filters and a simple interface, finding
-              the perfect sublease or posting your listing has never been easier.
-            </p>
-          </div>
-          <div className="benefit">
-            <h3>Integrated Payment System</h3>
-            <p>
-              Securely handle payments through our platform with Stripe integration,
-              making transactions smooth and hassle-free.
-            </p>
-          </div>
-          <div className="benefit">
-            <h3>Exclusive Student Deals</h3>
-            <p>
-              Discover affordable subleases tailored to students, with prices and
-              options ideal for a college budget.
-            </p>
-          </div>
-        </div>
-      </section>
       <section className="testimonials">
-        <h2 className="font-extrabold">WHAT STUDENTS ARE SAYING</h2>
+        <h2 className="testimonials-text"><strong>WHAT STUDENTS ARE SAYING</strong></h2>
         <Carousel
           responsive={carouselResponsive}
           infinite={true}
