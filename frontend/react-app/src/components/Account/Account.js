@@ -2,7 +2,7 @@ import Account from "./Account.jsx";
 
 export const getUserInfo = async (token, setUserInfo) => {
   try {
-    const response = await fetch(`${window.BACKEND_URL}/api/userInfo`, {
+    const response = await fetch(`${window.BACKEND_URL}/api/user/info`, {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${token}`, 
@@ -13,15 +13,16 @@ export const getUserInfo = async (token, setUserInfo) => {
       throw new Error("Network response was not ok");
     }
 
-    const data = await response.json();
+    const responseFromServer = await response.json();
+    const data = responseFromServer[0];
 
     setUserInfo({
-      user_id: data.user.user_id || "",
-      first_name: data.user.first_name || "",
-      last_name: data.user.last_name || "",
-      username: data.user.username || "",
-      email: data.user.email || "",
-      phone_number: data.user.phone_number || "",
+      user_id: data.user_id || "",
+      first_name: data.first_name || "",
+      last_name: data.last_name || "",
+      username: data.username || "",
+      email: data.email || "",
+      phone_number: data.phone_number || "",
     });
   } catch (error) {
     console.error("Error fetching user info:", error);
@@ -48,7 +49,7 @@ export const getUserListings = async (token, setUserListings) => {
 };
 export const getUserNotifications = async (token, setUserNotifications) => {
   try {
-    const response = await fetch(`${window.BACKEND_URL}/api/userNotifications`, {
+    const response = await fetch(`${window.BACKEND_URL}/api/user/notifications`, {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${token}`, 
@@ -91,7 +92,7 @@ export const getUserNotifications = async (token, setUserNotifications) => {
 
   export const updateUserInfo = async (token, updatedUserInfo) => {
     try {
-        const response = await fetch(`${window.BACKEND_URL}/api/userInfo`, {
+        const response = await fetch(`${window.BACKEND_URL}/api/user/info`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",

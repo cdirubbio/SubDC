@@ -1,35 +1,31 @@
-import React, { useState, useEffect } from "react"
-import "./Home.css"
+import React, { useState, useEffect } from "react";
+import "./Home.css";
 import { Link } from "react-router-dom";
 import ListingCard from "../Listings/ListingCard/ListingCard";
-
-
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 
 export default function Home() {
-
-  const [location, setLocation] = useState('Washington DC');
-  const locations = ['the DMV', 'Arlington', 'Bethesda', 'Washington DC'];
+  const [location, setLocation] = useState("Washington DC");
+  const locations = ["the DMV", "Arlington", "Bethesda", "Washington DC"];
   const [listings, setListings] = useState([]);
 
   useEffect(() => {
-    // this will update the locations on the homepage...
     const updateLocation = () => {
-      setLocation(prevLocation => {
+      setLocation((prevLocation) => {
         const currentIndex = locations.indexOf(prevLocation);
         const nextIndex = (currentIndex + 1) % locations.length;
         return locations[nextIndex];
       });
     };
-    // this is supposed to be every 2 secs?
     const interval = setInterval(updateLocation, 2000);
-
     return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
     const fetchFeaturedListings = async () => {
       try {
-        const requests = [1, 2, 3, 4].map(id =>
+        const requests = [1, 2, 3, 4].map((id) =>
           fetch(`${window.BACKEND_URL}/api/listing/${id}`, {
             method: "GET",
             headers: {
@@ -42,38 +38,65 @@ export default function Home() {
 
         for (const response of responses) {
           if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error("Network response was not ok");
           }
         }
 
-        const data = await Promise.all(responses.map(response => response.json()));
+        const data = await Promise.all(
+          responses.map((response) => response.json())
+        );
 
         setListings(data);
       } catch (error) {
-        console.error('Failed to fetch listings:', error);
+        console.error("Failed to fetch listings:", error);
       }
     };
 
     fetchFeaturedListings();
   }, []);
+
+  const carouselResponsive = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 1,
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 1,
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+    },
+  };
+
   return (
     <div className="homepage">
       <section className="hero-section">
         <div className="hero-image">
-        <div className="title-text-div">
-          <h1 className="text-on-image"> Find Your Perfect Sublease in <span className="location">{location}</span></h1>
-          <p className="text-on-image">Discover affordable sublease options for students in the DC area.</p>
-          <Link to="Explore"><button className="cta-button">Start Searching</button></Link>
+          <div className="title-text-div">
+            <h1 className="text-on-image">
+              Find Your Perfect Sublease in{" "}
+              <span className="location">{location}</span>
+            </h1>
+            <p className="text-on-image">
+              Discover affordable sublease options for students in the DC area.
+            </p>
+            <Link to="Explore">
+              <button className="cta-button">Start Searching</button>
+            </Link>
           </div>
         </div>
-
       </section>
+
       <section className="featured-listings">
         <h2 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-5xl">
-          <span className="featured-listings-text"><strong>FEATURED LISTINGS</strong></span>
+          <span className="featured-listings-text">
+            <strong>FEATURED LISTINGS</strong>
+          </span>
         </h2>
         <div className="listings-container">
-          {listings.map(listing => (
+          {listings.map((listing) => (
             <ListingCard
               key={listing.listing_id}
               listingImage={listing.image1}
@@ -85,39 +108,72 @@ export default function Home() {
           ))}
         </div>
       </section>
-      <section className="how-it-works">
-        <h2 className="font-extrabold">HOW IT WORKS</h2>
-        <p>
-          SubDC is designed to simplify the subleasing process for students in Washington DC. Whether you're looking for a temporary place to stay or need someone to take over your lease, SubDC provides a straightforward and secure platform to connect with others. Here’s how it works:
-        </p>
-        <div className="steps-container">
-          <div className="step">
-            <h3>Step 1: Create an Account</h3>
-            <p>
-              To get started, create a free account on SubDC using your student email. This allows us to verify that all users are genuine students, ensuring a safe and trustworthy environment. Once registered, you can start browsing listings or create your own.
-            </p>
-            <Link to="Authentication"><button className="register-button"><strong>Register Here</strong></button></Link>
-          </div>
-          <div className="step">
-            <h3>Step 2: Browse Listings or Post Your Own</h3>
-            <p>
-              Use our advanced search filters to find the perfect sublease that matches your needs—filter by neighborhood, price, duration, and more. Alternatively, if you're looking to sublease your apartment, easily create a listing with details like rent, location, and photos to attract potential subtenants.
-            </p>
-          </div>
 
-          <div className="step">
-            <h3>Step 3: Payment + Terms</h3>
+      <section className="why-choose-us">
+        <h2 className="font-extrabold">WHY CHOOSE SUBDC</h2>
+        <div className="benefits-container">
+          <div className="benefit">
+            <h3>Trustworthy and Verified</h3>
             <p>
-              After you’ve found an appropriate place to sublet or a person to sublet to, payment is made simple as our platform is integrated with Stripe. The Sublettor then agrees to the terms that the Sublessor has outlined for the period.
+              Our platform is designed exclusively for students, ensuring all users
+              are verified and providing a secure subleasing experience.
             </p>
           </div>
-          <div className="step">
-            <h3>Step 4: Move In or Sublease Your Apartment</h3>
+          <div className="benefit">
+            <h3>Easy and Accessible</h3>
             <p>
-              Once everything is set, all that’s left is to move in and enjoy your new place or hand over the keys to your subtenant. Whether you’re looking for a short-term rental during the summer or need to sublease while studying abroad, SubDC makes the process smooth and hassle-free.
+              With user-friendly search filters and a simple interface, finding
+              the perfect sublease or posting your listing has never been easier.
+            </p>
+          </div>
+          <div className="benefit">
+            <h3>Integrated Payment System</h3>
+            <p>
+              Securely handle payments through our platform with Stripe integration,
+              making transactions smooth and hassle-free.
+            </p>
+          </div>
+          <div className="benefit">
+            <h3>Exclusive Student Deals</h3>
+            <p>
+              Discover affordable subleases tailored to students, with prices and
+              options ideal for a college budget.
             </p>
           </div>
         </div>
+      </section>
+      <section className="testimonials">
+        <h2 className="font-extrabold">WHAT STUDENTS ARE SAYING</h2>
+        <Carousel
+          responsive={carouselResponsive}
+          infinite={true}
+          autoPlay={true}
+          autoPlaySpeed={3500}
+          showDots={true}
+          className="testimonials-carousel"
+        >
+          <div className="testimonial">
+            <p className="quote">
+              "SubDC made it so easy to find a sublease for the summer! The process
+              was simple and secure, and I found a place in my budget within days."
+            </p>
+            <p className="author">– Emily, Georgetown University</p>
+          </div>
+          <div className="testimonial">
+            <p className="quote">
+              "Thanks to SubDC, I was able to quickly sublease my apartment while I
+              studied abroad."
+            </p>
+            <p className="author">– Michael, George Washington University</p>
+          </div>
+          <div className="testimonial">
+            <p className="quote">
+              "I love how user-friendly SubDC is! Finding a subtenant was so easy,
+              and I feel secure knowing all users are verified students."
+            </p>
+            <p className="author">– Sarah, American University</p>
+          </div>
+        </Carousel>
       </section>
     </div>
   );
