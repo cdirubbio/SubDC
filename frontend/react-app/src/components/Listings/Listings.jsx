@@ -84,7 +84,7 @@ export default function Listings() {
                 <input
                     type="text"
                     className="search-input"
-                    placeholder="Search by neighborhood, price, or apartment type..."
+                    placeholder="Search by neighborhood, zip code, or keywords..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                 />
