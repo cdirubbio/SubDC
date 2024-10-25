@@ -1,15 +1,7 @@
 const authentication = require("../models/authenticationModel");
-const {
-  generateJSONWebToken,
-  getUserInfoFromJSONWebToken,
-} = require("../helpers/jwtHelper");
-const {
-  checkUsernameNotExist,
-  checkEmailNotExist,
-  sendVerificationEmail,
-  verifyStudentEmail,
-} = require("../helpers/registerHelper");
-const { checkUsernameExists } = require("../helpers/loginHelper");
+const { generateJSONWebToken, getUserInfoFromJSONWebToken } = require("../utils/helpers/jwtHelper");
+const { checkUsernameNotExist, checkEmailNotExist, sendVerificationEmail, verifyStudentEmail } = require("../utils/helpers/registerHelper");
+const { checkUsernameExists } = require("../utils/helpers/loginHelper");
 
 module.exports = {
   register: async (req, res) => {

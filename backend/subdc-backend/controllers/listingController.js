@@ -1,26 +1,13 @@
-const { dcZipCodes } = require("../helpers/locationHelper");
+const { dcZipCodes } = require("../utils/helpers/locationHelper");
 const listing = require("../models/listingModel");
 const multer = require("multer");
 const multerS3 = require("multer-s3");
 const { S3Client, DeleteObjectsCommand } = require("@aws-sdk/client-s3");
 const dotenv = require("dotenv");
-const { getUserInfoFromJSONWebToken } = require("../helpers/jwtHelper");
+const { getUserInfoFromJSONWebToken } = require("../utils/helpers/jwtHelper");
+const { s3, upload } = require("../utils/middlewares/middlewareS3");
 
 dotenv.config();
-
-const s3 = new S3Client({
-  region: "us-east-1",
-});
-
-const upload = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: process.env.S3_BUCKET_NAME,
-    key: function (req, file, cb) {
-      cb(null, Date.now().toString() + "-" + file.originalname);
-    },
-  }),
-});
 
 module.exports = {
   getAllListings: async (req, res) => {
@@ -31,7 +18,6 @@ module.exports = {
           ...listing,
           location,
         };
-        delete transformedListing.zip_code;
         return transformedListing;
       });
       res.status(200).json(transformedListings);
@@ -246,7 +232,6 @@ module.exports = {
 
       const s3DeleteResult = await s3.send(command);
       console.log("S3 Delete Result:", s3DeleteResult);
-
 
       const result = await listing.deleteListing(listing_id);
       if (result.affectedRows === 0) {

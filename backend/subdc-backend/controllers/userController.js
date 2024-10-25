@@ -1,6 +1,6 @@
 const user = require("../models/userModel");
-const { getUserInfoFromJSONWebToken } = require("../helpers/jwtHelper");
-const { dcZipCodes } = require("./../helpers/locationHelper");
+const { getUserInfoFromJSONWebToken } = require("../utils/helpers/jwtHelper");
+const { dcZipCodes } = require("../utils/helpers/locationHelper");
 
 module.exports = {
   getUserInfo: async (req, res) => {

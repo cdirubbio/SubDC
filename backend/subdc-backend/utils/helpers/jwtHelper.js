@@ -3,7 +3,7 @@
 ////////////////\\\\\\\\\\\\\\\\\\
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
-const db = require("../database/db");
+const db = require("../../database/db");
 const { checkUsernameExists } = require("./loginHelper");
 
 dotenv.config();
