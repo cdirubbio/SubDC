@@ -1,8 +1,5 @@
 const { dcZipCodes } = require("../utils/helpers/locationHelper");
 const listing = require("../models/listingModel");
-const multer = require("multer");
-const multerS3 = require("multer-s3");
-const { S3Client, DeleteObjectsCommand } = require("@aws-sdk/client-s3");
 const dotenv = require("dotenv");
 const { getUserInfoFromJSONWebToken } = require("../utils/helpers/jwtHelper");
 const { s3, upload } = require("../utils/middlewares/middlewareS3");

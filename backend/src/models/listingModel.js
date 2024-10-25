@@ -1,11 +1,7 @@
 const express = require("express");
-// const dotenv = require("dotenv");
 const db = require("../database/db");
-const { S3Client, DeleteObjectsCommand } = require("@aws-sdk/client-s3");
 
-const s3 = new S3Client({
-  region: "us-east-1",
-});
+
 
 module.exports = {
   queryAllListings: () => {

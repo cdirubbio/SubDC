@@ -1,4 +1,3 @@
-// const dotenv = require("dotenv");
 const db = require("../database/db");
 
 module.exports = {
