@@ -130,7 +130,7 @@ Resources:
           cd ~
           git clone https://github.com/cdirubbio/subdc.git
 
-          cd subdc/backend/subdc-backend
+          cd subdc/backend/src
           npm install
 
           ENV_VARS=$(aws secretsmanager get-secret-value --secret-id prod/subdc/env-vars --query 'SecretString' --output text)
@@ -185,7 +185,7 @@ Resources:
           cd ~
           git clone https://github.com/cdirubbio/subdc.git
 
-          cd subdc/backend/subdc-backend
+          cd subdc/backend/src
           npm install
 
           ENV_VARS=$(aws secretsmanager get-secret-value --secret-id prod/subdc/env-vars --query 'SecretString' --output text)

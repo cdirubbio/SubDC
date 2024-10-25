@@ -21,7 +21,7 @@ phases:
       - scp -o StrictHostKeyChecking=no -i /tmp/private-key.pem -r .env ec2-user@3.80.188.158:/home/ec2-user/subdc/
 
       - echo Restarting the server using PM2...
-      - ssh -i /tmp/private-key.pem ec2-user@3.80.188.158 'cd subdc/backend/subdc-backend && npm install && pm2 restart server'
+      - ssh -i /tmp/private-key.pem ec2-user@3.80.188.158 'cd subdc/backend/src && npm install && pm2 restart server'
 
   build:
     commands:
