@@ -53,7 +53,7 @@ export default function AboutUs() {
         alt="Chris" 
         className="w-32 h-auto rounded-full mx-auto mb-4 object-cover"  
       />
-      <h3 className="text-xl font-semibold">CEO</h3>
+      <h3 className="text-xl font-semibold">CEO & Dev</h3>
       <p className="text-gray-600">Christian DiRubbio</p>
       <p className="text-gray-500 mt-3">
         
