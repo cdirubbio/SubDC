@@ -1,7 +1,6 @@
 // userModel.js
 const db = require("../database/db");
 
-
 module.exports = {
   queryUserInfo: async(user_id) => {
     const sql =
@@ -24,7 +23,6 @@ module.exports = {
       .catch(console.log);
     return result;
   },
-
   queryUserFavorites: (user_id) => {
     const sql = `
       SELECT l.listing_id, l.title, l.price, l.user_id, l.image1, l.image2, l.reserved_by, l.zip_code

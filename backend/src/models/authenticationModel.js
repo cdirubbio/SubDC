@@ -58,7 +58,6 @@ module.exports = {
       .then(([result]) => result)
       .catch((err) => {
         console.error("Error updating email verification:", err);
-        throw new Error(err.message);
       });
   },
 };
