@@ -20,6 +20,14 @@ export default function Authentication() {
     password: ''
   });
 
+  const [passwordCriteria, setPasswordCriteria] = useState({
+    length: false,
+    uppercase: false,
+    lowercase: false,
+    number: false,
+    specialChar: false,
+  });
+
   const resetRegisterFields = () => {
     setRegisterCredentials({
       first_name: '',
@@ -29,6 +37,30 @@ export default function Authentication() {
       username: '',
       password: ''
     });
+    setPasswordCriteria({
+      length: false,
+      uppercase: false,
+      lowercase: false,
+      number: false,
+      specialChar: false,
+    });
+  };
+
+  const validatePassword = (password) => {
+    const criteria = {
+      length: password.length >= 8,
+      uppercase: /[A-Z]/.test(password),
+      lowercase: /[a-z]/.test(password),
+      number: /[0-9]/.test(password),
+      specialChar: /[!@#$%^&*]/.test(password),
+    };
+    setPasswordCriteria(criteria);
+  };
+
+  const handlePasswordChange = (e) => {
+    const password = e.target.value;
+    setRegisterCredentials({ ...registerCredentials, password });
+    validatePassword(password);
   };
 
   useEffect(() => {
@@ -45,11 +77,10 @@ export default function Authentication() {
   if (loading) {
     return (
       <div className="spinner-container">
-        <div className="spinner"></div> {/* Spinner */}
+        <div className="spinner"></div>
       </div>
-    ); // show spinner
+    );
   }
-  
 
   return (
     <div className="authentication-container">
@@ -117,11 +148,27 @@ export default function Authentication() {
             type="password"
             value={registerCredentials.password}
             name="password"
-            onChange={(e) => setRegisterCredentials({ ...registerCredentials, [e.target.name]: e.target.value })}
+            onChange={handlePasswordChange}
             placeholder="Password"
             required
           />
-          <button onClick={() => handleRegister(registerCredentials, resetRegisterFields)}>Register</button>
+          <div className="password-checklist">
+            <p className={passwordCriteria.length ? "valid" : "invalid"}>At least 8 characters</p>
+            <p className={passwordCriteria.uppercase ? "valid" : "invalid"}>At least one uppercase letter</p>
+            <p className={passwordCriteria.lowercase ? "valid" : "invalid"}>At least one lowercase letter</p>
+            <p className={passwordCriteria.number ? "valid" : "invalid"}>At least one number</p>
+            <p className={passwordCriteria.specialChar ? "valid" : "invalid"}>At least one special character (!@#$%^&*)</p>
+          </div>
+          <button
+            onClick={() => {
+              if (Object.values(passwordCriteria).every(Boolean)) {
+                handleRegister(registerCredentials, resetRegisterFields);
+              }
+            }}
+            disabled={!Object.values(passwordCriteria).every(Boolean)}
+          >
+            Register
+          </button>
         </div>
       </div>
     </div>

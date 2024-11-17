@@ -15,10 +15,35 @@ export default function CreateListing() {
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
 
-
+  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const JSONWebToken = localStorage.getItem('jsonwebtoken');
+
+  const validateInput = () => {
+    const newErrors = {};
+    
+    if (title.length < 5 || title.length > 100) {
+      newErrors.title = "Title must be between 5 and 100 characters.";
+    }
+    if (description.length < 10 || description.length > 1000) {
+      newErrors.description = "Description must be between 10 and 1000 characters.";
+    }
+    if (price <= 0 || price > 10000) {
+      newErrors.price = "Price must be between $1 and $10,000.";
+    }
+    if (!/^\d{5}(-\d{4})?$/.test(zipCode)) {
+      newErrors.zipCode = "Zip Code must be a valid US zip code.";
+    }
+    if (address.length < 10 || address.length > 200) {
+      newErrors.address = "Address must be between 10 and 200 characters.";
+    }
+    if (availability_start && availability_end && new Date(availability_start) > new Date(availability_end)) {
+      newErrors.availability = "Start date cannot be after the end date.";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const checkAuthentication = async (token) => {
     if (!token) {
@@ -53,11 +78,15 @@ export default function CreateListing() {
     }
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateInput()) {
+      alert("Please fix the errors before submitting.");
+      return;
+    }
+
     const formData = new FormData();
-    
     formData.append('user_id', user_id);
     formData.append('title', title);
     formData.append('description', description);
@@ -85,39 +114,29 @@ export default function CreateListing() {
       } else {
         console.log('Listing submitted successfully.');
         alert('Listing submitted successfully.');
-        setTitle('');
-        setDescription('');
-        setApt_type('studio');
-        setPrice('');
-        setAddress('');
-        setZipCode('');
-        setAvailability_start('');
-        setAvailability_end('');
-
-        setImage1(null);
-        setImage2(null);
+        resetForm();
       }
     } catch (error) {
       console.error("Error submitting form, something went wrong:", error);
       alert('Error submitting Listing. Please try again');
     }
-
-    console.log('Form data:', {
-      user_id,
-      title,
-      description,
-      apt_type,
-      price,
-      address,
-      zipCode,
-      availability_start,
-      availability_end,
-    });
   };
 
+  const resetForm = () => {
+    setTitle('');
+    setDescription('');
+    setApt_type('studio');
+    setPrice('');
+    setAddress('');
+    setZipCode('');
+    setAvailability_start('');
+    setAvailability_end('');
+    setImage1(null);
+    setImage2(null);
+    setErrors({});
+  };
 
   useEffect(() => {
-    const JSONWebToken = localStorage.getItem('jsonwebtoken');
     checkAuthentication(JSONWebToken);
   }, [JSONWebToken]);
 
@@ -126,7 +145,7 @@ export default function CreateListing() {
       <div className="spinner-container">
         <div className="spinner"></div> {/* Spinner */}
       </div>
-    ); // show spinner
+    );
   }
 
   if (!user_id) {
@@ -155,6 +174,7 @@ export default function CreateListing() {
             onChange={(e) => setTitle(e.target.value)}
             required
           />
+          {errors.title && <p className="error-text">{errors.title}</p>}
         </div>
         <div className="form-group">
           <label htmlFor="description">Description of the Listing</label>
@@ -165,15 +185,7 @@ export default function CreateListing() {
             onChange={(e) => setDescription(e.target.value)}
             required
           />
-        </div>
-        <div className="form-group">
-          <label htmlFor="apt_type">Apartment Type</label>
-          <select defaultValue="studio" name="apt_type" id="apt_type"
-            onChange={(e) => setApt_type(e.target.value)} required>
-            <option value="studio">Studio Apartment</option>\
-            <option value="1br">1-Bedroom Apartment</option>
-            <option value="2br">2-Bedroom Apartment</option>
-          </select>
+          {errors.description && <p className="error-text">{errors.description}</p>}
         </div>
         <div className="form-group">
           <label htmlFor="price">Monthly Price of the Listing</label>
@@ -184,6 +196,7 @@ export default function CreateListing() {
             onChange={(e) => setPrice(e.target.value)}
             required
           />
+          {errors.price && <p className="error-text">{errors.price}</p>}
         </div>
         <div className="form-group">
           <label htmlFor="address">Address of the Listing</label>
@@ -195,6 +208,7 @@ export default function CreateListing() {
             onChange={(e) => setAddress(e.target.value)}
             required
           />
+          {errors.address && <p className="error-text">{errors.address}</p>}
         </div>
         <div className="form-group">
           <label htmlFor="zipCode">Zip Code of the Listing</label>
@@ -205,6 +219,7 @@ export default function CreateListing() {
             onChange={(e) => setZipCode(e.target.value)}
             required
           />
+          {errors.zipCode && <p className="error-text">{errors.zipCode}</p>}
         </div>
         <div className="form-group">
           <div className="availabilities">
@@ -231,28 +246,10 @@ export default function CreateListing() {
               required
             />
           </div>
-        </div>
-        <div className="form-group">
-          <label htmlFor="image1">Main Image of Listing</label>
-          <input
-            type="file"
-            id="image1"
-            accept="image/*"
-            onChange={(e) => setImage1(e.target.files[0])}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="image2">Secondary Image of Listing</label>
-          <input
-            type="file"
-            id="image2"
-            accept="image/*"
-            onChange={(e) => setImage2(e.target.files[0])}
-          />
+          {errors.availability && <p className="error-text">{errors.availability}</p>}
         </div>
         <button type="submit" className="submit-button">Submit Listing</button>
       </form>
     </div>
   );
 };
-
