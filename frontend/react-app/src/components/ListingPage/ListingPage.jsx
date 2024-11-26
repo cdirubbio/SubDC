@@ -10,6 +10,7 @@ export default function ListingPage() {
     const { id: listing_id } = useParams();
     const [isFavorite, setIsFavorite] = useState(false);
     const [isReserved, setIsReserved] = useState(false);
+    const [permissions, setPermissions] = useState(false);
     const [user_id, setUser_id] = useState('');
     const [listing, setListing] = useState(null);
     const [listing_user_id, setListing_user_id] = useState('');
@@ -48,7 +49,7 @@ export default function ListingPage() {
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        fetchListingDetails(token, listing_id, setListing, setIsFavorite, setLoading, setError, setUser_id, setListing_user_id, setIsReserved);
+        fetchListingDetails(token, listing_id, setListing, setIsFavorite, setLoading, setError, setUser_id, setListing_user_id, setIsReserved, setPermissions);
     }, [listing_id, token]);
 
     if (loading) {
@@ -57,6 +58,17 @@ export default function ListingPage() {
                 <div className="spinner"></div> {/* Spinner */}
             </div>
         ); // show spinner
+    }
+
+    if (!permissions) {
+        return (
+            <div className="no-access-container">
+                <div className="no-access-message">
+                    <h2>Access Denied</h2>
+                    <p>Sorry, you do not have permission to view this listing. Please contact the listing owner or log in with the appropriate account.</p>
+                </div>
+            </div>
+        );
     }
 
     if (error) {

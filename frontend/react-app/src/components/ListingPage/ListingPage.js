@@ -29,32 +29,28 @@ export const toggleUserFavorite = async (token, listing_id, setIsFavorite) => {
 
 export const reserveListing = async (token, listing_id, setIsReserved) => {
   try {
-    const response = await fetch(
-      `${window.BACKEND_URL}/api/listing/reserve`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          listing_id: listing_id,
-        }),
-      }
-    );
+    const response = await fetch(`${window.BACKEND_URL}/api/listing/reserve`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        listing_id: listing_id,
+      }),
+    });
 
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
     const data = await response.json();
     console.log(data);
-    
-    if (data.reservationResult == 'reserved') {
+
+    if (data.reservationResult == "reserved") {
       setIsReserved(true);
     } else {
       setIsReserved(false);
     }
-    
   } catch (error) {
     console.error("Error Reserving Listing: ", error);
   }
@@ -69,7 +65,8 @@ export const fetchListingDetails = async (
   setError,
   setUser_id,
   setListing_user_id,
-  setIsReserved
+  setIsReserved,
+  setPermissions
 ) => {
   try {
     const response = await fetch(
@@ -92,8 +89,23 @@ export const fetchListingDetails = async (
     setListing(data);
     setIsFavorite(data.isFavorite);
     setLoading(false);
-    if(data.reserved_by == data.user_id) {
-      setIsReserved(true);
+    if (data.reserved_by) {
+      // Allow access if the current user is the one who reserved it or owns the listing
+      if (
+        data.reserved_by === data.user_id ||
+        data.user_id === data.listing_user_id
+      ) {
+        setIsReserved(true);
+        setPermissions(true);
+      } else {
+        // Deny access if the listing is reserved by someone else
+        setIsReserved(true);
+        setPermissions(false);
+      }
+    } else {
+      // If the listing is not reserved, allow anyone to view it
+      setIsReserved(false);
+      setPermissions(true);
     }
   } catch (error) {
     setError(error.message);
