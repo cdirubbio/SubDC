@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-import { getUserInfo, getUserListings, getUserFavorites, updateUserInfo, getUserNotifications } from './Account';
+import { getUserInfo, getUserListings, getUserFavorites, updateUserInfo, getUserNotifications, getUserReservation } from './Account';
 import { checkAuthentication } from '../Authentication/Authentication';
 import ListingCard from './../Listings/ListingCard/ListingCard';
 import "slick-carousel/slick/slick.css";
@@ -13,6 +13,7 @@ export default function Account() {
   const [authenticated, setAuthenticated] = useState(false);
   const [userListings, setUserListings] = useState([]);
   const [userFavorites, setUserFavorites] = useState([]);
+  const [reservation, setReservation] = useState([]);
   const [userNotifications, setUserNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [userInfo, setUserInfo] = useState({
@@ -108,13 +109,14 @@ export default function Account() {
       getUserListings(token, setUserListings);
       getUserFavorites(token, setUserFavorites);
       getUserNotifications(token, setUserNotifications);
+      getUserReservation(token, setReservation);
     }
   }, [authenticated, userInfo.user_id]);
 
   if (loading) {
     return (
       <div className="spinner-container">
-        <div className="spinner"></div> 
+        <div className="spinner"></div>
       </div>
     );
   }
@@ -177,6 +179,23 @@ export default function Account() {
               )}
             </tbody>
           </table>
+        </div>
+        <div className="reservations-section user-info-section">
+          <h2 className="h2-titles account-page-title">RESERVATION</h2>
+          <div className="reservation-content">
+            {reservation ? (
+              <ListingCard
+                key={reservation.listing_id}
+                listing_id={reservation.listing_id}
+                listingName={reservation.title}
+                listingLocation={reservation.location}
+                listingPrice={reservation.price}
+                listingImage={reservation.image1}
+              />
+            ) : (
+              <p>You currently have no reservation.</p>
+            )}
+          </div>
         </div>
       </div>
 

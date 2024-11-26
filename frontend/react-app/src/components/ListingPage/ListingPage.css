@@ -42,6 +42,9 @@
 .favorite-icon.favorited {
   color: red;
 }
+.reserve-button.reserved {
+  color: gold;
+}
 
 .editor {
   margin-top: 10px;

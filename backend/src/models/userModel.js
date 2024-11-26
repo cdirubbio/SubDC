@@ -124,4 +124,14 @@ module.exports = {
       .then(([result]) => result)
       .catch(console.error);
   },
+  queryUserReservation: (user_id) => {
+    const sql =
+      "SELECT listing_id, title, price, image1, image2, zip_code FROM Listings WHERE reserved_by = ?";
+    const result = db
+      .promise()
+      .query(sql, [user_id])
+      .then(([result]) => result[0])
+      .catch(console.log);
+    return result;
+  },
 };

@@ -27,6 +27,39 @@ export const toggleUserFavorite = async (token, listing_id, setIsFavorite) => {
   }
 };
 
+export const reserveListing = async (token, listing_id, setIsReserved) => {
+  try {
+    const response = await fetch(
+      `${window.BACKEND_URL}/api/listing/reserve`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          listing_id: listing_id,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    console.log(data);
+    
+    if (data.reservationResult == 'reserved') {
+      setIsReserved(true);
+    } else {
+      setIsReserved(false);
+    }
+    
+  } catch (error) {
+    console.error("Error Reserving Listing: ", error);
+  }
+};
+
 export const fetchListingDetails = async (
   token,
   listing_id,
@@ -35,7 +68,8 @@ export const fetchListingDetails = async (
   setLoading,
   setError,
   setUser_id,
-  setListing_user_id
+  setListing_user_id,
+  setIsReserved
 ) => {
   try {
     const response = await fetch(
@@ -58,6 +92,9 @@ export const fetchListingDetails = async (
     setListing(data);
     setIsFavorite(data.isFavorite);
     setLoading(false);
+    if(data.reserved_by == data.user_id) {
+      setIsReserved(true);
+    }
   } catch (error) {
     setError(error.message);
     setLoading(false);

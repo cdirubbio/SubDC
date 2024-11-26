@@ -16,7 +16,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "http://subdc-test.s3-website-us-east-1.amazonaws.com"
+      "http://subdc-test.s3-website-us-east-1.amazonaws.com",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: [
@@ -30,8 +30,10 @@ app.use(
 app.use("/", userRoutes);
 app.use("/", listingRoutes);
 app.use("/", authenticationRoutes);
-
-
+app.get("/", (req, res) => {
+  console.log("Default Route Hit");
+  res.send("Welcome to SubDC Backend!");
+});
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Backend Server is running on http://localhost:${PORT}`);

@@ -183,4 +183,24 @@ module.exports = {
       res.status(500).json({ message: error.message });
     }
   },
+  getReservation: async (req, res) => {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+    if (!token) {
+      return res.status(401).json({ message: "No token provided" });
+    }
+    try {
+      const userInfo = await getUserInfoFromJSONWebToken(token);
+      const user_id = userInfo.user_id;
+      if (user_id == null) {
+        return res.status(401).json({ message: "Invalid User ID" });
+      }
+      user.queryUserReservation(user_id).then((result) => {
+        console.log(result);
+        res.status(200).json(result);
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  },
 };

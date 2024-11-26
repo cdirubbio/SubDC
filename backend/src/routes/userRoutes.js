@@ -18,4 +18,6 @@ router.post("/api/user/notifications", userController.getUserNotifications);
 
 router.put("/api/user/notifications/remove", userController.removeNotification);
 
+router.post("/api/user/reservation", userController.getReservation);
+
 module.exports = router;

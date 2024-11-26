@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { toggleUserFavorite, fetchListingDetails, apartmentTypeConverter, updateListingInformation, formatDateToReadable, deleteListing } from './ListingPage';
+import { toggleUserFavorite, fetchListingDetails, apartmentTypeConverter, updateListingInformation, formatDateToReadable, deleteListing, reserveListing } from './ListingPage';
 import './ListingPage.css';
+
 
 export default function ListingPage() {
     const navigate = useNavigate();
     const token = localStorage.getItem('jsonwebtoken');
     const { id: listing_id } = useParams();
     const [isFavorite, setIsFavorite] = useState(false);
+    const [isReserved, setIsReserved] = useState(false);
     const [user_id, setUser_id] = useState('');
     const [listing, setListing] = useState(null);
     const [listing_user_id, setListing_user_id] = useState('');
@@ -39,9 +41,14 @@ export default function ListingPage() {
         navigate('/Explore');
     }
 
+    const handleReservation = () => {
+        let token = localStorage.getItem('jsonwebtoken');
+        reserveListing(token, listing_id, setIsReserved);
+    }
+
     useEffect(() => {
         window.scrollTo(0, 0);
-        fetchListingDetails(token, listing_id, setListing, setIsFavorite, setLoading, setError, setUser_id, setListing_user_id);
+        fetchListingDetails(token, listing_id, setListing, setIsFavorite, setLoading, setError, setUser_id, setListing_user_id, setIsReserved);
     }, [listing_id, token]);
 
     if (loading) {
@@ -146,6 +153,16 @@ export default function ListingPage() {
                         >
                             <i className={`fas fa-heart ${isFavorite ? 'favorited' : ''}`}></i>
                         </div>
+
+                    )}
+                    {user_id && user_id !== listing_user_id && (
+                        <div
+                            className={`reserve-button ${isReserved ? 'reserved' : ''}`}
+                            onClick={handleReservation}
+                        >
+                            Reserve<i className={`fas fa-star ${isReserved ? 'reserved' : ''}`}></i>
+                        </div>
+
                     )}
                 </div>
 
