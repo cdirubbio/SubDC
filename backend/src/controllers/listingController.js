@@ -51,7 +51,7 @@ module.exports = {
         res.status(200).json(transformedListing);
       });
     } catch (err) {
-      console.error(err);
+      console.log(err);
     }
   },
   createListing: async (req, res) => {
@@ -241,6 +241,42 @@ module.exports = {
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: error.message });
+    }
+  },
+  toggleReservation: async (req, res) => {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+
+    if (!token) {
+      return res.status(401).json({ message: "No token provided" });
+    }
+
+    try {
+      const userInfo = await getUserInfoFromJSONWebToken(token);
+      const user_id = userInfo.user_id;
+
+      const { listing_id } = req.body;
+
+      if (!listing_id) {
+        return res.status(400).json({ message: "Listing ID is required" });
+      }
+
+      const listingDetails = await listing.queryListingInfo(listing_id, user_id);
+      if (!listingDetails) {
+        return res.status(404).json({ message: "Listing not found" });
+      }
+
+      const owner_user_id = listingDetails.listing_user_id;
+
+      const result = await listing.updateReservation(owner_user_id, listing_id, user_id);
+
+      res.status(201).json({
+        message: "Reservation Toggled",
+        reservationResult: result.action,
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: err.message });
     }
   },
 };

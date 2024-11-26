@@ -88,6 +88,32 @@ export const getUserNotifications = async (token, setUserNotifications) => {
       console.error("Error fetching user favorites:", error);
     }
   };
+
+  export const getUserReservation = async (token, setReservation) => {
+    try {
+      const response = await fetch(`${window.BACKEND_URL}/api/user/reservation`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        if (data && data.listing_id) {
+          setReservation(data); // Set reservation if data is valid
+        } else {
+          setReservation(null); // Clear reservation if no data
+        }
+      } else {
+        setReservation(null); // Clear reservation on error or no data
+      }
+    } catch (error) {
+      console.error("Error fetching reservation:", error);
+      setReservation(null);
+    }
+  };
   
 
   export const updateUserInfo = async (token, updatedUserInfo) => {

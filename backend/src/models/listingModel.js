@@ -1,8 +1,6 @@
 const express = require("express");
 const db = require("../database/db");
 
-
-
 module.exports = {
   queryAllListings: () => {
     const sql =
@@ -153,4 +151,69 @@ module.exports = {
       throw new Error("Error deleting listing from database");
     }
   },
+  updateReservation: async (owner_user_id, listing_id, user_id) => {
+    const checkUserReservationSql = `
+      SELECT * FROM ReservedListings 
+      WHERE user_id = ? AND listing_id != ?
+    `;
+    const checkReservationSql = `
+      SELECT * FROM ReservedListings 
+      WHERE listing_id = ?
+    `;
+    const createReservationSql = `
+      INSERT INTO ReservedListings 
+      (owner_user_id, user_id, listing_id) 
+      VALUES (?, ?, ?)
+    `;
+    const updateListingReserveSql = `
+      UPDATE Listings SET reserved_by = ? WHERE listing_id = ?
+    `;
+    const createNotificationSql = `
+      INSERT INTO UserNotifications 
+      (owner_user_id, user_id, listing_id, listing_action, visible) 
+      VALUES (?, ?, ?, 'reserve', true)
+    `;
+    const deleteReservationSql = `
+      DELETE FROM ReservedListings 
+      WHERE listing_id = ?
+    `;
+    const clearListingReserveSql = `
+      UPDATE Listings SET reserved_by = NULL WHERE listing_id = ?
+    `;
+    const createUnreserveNotificationSql = `
+      INSERT INTO UserNotifications 
+      (owner_user_id, user_id, listing_id, listing_action, visible) 
+      VALUES (?, ?, ?, 'unreserve', true)
+    `;
+  
+    try {
+      // Check if the user already has an active reservation
+      const [userReservation] = await db.promise().query(checkUserReservationSql, [user_id, listing_id]);
+  
+      if (userReservation.length > 0) {
+        return { error: "User already has an active reservation for another listing." };
+      }
+  
+      // Check if this specific listing is already reserved
+      const [reservation] = await db.promise().query(checkReservationSql, [listing_id]);
+  
+      if (reservation.length > 0) {
+        // Reservation exists, toggle off
+        await db.promise().query(deleteReservationSql, [listing_id]);
+        await db.promise().query(clearListingReserveSql, [listing_id]);
+        await db.promise().query(createUnreserveNotificationSql, [owner_user_id, user_id, listing_id]);
+        return { action: "unreserved" };
+      } else {
+        // No reservation exists, create it
+        await db.promise().query(createReservationSql, [owner_user_id, user_id, listing_id]);
+        await db.promise().query(updateListingReserveSql, [user_id, listing_id]);
+        await db.promise().query(createNotificationSql, [owner_user_id, user_id, listing_id]);
+        return { action: "reserved" };
+      }
+    } catch (err) {
+      console.error("Error processing reservation toggle:", err);
+      throw new Error("Error processing reservation toggle");
+    }
+  },
+  
 };

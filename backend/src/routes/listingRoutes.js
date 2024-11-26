@@ -20,4 +20,6 @@ router.put("/api/listing/:id", listingController.updateListing);
 
 router.delete("/api/listing/:id", listingController.deleteListing);
 
+router.post("/api/listing/reserve", listingController.toggleReservation);
+
 module.exports = router;
