@@ -183,7 +183,7 @@ export default function Account() {
         <div className="reservations-section user-info-section">
           <h2 className="h2-titles account-page-title">RESERVATION</h2>
           <div className="reservation-content">
-            {reservation ? (
+            {reservation.listing_id ? (
               <ListingCard
                 key={reservation.listing_id}
                 listing_id={reservation.listing_id}

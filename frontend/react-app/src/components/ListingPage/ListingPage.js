@@ -66,7 +66,8 @@ export const fetchListingDetails = async (
   setUser_id,
   setListing_user_id,
   setIsReserved,
-  setPermissions
+  setPermissions,
+  setShowAddress
 ) => {
   try {
     const response = await fetch(
@@ -97,6 +98,7 @@ export const fetchListingDetails = async (
       ) {
         setIsReserved(true);
         setPermissions(true);
+        setShowAddress(true);
       } else {
         // Deny access if the listing is reserved by someone else
         setIsReserved(true);

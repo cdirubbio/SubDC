@@ -18,7 +18,7 @@ module.exports = {
 
     if (user_id) {
       sql = `
-          SELECT l.listing_id, l.user_id AS listing_user_id, l.title, l.description, l.apt_type, l.zip_code, l.price, l.availability_start, l.availability_end, l.reserved_by, l.image1, l.image2,
+          SELECT l.listing_id, l.user_id AS listing_user_id, l.title, l.address, l.description, l.apt_type, l.zip_code, l.price, l.availability_start, l.availability_end, l.reserved_by, l.image1, l.image2,
                  IFNULL(f.isFavorite, 0) AS isFavorite
           FROM Listings l
           LEFT JOIN (

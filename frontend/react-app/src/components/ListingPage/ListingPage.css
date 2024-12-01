@@ -43,8 +43,54 @@
   color: red;
 }
 
+.reserve-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  margin-top: 5px;
+  background-color: #5465FF; 
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  text-transform: uppercase;
+}
+
+.reserve-button:hover {
+  background-color: #4353CC; 
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.reserve-button:active {
+  background-color: #2B3B99; 
+  transform: translateY(0);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
 .reserve-button.reserved {
-  color: gold;
+  background-color: gold;
+  color: black;
+  box-shadow: 0 4px 6px rgba(255, 215, 0, 0.3); 
+}
+
+.reserve-button.reserved:hover {
+  background-color: #e5b800; 
+  box-shadow: 0 6px 10px rgba(255, 215, 0, 0.5);
+}
+
+.reserve-button i {
+  margin-left: 8px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.reserve-button:hover i {
+  transform: rotate(215deg); 
 }
 
 .editor {
