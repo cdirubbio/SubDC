@@ -153,6 +153,7 @@ export default function Authentication() {
             required
           />
           <div className="password-checklist">
+            <h6 className="password-requirements">Password Requirements</h6>
             <p className={passwordCriteria.length ? "valid" : "invalid"}>At least 8 characters</p>
             <p className={passwordCriteria.uppercase ? "valid" : "invalid"}>At least one uppercase letter</p>
             <p className={passwordCriteria.lowercase ? "valid" : "invalid"}>At least one lowercase letter</p>

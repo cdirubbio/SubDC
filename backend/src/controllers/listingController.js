@@ -46,7 +46,6 @@ module.exports = {
           isFavorite: Boolean(result.isFavorite),
           user_id: user_id,
         };
-        delete transformedListing.zip_code;
 
         res.status(200).json(transformedListing);
       });

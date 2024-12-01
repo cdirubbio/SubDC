@@ -16,6 +16,11 @@
   color: red;
 }
 
+.password-requirements {
+  display: block;
+  justify-content: left;
+}
+
 .password-checklist {
   margin-top: 10px;
   font-size: 0.9em;

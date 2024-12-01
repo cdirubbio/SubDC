@@ -11,6 +11,7 @@ export default function ListingPage() {
     const [isFavorite, setIsFavorite] = useState(false);
     const [isReserved, setIsReserved] = useState(false);
     const [permissions, setPermissions] = useState(false);
+    const [showAddress, setShowAddress] = useState(false);
     const [user_id, setUser_id] = useState('');
     const [listing, setListing] = useState(null);
     const [listing_user_id, setListing_user_id] = useState('');
@@ -49,7 +50,7 @@ export default function ListingPage() {
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        fetchListingDetails(token, listing_id, setListing, setIsFavorite, setLoading, setError, setUser_id, setListing_user_id, setIsReserved, setPermissions);
+        fetchListingDetails(token, listing_id, setListing, setIsFavorite, setLoading, setError, setUser_id, setListing_user_id, setIsReserved, setPermissions, setShowAddress);
     }, [listing_id, token]);
 
     if (loading) {
@@ -172,9 +173,9 @@ export default function ListingPage() {
                             className={`reserve-button ${isReserved ? 'reserved' : ''}`}
                             onClick={handleReservation}
                         >
-                            Reserve<i className={`fas fa-star ${isReserved ? 'reserved' : ''}`}></i>
+                            {isReserved ? 'Reserved' : 'Reserve'}
+                            <i className={`fas fa-star ${isReserved ? 'reserved' : ''}`}></i>
                         </div>
-
                     )}
                 </div>
 
@@ -199,10 +200,18 @@ export default function ListingPage() {
                             <i className="fas fa-calendar-check"></i>
                             <span><strong>Available until:</strong> {formatDateToReadable(listing.availability_end)}</span>
                         </div>
-                        <div className="detail-row">
-                            <i className="fas fa-map-marker-alt"></i>
-                            <span><strong>Location:</strong> {listing.location}</span>
-                        </div>
+                        {!showAddress && (
+                            <div className="detail-row">
+                                <i className="fas fa-map-marker-alt"></i>
+                                <span><strong>Location:</strong> {listing.location}</span>
+                            </div>
+                        )}
+                        {user_id && showAddress && (
+                            <div className="detail-row">
+                                <i className="fas fa-map-marker-alt"></i>
+                                <span><strong>Address:</strong> {listing.address}, {listing.zip_code}</span>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
