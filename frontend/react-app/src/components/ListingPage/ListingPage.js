@@ -20,7 +20,6 @@ export const toggleUserFavorite = async (token, listing_id, setIsFavorite) => {
       throw new Error("Network response was not ok");
     }
     const data = await response.json();
-    console.log("Favorite status:", data.isFavorite);
     setIsFavorite(data.isFavorite);
   } catch (error) {
     console.error("Error Toggling Favorite: ", error);

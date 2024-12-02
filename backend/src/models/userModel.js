@@ -2,7 +2,7 @@
 const db = require("../database/db");
 
 module.exports = {
-  queryUserInfo: async(user_id) => {
+  queryUserInfo: async (user_id) => {
     const sql =
       "SELECT user_id, username, first_name, last_name, email, phone_number FROM Users WHERE user_id = ?";
     const result = await db
@@ -38,13 +38,15 @@ module.exports = {
       .catch(console.log);
     return result;
   },
-  updateUserFavorite: (user_id, listing_id, isFavorite) => {
+  updateUserFavorite: (user_id, listing_id) => {
     const checkFavoriteSql =
       "SELECT * FROM Favorites WHERE user_id = ? AND listing_id = ?";
     const addFavoriteSql =
       "INSERT INTO Favorites (user_id, listing_id) VALUES (?, ?)";
     const removeFavoriteSql =
       "DELETE FROM Favorites WHERE user_id = ? AND listing_id = ?";
+    const getOwnerUserIdSql =
+      "SELECT user_id AS owner_user_id FROM Listings WHERE listing_id = ?";
     const addNotificationSql = `INSERT INTO UserNotifications (owner_user_id, user_id, listing_id, listing_action, visible) 
        VALUES (?, ?, ?, 'favorite', true)`;
     const unfavNotificationSql = `INSERT INTO UserNotifications (owner_user_id, user_id, listing_id, listing_action, visible) 
@@ -52,38 +54,55 @@ module.exports = {
 
     const result = db
       .promise()
-      .query(checkFavoriteSql, [user_id, listing_id])
-      .then(([rows]) => {
-        if (rows.length > 0) {
-          return db
-            .promise()
-            .query(removeFavoriteSql, [user_id, listing_id])
-            .then(() =>
-              db
-                .promise()
-                .query(unfavNotificationSql, [
-                  owner_user_id,
-                  user_id,
-                  listing_id,
-                ])
-            )
-            .then(() => ({ isFavorite: false }));
-        } else {
-          return db
-            .promise()
-            .query(addFavoriteSql, [user_id, listing_id])
-            .then(() =>
-              db
-                .promise()
-                .query(addNotificationSql, [owner_user_id, user_id, listing_id])
-            )
-            .then(() => ({ isFavorite: true }));
+      .query(getOwnerUserIdSql, [listing_id])
+      .then(([ownerRows]) => {
+        if (ownerRows.length === 0) {
+          throw new Error("Owner user ID not found for this listing");
         }
+        const owner_user_id = ownerRows[0].owner_user_id;
+
+        return db
+          .promise()
+          .query(checkFavoriteSql, [user_id, listing_id])
+          .then(([rows]) => {
+            if (rows.length > 0) {
+              return db
+                .promise()
+                .query(removeFavoriteSql, [user_id, listing_id])
+                .then(() =>
+                  db
+                    .promise()
+                    .query(unfavNotificationSql, [
+                      owner_user_id,
+                      user_id,
+                      listing_id,
+                    ])
+                )
+                .then(() => ({ isFavorite: false }));
+            } else {
+              return db
+                .promise()
+                .query(addFavoriteSql, [user_id, listing_id])
+                .then(() =>
+                  db
+                    .promise()
+                    .query(addNotificationSql, [
+                      owner_user_id,
+                      user_id,
+                      listing_id,
+                    ])
+                )
+                .then(() => ({ isFavorite: true }));
+            }
+          });
       })
-      .catch(console.log);
+      .catch((err) => {
+        console.log(err);
+      });
 
     return result;
   },
+
   updateUserInfo: (user_id, username, first_name, last_name, phone_number) => {
     const sql = `
       UPDATE Users 
