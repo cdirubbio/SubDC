@@ -104,14 +104,14 @@ export const getUserNotifications = async (token, setUserNotifications) => {
         if (data && data.listing_id) {
           setReservation(data); // Set reservation if data is valid
         } else {
-          setReservation(null); // Clear reservation if no data
+          setReservation([]); // Clear reservation if no data
         }
       } else {
-        setReservation(null); // Clear reservation on error or no data
+        setReservation([]); // Clear reservation on error or no data
       }
     } catch (error) {
       console.error("Error fetching reservation:", error);
-      setReservation(null);
+      setReservation([]);
     }
   };
   

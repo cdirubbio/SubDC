@@ -158,16 +158,7 @@ export default function ListingPage() {
                 </div>
 
                 <div className="listing-meta">
-                    <h6 className="listing-id">Listing ID: #{listing_id}</h6>
-                    {user_id && user_id !== listing_user_id && (
-                        <div
-                            className={`favorite-icon ${isFavorite ? 'favorited' : ''}`}
-                            onClick={() => toggleUserFavorite(token, listing_id, setIsFavorite)}
-                        >
-                            <i className={`fas fa-heart ${isFavorite ? 'favorited' : ''}`}></i>
-                        </div>
 
-                    )}
                     {user_id && user_id !== listing_user_id && (
                         <div
                             className={`reserve-button ${isReserved ? 'reserved' : ''}`}
@@ -176,6 +167,16 @@ export default function ListingPage() {
                             {isReserved ? 'Reserved' : 'Reserve'}
                             <i className={`fas fa-star ${isReserved ? 'reserved' : ''}`}></i>
                         </div>
+                    )}
+                    {user_id && user_id !== listing_user_id && (
+                        <div
+                            className={`favorite-icon ${isFavorite ? 'favorited' : ''}`}
+                            onClick={() => toggleUserFavorite(token, listing_id, setIsFavorite)}
+                        >
+                            {isFavorite ? 'Favorited' : 'Favorite'}
+                            <i className={`fas fa-heart ${isFavorite ? 'favorited' : ''}`}></i>
+                        </div>
+
                     )}
                 </div>
 

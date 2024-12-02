@@ -21,14 +21,14 @@ module.exports = {
 
       console.log(user_id);
 
-      
       const result = await user.queryUserInfo(user_id);
 
       return res.status(200).json(result);
     } catch (err) {
       console.error(err);
       return res
-        .status(500).json({ message: "Error fetching user info", error: err });
+        .status(500)
+        .json({ message: "Error fetching user info", error: err });
     }
   },
   getUserListings: async (req, res) => {
@@ -88,6 +88,11 @@ module.exports = {
     }
   },
   toggleUserFavorite: async (req, res) => {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+    if (!token) {
+      return res.status(401).json({ message: "No token provided" });
+    }
     try {
       const userInfo = await getUserInfoFromJSONWebToken(token);
       const user_id = userInfo.user_id;
@@ -203,7 +208,6 @@ module.exports = {
         };
         res.status(200).json(transformedListing);
       });
-      
     } catch (err) {
       console.error(err);
     }

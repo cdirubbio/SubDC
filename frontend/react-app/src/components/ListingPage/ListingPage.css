@@ -1,6 +1,6 @@
 .listingPage-container {
-  display: flex;
   flex-direction: row;
+  display: flex;
   justify-content: space-between;
   padding: 20px;
   gap: 20px;
@@ -29,19 +29,58 @@
 }
 
 .favorite-icon {
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 20px;
-  font-size: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  margin-top: 5px;
+  margin-left: 5px;
+  background-color: #FF6F61;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  color: gray;
-  z-index: 10;
+  transition: all 0.3s ease-in-out;
+  text-transform: uppercase;
+}
+
+.favorite-icon:hover {
+  background-color: #FF3B2E;
+  box-shadow: 0 6px 10px rgba(255, 59, 46, 0.15);
+  transform: translateY(-2px);
+}
+
+.favorite-icon:active {
+  background-color: #CC3226;
+  transform: translateY(0);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
 
 .favorite-icon.favorited {
-  color: red;
+  background-color: #FF0000;
+  color: white;
+  box-shadow: 0 4px 6px rgba(255, 0, 0, 0.4);
 }
+
+.favorite-icon.favorited:hover {
+  background-color: #CC0000;
+  box-shadow: 0 6px 10px rgba(204, 0, 0, 0.6);
+}
+
+.favorite-icon i {
+  margin-left: 8px;
+  transition: transform 0.3s ease-in-out;
+}
+
+
+.favorite-icon:hover i {
+  transform: rotate(180deg);
+}
+
+
 
 .reserve-button {
   display: inline-flex;
@@ -49,7 +88,7 @@
   justify-content: center;
   padding: 10px 20px;
   margin-top: 5px;
-  background-color: #5465FF; 
+  background-color: #5465FF;
   color: white;
   font-size: 16px;
   font-weight: bold;
@@ -62,13 +101,13 @@
 }
 
 .reserve-button:hover {
-  background-color: #4353CC; 
+  background-color: #4353CC;
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
   transform: translateY(-2px);
 }
 
 .reserve-button:active {
-  background-color: #2B3B99; 
+  background-color: #2B3B99;
   transform: translateY(0);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
@@ -76,11 +115,11 @@
 .reserve-button.reserved {
   background-color: gold;
   color: black;
-  box-shadow: 0 4px 6px rgba(255, 215, 0, 0.3); 
+  box-shadow: 0 4px 6px rgba(255, 215, 0, 0.3);
 }
 
 .reserve-button.reserved:hover {
-  background-color: #e5b800; 
+  background-color: #e5b800;
   box-shadow: 0 6px 10px rgba(255, 215, 0, 0.5);
 }
 
@@ -90,7 +129,7 @@
 }
 
 .reserve-button:hover i {
-  transform: rotate(215deg); 
+  transform: rotate(215deg);
 }
 
 .editor {
@@ -116,12 +155,12 @@
   font-size: 2.5rem;
   color: #2c3e50;
   font-weight: bold;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
 }
 
 .listing-details p {
   font-size: 1.5rem;
-  margin: 12px 0;
+  margin: 8px 0;
   line-height: 1.6;
 }
 
