@@ -3,6 +3,7 @@ const listing = require("../models/listingModel");
 const dotenv = require("dotenv");
 const { getUserInfoFromJSONWebToken } = require("../utils/helpers/jwtHelper");
 const { s3, upload } = require("../utils/middlewares/middlewareS3");
+const { S3Client, DeleteObjectsCommand } = require("@aws-sdk/client-s3");
 
 dotenv.config();
 
