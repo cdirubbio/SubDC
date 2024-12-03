@@ -22,7 +22,7 @@ export default function CreateListing() {
 
   const validateInput = () => {
     const newErrors = {};
-    
+
     if (title.length < 5 || title.length > 100) {
       newErrors.title = "Title must be between 5 and 100 characters.";
     }
@@ -185,6 +185,19 @@ export default function CreateListing() {
             onChange={(e) => setDescription(e.target.value)}
             required
           />
+          <div className="form-group">
+            <label htmlFor="apt_type">Apartment Type</label>
+            <select
+              id="apt_type"
+              value={apt_type}
+              onChange={(e) => setApt_type(e.target.value)}
+              required
+            >
+              <option value="studio">Studio</option>
+              <option value="1br">1 Bedroom</option>
+              <option value="2br">2 Bedroom</option>
+            </select>
+          </div>
           {errors.description && <p className="error-text">{errors.description}</p>}
         </div>
         <div className="form-group">
@@ -243,6 +256,26 @@ export default function CreateListing() {
               onChange={(e) => setAvailability_end(e.target.value)}
               min={availability_start}
               max="2099-12-31"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="image1">Upload Primary Image</label>
+            <input
+              type="file"
+              id="image1"
+              accept="image/*"
+              onChange={(e) => setImage1(e.target.files[0])}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="image2">Upload Secondary Image</label>
+            <input
+              type="file"
+              id="image2"
+              accept="image/*"
+              onChange={(e) => setImage2(e.target.files[0])}
               required
             />
           </div>
