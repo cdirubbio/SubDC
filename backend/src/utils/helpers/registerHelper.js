@@ -51,7 +51,7 @@ const checkEmailNotExist = (email) => {
 };
 
 const sendVerificationEmail = async (email) => {
-  const emailToken = jwt.sign({ email: email }, process.env.JWT_SECRET, {
+  const emailToken = jwt.sign({ email: email }, "Phoebe", {
     expiresIn: "1h",
   });
   const verificationUrl = `${process.env.FRONTEND_URL}/verifyEmail?token=${emailToken}`;
