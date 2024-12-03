@@ -2,7 +2,7 @@ const authentication = require("../models/authenticationModel");
 const { generateJSONWebToken, getUserInfoFromJSONWebToken } = require("../utils/helpers/jwtHelper");
 const { checkUsernameNotExist, checkEmailNotExist, sendVerificationEmail, verifyStudentEmail } = require("../utils/helpers/registerHelper");
 const { checkUsernameExists } = require("../utils/helpers/loginHelper");
-
+const { jwt } = requre('jsonwebtoken');
 module.exports = {
   register: async (req, res) => {
     const { username, email, password, first_name, last_name, phone_number } =
@@ -102,7 +102,7 @@ module.exports = {
       if (authHeader) {
         const token = authHeader.split(" ")[1];
         if (token) {
-          decoded = jwt.verify(token, process.env.JWT_SECRET);
+          decoded = jwt.verify(token, "Phoebe");
         } else {
           return res
             .status(400)
