@@ -43,7 +43,6 @@
     text-align: center;
     letter-spacing: 1.2px;
   }
-    
 
 .auth-sections {
     display: flex;
@@ -109,5 +108,26 @@
       transform: rotate(360deg);
     }
   }
+
+  /* Media query for mobile scaling */
+@media (max-width: 768px) {
+
+.auth-sections {
+    display: grid;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.authentication-container h1 {
+  padding-top: 20px;
+  font-size: 1.5rem;
+}
+
+.auth-section {
+  width: 100%;
+  padding: 30px;
+}
+
+}
   
   
