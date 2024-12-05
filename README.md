@@ -61,33 +61,32 @@ The test environment mirrors production but with reduced compute power and a sma
 ## API Endpoints
 
 ### Authentication
-- `POST /api/auth/login`: User login
-- `POST /api/auth/register`: User registration
-- `POST /api/verify-email`: User email verification endpoint
-- `POST /api/jwt/auth`: Verify user's JWT is proper
-
+- **`POST /api/register`**: Register a new user.
+- **`POST /api/login`**: Authenticate user and initiate a session.
+- **`POST /api/jwt/auth`**: Validate a user's JSON Web Token (JWT).
+- **`POST /api/verify-email`**: Verify a user's email address.
 
 ### Listings
-- `POST /api/createListing`: Create a new listing
-- `GET /api/listings`: Fetch all listings: For /Explore page
-- `POST /api/listing/:id`: Fetch details for a specific listing
-- `PUT /api/listing/:id`: Update details for a specific listing
-- `DELETE /api/listing/:id`: Delete a listing
+- **`GET /api/listings`**: Retrieve all listings, used for the Explore page.
+- **`GET /api/listing/:id`**: Get details of a specific listing by its ID.
+- **`POST /api/listing/create`**: Create a new listing with image upload support.
+- **`PUT /api/listing/:id`**: Update details of a specific listing.
+- **`DELETE /api/listing/:id`**: Delete a specific listing.
+- **`POST /api/listing/reserve`**: Toggle reservation status for a listing.
 
 ### User Information
-- `POST /api/user/listings`: Fetch all listings of a specific user
-- `POST /api/userInfo`: Fetch user's details: For /Account page
-- `PUT /api/userInfo`: Update user's details: For /Account page
+- **`POST /api/user/info`**: Fetch user details for the Account page.
+- **`PUT /api/user/info`**: Update user details on the Account page.
+- **`POST /api/user/listings`**: Retrieve all listings created by a specific user.
+- **`POST /api/user/reservation`**: Retrieve reservation details for a user.
 
 ### Favorites
-- `POST /api/user/toggleFavorite`: Toggle favorite for a listing
-- `POST /api/user/favorites`: Fetch all favorites of a specific user
+- **`POST /api/user/favorites`**: Retrieve all favorited listings for a user.
+- **`POST /api/user/toggleFavorite`**: Add or remove a listing from the user's favorites.
 
 ### Notifications
-- `POST /api/userNotifications`: Fetch user's details: For /Account page
-- `POST /api/userNotifications/remove`: Hide notification
-
-
+- **`POST /api/user/notifications`**: Retrieve user notifications.
+- **`PUT /api/user/notifications/remove`**: Mark a notification as hidden.
 ## Contributing
 
 Feel free to contribute to this project by submitting issues or pull requests. For major changes, please open an issue to discuss what you would like to change.
