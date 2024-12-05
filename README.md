@@ -1,124 +1,62 @@
 # SubDC
 
-SubDC is a web application designed to simplify the process of subleasing for students in Washington DC. Built using modern web technologies, it allows users to list their apartments, search for available listings, and manage their subleases.
+SubDC is a web application built with React.js on the frontend, Node.js with Express on the backend, and hosted on Amazon Web Services (AWS). Below is an overview of its architecture, design, and development process.
 
-## Table of Contents
+## Frontend
 
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Installation](#installation)
-- [Environment Variables](#environment-variables)
-- [Usage](#usage)
-- [API Endpoints](#api-endpoints)
-- [Contributing](#contributing)
-- [License](#license)
+The frontend is built using React functional components to simplify UI creation. Components such as `ListingCards`, `Header`, `Footer`, and others were designed to compartmentalize the user interface. The initial iteration of the app used Tailwind CSS for styling, but it was later transitioned to Vanilla CSS for greater customization. All UI elements were created from scratch without relying on pre-built component libraries, ensuring a unique and cohesive design.
 
-## Features
+## Backend
 
-- User authentication and session management (switching from JWT local storage to HTTP-only cookies soon)
-- Search and filter apartment listings by location
-- Add, edit, and delete apartment listings
-- Favorite and unfavorite listings
-- User notifications for interactions
-- Responsive design for mobile and desktop
-- Automated CI/CD pipeline with GitHub Webhooks
-- SSL encryption using Let’s Encrypt
-- Integrated AWS services (S3, SES, Secrets Manager, EC2, Aurora Serverless DB)
+The backend is written in JavaScript using Node.js and Express, following the **Model-View-Controller (MVC)** paradigm. This design pattern separates the API into three components:
 
-## Tech Stack
+- **Controllers**: Handle user interactions and coordinate between models and views.
+- **Models**: Interact with the database to perform operations such as creating, reading, updating, and deleting data.
+- **Views**: (Not utilized in SubDC) Typically provide server-side rendered content.
 
-### Frontend
-- React.js
-- Playwright for Frontend testing
+SubDC's backend includes the following models and controllers:
+- **Authentication**: Manages user registration, login, email verification, and authentication middleware.
+- **Listings**: Handles creating, reading, updating, and deleting listings, including image uploads to AWS S3.
+- **Users**: Supports user info management, notifications, and favorites functionality.
 
-### Backend
-- Node.js with Express
-- MariaDB
-- JWT (to be replaced with HTTP-only cookies)
+### Highlights
+1. **Email Verification**: Uses the `nodemailer` library and a SubDC email address to send verification emails containing JSON Web Tokens (JWTs).
+2. **Image Uploads**: Integrates AWS S3 using the `multer` library. Images are uploaded to the `subdc-listing-images` bucket, and their URLs are stored in the database.
+3. **Authentication Middleware**: Ensures only authorized users can access reserved listings.
 
-### Infrastructure
-- AWS S3 for static file hosting
-- AWS EC2 for backend hosting
-- AWS Aurora Serverless (MariaDB)
-- AWS Secrets Manager for secure credentials
-- Docker for containerization (soon)
-- Let's Encrypt for SSL
+## Infrastructure
 
-### Other Tools
-- PM2 for process management
-- GitHub Webhooks for automated deployment
+### Hosting and Architecture
+SubDC's infrastructure evolved over several iterations, leveraging AWS services for scalability, reliability, and cost efficiency:
+- **Frontend Hosting**: The React app is built and hosted in an Amazon S3 bucket with static website hosting enabled.
+- **Backend Hosting**: The backend is containerized using Docker and deployed to AWS Elastic Kubernetes Service (EKS), providing high availability with multiple nodes across availability zones.
+- **Database**: SubDC uses Aurora Serverless MySQL, which dynamically scales based on demand.
 
-## Installation
+### Production Environment
+- **URL**: Users access SubDC via [https://subdc.co](https://subdc.co), which uses a CNAME record pointing to an AWS CloudFront distribution.
+- **CloudFront**: Provides a Content Delivery Network (CDN) to cache and serve content from edge locations for faster load times.
+- **Kubernetes**: Hosts backend API pods, ensuring high availability and scalability.
+- **HTTPS**: Managed by AWS Certificate Manager (ACM) with an ingress resource enforcing secure HTTPS connections.
 
-1. Clone the repository:
+### CI/CD Pipeline
+SubDC uses a robust **Continuous Integration and Continuous Deployment (CI/CD)** pipeline:
+1. Triggered by a push to the `main` branch on GitHub via a Webhook.
+2. **Frontend Deployment**:
+   - Clones the repository and builds the React app (`npm build`).
+   - Deploys the build folder to the S3 bucket.
+3. **Backend Deployment**:
+   - Builds a Docker container from the `Dockerfile` and pushes it to AWS Elastic Container Registry (ECR).
+   - Updates the Kubernetes cluster with the new container image.
+4. **Environment Variables**: Injected from AWS Secrets Manager into the Kubernetes cluster.
 
-    ```bash
-    git clone https://github.com/cdirubbio/subdc.git
-    cd subdc
-    ```
+If any step fails, the pipeline rolls back to the last successfully running version of the application.
 
-2. Install dependencies:
+### Test Environment
+The test environment mirrors production but with reduced compute power and a smaller database to minimize costs. It allows developers to validate new features before deploying them to production.
 
-    ```bash
-    # For the frontend
-    cd frontend
-    npm install
-
-    # For the backend
-    cd ../backend
-    npm install
-    ```
-
-3. Configure environment variables as described below.
-
-4. Build the frontend:
-
-    ```bash
-    npm run build
-    ```
-
-5. Or start the backend server locally:
-
-    ```bash
-    npm start
-    ```
-
-## Environment Variables
-
-The application requires the following environment variables:
-
-```bash
-# Backend
-DB_HOST=your_database_host
-DB_USER=your_database_user
-DB_PASSWORD=your_database_password
-DB_NAME=subdc
-PORT=8080
-
-WEBHOOK_SECRET=your_webhook_secret
-
-JWT_SECRET=your_jwt_secret
-S3_BUCKET_NAME="subdc-listing-images"
-
-EMAIL=your_email
-EMAIL_PASSWORD=your_email_app_password
-
-FRONTEND_URL=https://subdc.co
-# Frontend
-REACT_APP_API_URL=your_backend_api_url
-```
-
-## Usage
-
-### Frontend:
-The React app is served from an S3 bucket with static website hosting enabled.  
-Navigate to the domain (e.g., [subdc.co](https://subdc.co)) to access the app.
-
-### Backend:
-The Node.js backend is hosted on EC2 and serves the API endpoints for the frontend.
-
-### Deployment:
-The CI/CD pipeline triggers on push to the `main` and`test` branches, deploying the frontend to the respective S3 bucket and the backend to the respective EC2 servers.
+### Additional Components
+- **Amazon Certificate Manager (ACM)**: Manages TLS certificates for secure HTTPS connections.
+- **Amazon CloudFormation**: Automates infrastructure provisioning using Infrastructure as Code (IaC) practices, following GitOps standards.
 
 ## API Endpoints
 
@@ -148,6 +86,7 @@ The CI/CD pipeline triggers on push to the `main` and`test` branches, deploying 
 ### Notifications
 - `POST /api/userNotifications`: Fetch user's details: For /Account page
 - `POST /api/userNotifications/remove`: Hide notification
+
 
 ## Contributing
 
