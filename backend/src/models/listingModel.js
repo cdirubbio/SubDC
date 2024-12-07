@@ -38,7 +38,6 @@ module.exports = {
         `;
       queryParams = [listing_id];
     }
-
     const result = await db
       .promise()
       .query(sql, queryParams)
@@ -79,8 +78,10 @@ module.exports = {
           listingData.image1Url,
           listingData.image2Url,
         ]);
+        console.log(result);
       return result;
     } catch (err) {
+      console.log(err);
       console.error("Error creating listing:", err);
       throw new Error("Error inserting new listing into database");
     }
