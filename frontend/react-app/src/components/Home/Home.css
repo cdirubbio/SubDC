@@ -170,4 +170,41 @@
         font-size: 2rem;
     }
 
+<<<<<<< HEAD
+=======
+    .how-it-works h2 {
+        font-size: 2rem;
+    }
+
+    .how-it-works p {
+        font-size: 1em;
+    }
+
+    .step h3 {
+        font-size: 1.5em;
+    }
+
+    .step p {
+        font-size: 0.9em;
+    }
+
+    .register-button {
+        padding: 8px 12px;
+        font-size: 0.9em;
+    }
+
+    .featured-listings {
+        display: none;
+    }
+
+    .how-it-works h2 {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+        color: #264F7B;
+    }
+
+    .step h3 {
+        font-size: 1.2em;
+    }
+
 }
