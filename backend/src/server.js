@@ -34,8 +34,7 @@ app.use("/", userRoutes);
 app.use("/", listingRoutes);
 app.use("/", authenticationRoutes);
 app.get("/", (req, res) => {
-  console.log("Default Route Hit");
-  res.send("Welcome to SubDC Backend!");
+  res.status(200).end();
 });
 
 app.listen(PORT, "0.0.0.0", () => {
