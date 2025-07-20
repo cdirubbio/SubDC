@@ -3,6 +3,7 @@ version: 0.2
 phases:
   build:
     commands:
+      -  cd ./backend/src
       -  docker buildx build --platform linux/amd64 -t projects/subdc .
       -  docker tag projects/subdc:latest $ECR_REPO
       -  docker push $ECR_REPO                     
