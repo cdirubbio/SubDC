@@ -201,7 +201,7 @@ module.exports = {
         return res.status(401).json({ message: "Invalid User ID" });
       }
       user.queryUserReservation(user_id).then((result) => {
-        if (result.zip_code) {
+        if (result) {
           const location = dcZipCodes[result.zip_code] || "Unknown Location";
           const transformedListing = {
             ...result,
