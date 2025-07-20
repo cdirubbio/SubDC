@@ -201,12 +201,14 @@ module.exports = {
         return res.status(401).json({ message: "Invalid User ID" });
       }
       user.queryUserReservation(user_id).then((result) => {
-        const location = dcZipCodes[result.zip_code] || "Unknown Location";
-        const transformedListing = {
-          ...result,
-          location,
-        };
-        res.status(200).json(transformedListing);
+        if (result.zip_code) {
+          const location = dcZipCodes[result.zip_code] || "Unknown Location";
+          const transformedListing = {
+            ...result,
+            location,
+          };
+          res.status(200).json(transformedListing);
+        }
       });
     } catch (err) {
       console.error(err);
