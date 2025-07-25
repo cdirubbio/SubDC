@@ -53,6 +53,7 @@ module.exports = {
         return { message: "You do not have permission to view this listing" };
       }
     }
+    if (!result) return;
     return result[0];
   },
   createListing: async (listingData) => {
